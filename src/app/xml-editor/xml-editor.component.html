@@ -1,0 +1,172 @@
+<div class="content-text-container">
+    <span class="content-text-title">EDITING XML</span>
+</div>
+<div class="page">
+    <div class="page-container table-page">
+
+        <div *ngIf="!inEdition" class="section-container">
+            <span class="content-text-subtitle">Select a file to edit</span>
+            <mat-form-field appearance="fill">
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]=" selectedFileType" (selectionChange)="changeFileType()">
+                    <mat-option value="None">None</mat-option>
+                    <mat-option value="CItemData">CItemData</mat-option>
+                    <mat-option value="ItemData">ItemData</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="section-container" *ngIf="filetypeIsSelected">
+                <span class="content-text-subtitle">Open {{selectedFileType}}.xml file (make sure it's the correct
+                    file)</span>
+                <button [disabled]="disableOpenFileBtn" (click)="openFileDialog()" class="upload-btn">OPEN</button>
+            </div>
+
+        </div>
+        <div *ngIf="loadingTable">
+            <mat-progress-spinner class="spinner" [mode]="'indeterminate'">
+            </mat-progress-spinner>
+        </div>
+        <div *ngIf="testedFile && !isValidFile && !loadingTable" class="section-container">
+            <span class="content-text-subtitle">You opened the wrong file, or the .xml contains errors. Please try again
+                with another xml file!</span>
+        </div>
+        <div *ngIf="isValidFile && !loadingTable" class="section-container">
+            <div *ngIf="title" class="content-text-subtitle file-title">{{title}} ({{filteredContent.length}} item(s))
+            </div>
+            <div *ngIf="!inEdition" class="form-btn-flex">
+                <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
+                <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+            </div>
+
+            <div class="table-text">
+                <div class="search-flex">
+                    <input class="input-full-width" type="text" placeholder="Search table"
+                        [(ngModel)]="searchTableText">
+                    <button (click)="onSearch()" class="upload-btn">Search</button>
+                </div>
+
+                <table *ngIf="filteredContent" class="fileElt">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th *ngIf="!inEdition">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                            <td>{{ item[0].value }}</td>
+                            <td>{{ item[1].value }}</td>
+                            <td>{{ item[3].value|| ''}}</td>
+                            <td *ngIf="!inEdition">
+                                <a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Base Data</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Name:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[1].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Name2:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[2].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Description:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[3].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Icon:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Category:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Trade List:</label>
+                        <select [(ngModel)]="editingItem[6].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Model ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                </div>
+                <div class="form-elt-container">
+                    <h2 class="section-title">Motion Data</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Idle:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[8].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Combat Idle:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[9].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Walk:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[10].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Run:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[11].value">
+                    </div>
+                </div>
+                <div class="form-elt-container">
+                    <h2 class="section-title">Special Effect Data</h2>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Shot Effect File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[12].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Swing Effect File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[13].value"></textarea>
+                    </div>
+                    <h3 class="section-title">Effect Color</h3>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Element:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[14].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Element:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[15].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Element:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[16].value">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formMsg">
+                <span class="error-txt">{{formMsg}}</span>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+        </div>
+
+    </div>
+</div>
