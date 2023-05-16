@@ -1,0 +1,80 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">CEventMessageData (or CEventMessageData2) -
+            ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
+            <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn">Search</button>
+            </div>
+
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Lines</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let line of item[1].value">. {{ line }}</li>
+                            </ul>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Base Data</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <h2 class="section-title">Lines:</h2>
+                    <div *ngFor="let line of editingItem[1].value; let i = index"
+                        class="form-group form-input form-input-textarea">
+                        <div class="line-flex">
+                            <label class="form-label">Line {{i+1}}:</label>
+                            <button (click)="removeLine(i)" class="btn btn-error">REMOVE LINE -</button>
+                        </div>
+                       
+                        <textarea class="form-control" rows="5" cols="2"
+                            [(ngModel)]="editingItem[1].value[i]"></textarea>
+                    </div>
+                    <button (click)="addLine()" class="btn btn-blue">ADD A LINE +</button>
+                </div>
+                <div *ngIf="formMsg">
+                    <span class="error-txt">{{formMsg}}</span>
+                </div>
+            </div>
+
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+            </div>
+        </div>
+    </div>

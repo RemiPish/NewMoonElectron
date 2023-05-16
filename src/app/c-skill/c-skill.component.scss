@@ -1,0 +1,12 @@
+@import "../../styles.scss";
+
+.line-flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 15px auto;
+}
+
+::ng-deep .mat-typography h2 {
+    margin: 0 !important;
+}

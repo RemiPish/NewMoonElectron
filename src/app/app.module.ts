@@ -15,12 +15,18 @@ import { FormsModule } from '@angular/forms';
 import { SearchTablePipe } from './search-table.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CItemDataComponent } from './c-item-data/c-item-data.component';
+import { CEventMessageDataComponent } from './c-event-message-data/c-event-message-data.component';
+import { CSkillComponent } from './c-skill/c-skill.component';
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     XmlEditorComponent,
-    SearchTablePipe
+    SearchTablePipe,
+    CItemDataComponent,
+    CEventMessageDataComponent,
+    CSkillComponent
   ],
   imports: [
     BrowserModule,

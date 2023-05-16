@@ -5,6 +5,9 @@ const path = require('path');
 let win;
 
 function createWindow() {
+  const isWindows = process.platform === 'win32';
+  let needsFocusFix = false;
+  let triggeringProgrammaticBlur = false;
   // Create the browser window.
   win = new BrowserWindow({
     width: 1284,
@@ -27,6 +30,27 @@ function createWindow() {
   // Event when the window is closed.
   win.on('closed', function () {
     win = null
+  })
+
+
+  win.on('blur', (event) => {
+    if (!triggeringProgrammaticBlur) {
+      needsFocusFix = true;
+    }
+  })
+
+  win.on('focus', (event) => {
+    if (isWindows && needsFocusFix) {
+      needsFocusFix = false;
+      triggeringProgrammaticBlur = true;
+      setTimeout(function () {
+        win.blur();
+        win.focus();
+        setTimeout(function () {
+          triggeringProgrammaticBlur = false;
+        }, 100);
+      }, 100);
+    }
   })
 }
 
@@ -66,6 +90,7 @@ ipcMain.on('open-file-dialog', (event) => {
     }
   });
 });
+
 ipcMain.on('save-file', (event, arg) => {
   if (!!arg)
 
