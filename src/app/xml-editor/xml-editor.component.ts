@@ -6,7 +6,6 @@ import { CSkillComponent } from '../c-skill/c-skill.component';
 import { ActionLogicDataComponent } from '../action-logic-data/action-logic-data.component';
 import { ExchangeDataComponent } from '../exchange-data/exchange-data.component';
 const { XMLParser } = require("fast-xml-parser");
-export type FileType = "None" | "CItemData" | "CEventMessageData" | "CSkillData" | "ActionLogicData" | "ExchangeData";
 
 @Component({
 	selector: 'app-xml-editor',
@@ -14,10 +13,15 @@ export type FileType = "None" | "CItemData" | "CEventMessageData" | "CSkillData"
 	styleUrls: ['./xml-editor.component.scss']
 })
 export class XmlEditorComponent {
+
+	comphackPath: string = "";
+	binaryDataPath: string = "";
+
+
 	title: string = "";
 	rawXmlTxt: string = "";
 	filePath: string = "";
-	selectedFileType: FileType = "None";
+	selectedFileType = "None";
 	filetypeIsSelected = false;
 	testedFile = false;
 	isValidFile = false;
@@ -51,7 +55,27 @@ export class XmlEditorComponent {
 			parseTrueNumberOnly: true,
 			arrayMode: true,
 		};
+		this.ipc.on('binarydata-path-selected', async (event: any, arg?: any) => {
+			this.binaryDataPath = arg;
+			this.cd.detectChanges();
+		});
+		this.ipc.on('binarydata-path-error', async (event: any, arg?: any) => {
+			this.binaryDataPath = "";
+			alert(arg);
+			this.cd.detectChanges();
+		});
+
+		this.ipc.on('comphack-path-selected', async (event: any, arg?: any) => {
+			this.comphackPath = arg;
+			this.cd.detectChanges();
+		});
+		this.ipc.on('comphack-path-error', async (event: any, arg?: any) => {
+			this.comphackPath = "";
+			alert(arg);
+			this.cd.detectChanges();
+		});
 		const parser = new XMLParser(parseConfig);
+
 		this.ipc.on('file-error-read', async (event: any, arg?: any) => {
 			this.disableOpenFileBtn = false;
 			this.testedFile = true;
@@ -78,6 +102,9 @@ export class XmlEditorComponent {
 						this.cItemDataComponent.startParsing(this.contentJson);
 						break;
 					case "CEventMessageData":
+						this.cEventMessageDataComponent.startParsing(this.contentJson);
+						break;
+					case "CEventMessageData2":
 						this.cEventMessageDataComponent.startParsing(this.contentJson);
 						break;
 					case "CSkillData":
@@ -107,13 +134,31 @@ export class XmlEditorComponent {
 	}
 	openFileDialog() {
 		this.ipc.send('open-file-dialog');
+		this.cd.detectChanges();
 	}
 
-	changeFileType() {
+	startDecrypt() {
+		this.ipc.send('start-decrypt', { comphack: this.comphackPath, binary: this.binaryDataPath, file: this.selectedFileType });
+		this.cd.detectChanges();
+	}
+
+	openCompHackPathDialog() {
+		this.ipc.send('open-comphack-path-dialog');
+		this.cd.detectChanges();
+	}
+
+	openBinaryDataPathDialog() {
+		this.ipc.send('open-binarydata-path-dialog');
+		this.cd.detectChanges();
+	}
+
+	changeFileType(str: string) {
+		this.selectedFileType = str;
 		(this.selectedFileType != "None") ? this.filetypeIsSelected = true : this.filetypeIsSelected = false;
 		this.isValidFile = false;
 		this.testedFile = false;
 		this.filePath = "";
+		this.cd.detectChanges();
 
 	}
 
