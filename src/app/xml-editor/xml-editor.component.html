@@ -11,7 +11,9 @@
                     <mat-option value="None">None</mat-option>
                     <mat-option value="CItemData">CItemData</mat-option>
                     <mat-option value="CEventMessageData">CEventMessageData</mat-option>
-                    <mat-option value="CSkill">CSkill</mat-option>
+                    <mat-option value="CSkillData">CSkillData</mat-option>
+                    <mat-option value="ActionLogicData">ActionLogicData</mat-option>
+                    <mat-option value="ExchangeData">ExchangeData</mat-option>
                 </mat-select>
             </mat-form-field>
             <div class="section-container" *ngIf="filetypeIsSelected">
@@ -31,6 +33,10 @@
     <app-c-event-message-data #cEventMessageDataComponent *ngIf="selectedFileType=== 'CEventMessageData' "
         (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-c-event-message-data>
 
-    <app-c-skill #cSkillComponent *ngIf="selectedFileType=== 'CSkill' "
-        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-c-skill>
+    <app-c-skill #cSkillComponent *ngIf="selectedFileType=== 'CSkillData' " (fileIsValid)="fileValidate($event)"
+        (saveXmlFile)="saveFile($event)"></app-c-skill>
+    <app-action-logic-data #actionLogicDataComponent *ngIf="selectedFileType=== 'ActionLogicData' "
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-action-logic-data>
+    <app-exchange-data #exchangeDataComponent *ngIf="selectedFileType=== 'ExchangeData' "
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-exchange-data>
 </div>

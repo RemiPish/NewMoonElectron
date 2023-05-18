@@ -1,0 +1,14 @@
+@import "../../styles.scss";
+
+.table-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.line-flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 15px auto;
+}

@@ -18,6 +18,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CItemDataComponent } from './c-item-data/c-item-data.component';
 import { CEventMessageDataComponent } from './c-event-message-data/c-event-message-data.component';
 import { CSkillComponent } from './c-skill/c-skill.component';
+import { ActionLogicDataComponent } from './action-logic-data/action-logic-data.component';
+import { ExchangeDataComponent } from './exchange-data/exchange-data.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,9 @@ import { CSkillComponent } from './c-skill/c-skill.component';
     SearchTablePipe,
     CItemDataComponent,
     CEventMessageDataComponent,
-    CSkillComponent
+    CSkillComponent,
+    ActionLogicDataComponent,
+    ExchangeDataComponent
   ],
   imports: [
     BrowserModule,

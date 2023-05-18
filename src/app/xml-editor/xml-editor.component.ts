@@ -3,8 +3,10 @@ import { IpcService } from '../ipc.service';
 import { CItemDataComponent } from '../c-item-data/c-item-data.component';
 import { CEventMessageDataComponent } from '../c-event-message-data/c-event-message-data.component';
 import { CSkillComponent } from '../c-skill/c-skill.component';
+import { ActionLogicDataComponent } from '../action-logic-data/action-logic-data.component';
+import { ExchangeDataComponent } from '../exchange-data/exchange-data.component';
 const { XMLParser } = require("fast-xml-parser");
-export type FileType = "None" | "CItemData" | "CEventMessageData" | "CSkill";
+export type FileType = "None" | "CItemData" | "CEventMessageData" | "CSkillData" | "ActionLogicData" | "ExchangeData";
 
 @Component({
 	selector: 'app-xml-editor',
@@ -34,6 +36,10 @@ export class XmlEditorComponent {
 	cEventMessageDataComponent!: CEventMessageDataComponent;
 	@ViewChild('cSkillComponent', { static: false })
 	cSkillComponent!: CSkillComponent;
+	@ViewChild('actionLogicDataComponent', { static: false })
+	actionLogicDataComponent!: ActionLogicDataComponent;
+	@ViewChild('exchangeDataComponent', { static: false })
+	exchangeDataComponent!: ExchangeDataComponent;
 
 	constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 		const parseConfig = {
@@ -74,8 +80,14 @@ export class XmlEditorComponent {
 					case "CEventMessageData":
 						this.cEventMessageDataComponent.startParsing(this.contentJson);
 						break;
-					case "CSkill":
+					case "CSkillData":
 						this.cSkillComponent.startParsing(this.contentJson);
+						break;
+					case "ActionLogicData":
+						this.actionLogicDataComponent.startParsing(this.contentJson);
+						break;
+					case "ExchangeData":
+						this.exchangeDataComponent.startParsing(this.contentJson);
 						break;
 				}
 

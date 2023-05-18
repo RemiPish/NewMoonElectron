@@ -1,0 +1,39 @@
+@import "../../styles.scss";
+
+.data-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.obj-table {
+    display: flex;
+    gap: 10px;
+    max-width: 750px;
+    flex-wrap: wrap;
+
+    ul {
+        border-style: solid;
+        border-width: 1px;
+    }
+}
+
+h2 {
+    margin: 0 !important;
+}
+
+
+
+.dt-content {
+    border-style: solid;
+    border-width: 5px;
+    margin: 15px auto;
+    padding: 5px;
+}
+
+.dt-item {
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px auto;
+    padding: 5px;
+}

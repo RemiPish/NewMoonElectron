@@ -308,8 +308,6 @@ export class CSkillComponent {
                     { name: "hitSoundID", value: elt[10].value }]
                 )
             });
-
-            console.log(this.selectedItem[43].value.length)
             this.selectedItem[43].value.forEach((elt: any) => this.editingItem[43].value.push(elt));
 
         }
@@ -534,7 +532,6 @@ export class CSkillComponent {
                 xml += `        		<member name="aoeHitDelay">${item[39].value || 0}</member>\n`;
                 xml += `        		<member name="hit6">${item[40].value || 0}</member>\n`;
                 xml += `        		<member name="effectScale">${item[41].value || 0}</member>\n`;
-                xml += `      		    </member>\n`;
                 xml += `      		</object>\n`;
                 xml += '   		</member>\n';
                 xml += '        <member name="equip">\n';
