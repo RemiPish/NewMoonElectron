@@ -16,7 +16,8 @@ export class XmlEditorComponent {
 
 	comphackPath: string = "";
 	binaryDataPath: string = "";
-
+	fileMode: string = "";
+	decryptedFileName: string = "";
 
 	title: string = "";
 	rawXmlTxt: string = "";
@@ -138,8 +139,14 @@ export class XmlEditorComponent {
 	}
 
 	startDecrypt() {
-		this.ipc.send('start-decrypt', { comphack: this.comphackPath, binary: this.binaryDataPath, file: this.selectedFileType });
-		this.cd.detectChanges();
+		if (this.decryptedFileName != "") {
+			this.ipc.send('start-decrypt', { comphack: this.comphackPath, binary: this.binaryDataPath, file: this.selectedFileType, fileName: this.decryptedFileName });
+			this.cd.detectChanges();
+		}
+		else {
+			alert("The name cannot be empty");
+		}
+
 	}
 
 	openCompHackPathDialog() {
@@ -181,6 +188,17 @@ export class XmlEditorComponent {
 
 	saveFile(xml: string) {
 		this.ipc.send('save-file', { filePath: this.filePath, file: xml });
+	}
+
+	encryptFile(xml: string) {
+		this.ipc.send('encrypt-file', { filePath: this.filePath, file: xml, fileType: this.selectedFileType, folder: this.comphackPath });
+	}
+
+	changeFileMode(str: string) {
+		this.fileMode = str;
+		this.selectedFileType = "";
+		this.filetypeIsSelected = false;
+		this.filePath = "";
 	}
 }
 

@@ -4,14 +4,15 @@
             ({{filteredContent.length}} item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
-            <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
-            <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')" class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn btn-blue button-3">ADD ITEM +</button>
         </div>
 
         <div class="table-text">
             <div class="search-flex">
                 <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
-                <button (click)="onSearch()" class="upload-btn">Search</button>
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
             </div>
 
             <table *ngIf="filteredContent" class="fileElt">
@@ -58,8 +59,8 @@
     <div *ngIf="inEdition" class="page-container edit-page">
         <div class="form-container">
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+                <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
             </div>
             <div class="form-elt-container">
                 <div class="form-group form-input form-input-line">
@@ -69,27 +70,27 @@
 
                 <div class="line-flex">
                     <h2 class="section-title">DT Content ({{ editingItem[1].value.length}}):</h2>
-                    <button (click)="addDtContent()" class="btn btn-blue">+</button>
+                    <button (click)="addDtContent()" class="btn btn-blue button-3">+</button>
                 </div>
                 <div class="dt-content" *ngFor="let cnt of editingItem[1].value; let i = index">
 
                     <div class="form-group form-input form-input-textarea">
                         <div class="line-flex">
                             <label class="form-label">DT Name {{i}}:</label>
-                            <button (click)="removeDtContent(i || 0)" class="btn btn-error">-</button>
+                            <button (click)="removeDtContent(i || 0)" class="btn btn-error button-3">-</button>
                         </div>
 
                         <textarea class="form-control" rows="5" cols="2" [(ngModel)]="cnt[0].value"></textarea>
                     </div>
                     <div class="line-flex">
                         <h2 class="section-title">DT Item ({{cnt[1].value.length}}):</h2>
-                        <button (click)="addDtItem(i || 0)" class="btn btn-blue">+</button>
+                        <button (click)="addDtItem(i || 0)" class="btn btn-blue button-3">+</button>
                     </div>
 
                     <div class="dt-item" *ngFor="let item of cnt[1].value; let j = index">
                         <div class="line-flex">
                             <h2 class="section-title">Item {{j}}:</h2>
-                            <button (click)="removeDtItem(i || 0,j || 0)" class="btn btn-error">-</button>
+                            <button (click)="removeDtItem(i || 0,j || 0)" class="btn btn-error button-3">-</button>
                         </div>
 
                         <div class="form-group form-input form-input-line">
@@ -113,8 +114,8 @@
             </div>
 
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+                <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
             </div>
         </div>
     </div>

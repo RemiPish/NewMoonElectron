@@ -4,8 +4,9 @@
             ({{filteredContent.length}} item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
-            <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
-            <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')" class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
 
         <div class="table-text">
@@ -45,8 +46,8 @@
     <div *ngIf="inEdition" class="page-container edit-page">
         <div class="form-container">
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
             <div class="form-elt-container">
                 <h2 class="section-title">Base Data</h2>
@@ -60,13 +61,13 @@
                         class="form-group form-input form-input-textarea">
                         <div class="line-flex">
                             <label class="form-label">Line {{i+1}}:</label>
-                            <button (click)="removeLine(i)" class="btn btn-error">REMOVE LINE -</button>
+                            <button (click)="removeLine(i)" class="btn button-3 btn-error">REMOVE LINE -</button>
                         </div>
                        
                         <textarea class="form-control" rows="5" cols="2"
                             [(ngModel)]="editingItem[1].value[i]"></textarea>
                     </div>
-                    <button (click)="addLine()" class="btn btn-blue">ADD A LINE +</button>
+                    <button (click)="addLine()" class="btn button-3 btn-blue">ADD A LINE +</button>
                 </div>
                 <div *ngIf="formMsg">
                     <span class="error-txt">{{formMsg}}</span>
@@ -74,8 +75,8 @@
             </div>
 
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
         </div>
     </div>

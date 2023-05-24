@@ -1,4 +1,4 @@
-import { Component, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
 export type actionLogicDataStructure = [
 	{ name: 'ID', value: number },
@@ -12,8 +12,10 @@ export type actionLogicDataStructure = [
 })
 export class ActionLogicDataComponent {
 	contentJson: string = "";
+	@Input() fileMode: string = "";
 	@Output() fileIsValid = new EventEmitter<boolean>();
 	@Output() saveXmlFile = new EventEmitter<string>();
+	@Output() encryptFile = new EventEmitter<string>();
 
 	inEdition: boolean = false;
 	searchTableText = "";
@@ -203,7 +205,7 @@ export class ActionLogicDataComponent {
 		this.cd.detectChanges();
 	}
 
-	writeXmlFile() {
+	writeXmlFile(saveMode: string) {
 		const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
 		if (confirmation) {
 			// Create the root XML element
@@ -230,7 +232,9 @@ export class ActionLogicDataComponent {
 			})
 			xml += '</objects>';
 
-			this.saveXmlFile.emit(xml);
+			if (saveMode === 'xml')
+				this.saveXmlFile.emit(xml);
+			else this.encryptFile.emit(xml);
 		}
 	}
 }

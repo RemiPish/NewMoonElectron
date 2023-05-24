@@ -1,4 +1,4 @@
-import { Component, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
 export type item = [
 	{ name: 'ID', value: number },
@@ -26,8 +26,10 @@ export type exchangeDataStructure = [
 export class ExchangeDataComponent {
 
 	contentJson: string = "";
+	@Input() fileMode: string = "";
 	@Output() fileIsValid = new EventEmitter<boolean>();
 	@Output() saveXmlFile = new EventEmitter<string>();
+	@Output() encryptFile = new EventEmitter<string>();
 
 	inEdition: boolean = false;
 	searchTableText = "";
@@ -246,7 +248,8 @@ export class ExchangeDataComponent {
 		this.currentPage = event;
 		this.cd.detectChanges();
 	}
-	writeXmlFile() {
+
+	writeXmlFile(saveMode: string) {
 		const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
 		if (confirmation) {
 			// Create the root XML element
@@ -283,7 +286,9 @@ export class ExchangeDataComponent {
 
 			xml += '</objects>';
 
-			this.saveXmlFile.emit(xml);
+			if (saveMode === 'xml')
+				this.saveXmlFile.emit(xml);
+			else this.encryptFile.emit(xml);
 		}
 	}
 }

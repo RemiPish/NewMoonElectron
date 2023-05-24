@@ -1,29 +1,64 @@
 <div class="content-text-container">
-    <span class="content-text-title">EDITING XML</span>
+    <span class="content-text-title">EDITING GAME FILE</span>
 </div>
 <div class="page">
     <div class="page-container table-page">
-        <div class="section-container">
-            <span class="content-text-subtitle">Open the COMP_hack directory (containing comp_decrypt, comp_encrypt,
+        <div class="section-container mode-flex">
+            <button class="button-3" (click)="changeFileMode('editXml')">Edit xml file</button>
+            <button class="button-3" (click)="changeFileMode('decrypt')">Decrypt and edit file</button>
+        </div>
+        <div *ngIf="fileMode==='decrypt'" class="section-container">
+            <h2 class="content-text-subtitle">Decrypt and edit</h2>
+            <span class="content-text-subtitle">Select the COMP_hack directory (containing comp_decrypt, comp_encrypt,
                 and
                 comp_bdpatch): </span>
             <div class="line-flex">
                 <span class="content-text-subtitle" *ngIf="comphackPath != ''">{{comphackPath}}</span>
-                <button (click)="openCompHackPathDialog()" class="upload-btn">OPEN</button>
+                <button (click)="openCompHackPathDialog()" class="upload-btn button-3">SELECT</button>
             </div>
 
             <div class="section-container" *ngIf="comphackPath">
-                <span class="content-text-subtitle">Open the BinaryData directory (containing Client and Shield
+                <span class="content-text-subtitle">Select the BinaryData directory (containing Client and Shield
                     Folders): </span>
                 <div class="line-flex">
                     <span class="content-text-subtitle" *ngIf="binaryDataPath != ''">{{binaryDataPath}}</span>
-                    <button (click)="openBinaryDataPathDialog()" class="upload-btn">OPEN</button>
+                    <button (click)="openBinaryDataPathDialog()" class="upload-btn button-3">SELECT</button>
                 </div>
             </div>
 
 
             <div *ngIf="comphackPath && binaryDataPath">
-                <button (click)="changeFileType('None')">None</button>
+                <span class="content-text-subtitle">Select the file you want to decrypt and generate xml file: </span>
+                <div class="mode-flex">
+                    <button (click)="changeFileType('CItemData')">CItemData</button>
+                    <button (click)="changeFileType('CEventMessageData')">CEventMessageData</button>
+                    <button (click)="changeFileType('CEventMessageData2')">CEventMessageData2</button>
+                    <button (click)="changeFileType('CSkillData')">CSkillData</button>
+                    <button (click)="changeFileType('ActionLogicData')">ActionLogicData</button>
+                    <button (click)="changeFileType('ExchangeData')">ExchangeData</button>
+                </div>
+
+            </div>
+
+            <div class="section-container" *ngIf="filetypeIsSelected">
+                <span class="content-text-subtitle">Generate {{selectedFileType}} file (A .xml file will be created in
+                    Comp_hack folder)</span>
+                <div class="line-flex">
+                    <input class="form-control" type="text" placeholder="Name the file:"
+                        [(ngModel)]="decryptedFileName">
+                    <button (click)="startDecrypt()" class="upload-btn button-3">GENERATE</button>
+                </div>
+
+
+            </div>
+            <span *ngIf="filePath && filetypeIsSelected" class="content-text-subtitle">!!--Opening
+                {{filePath}}--!!</span>
+        </div>
+        <div *ngIf="fileMode==='editXml'" class="section-container">
+            <h2 class="content-text-subtitle">Edit xml file</h2>
+            <span class="content-text-subtitle">Select a file to edit</span>
+
+            <div>
                 <button (click)="changeFileType('CItemData')">CItemData</button>
                 <button (click)="changeFileType('CEventMessageData')">CEventMessageData</button>
                 <button (click)="changeFileType('CEventMessageData2')">CEventMessageData2</button>
@@ -33,9 +68,10 @@
             </div>
 
             <div class="section-container" *ngIf="filetypeIsSelected">
-                <span class="content-text-subtitle">Open {{selectedFileType}} file (A .xml file will be created in
-                    Comp_hack folder)</span>
-                <button [disabled]="disableOpenFileBtn" (click)="startDecrypt()" class="upload-btn">OPEN</button>
+                <span class="content-text-subtitle">Open {{selectedFileType}}.xml file (make sure it's the correct
+                    file)</span>
+                <button [disabled]="disableOpenFileBtn" (click)="openFileDialog()"
+                    class="upload-btn button-3">OPEN</button>
             </div>
             <span *ngIf="filePath" class="content-text-subtitle">!!--Opening {{filePath}}--!!</span>
         </div>
@@ -45,15 +81,18 @@
         </div>
     </div>
     <app-c-item-data #cItemDataComponent *ngIf="selectedFileType=== 'CItemData' " (fileIsValid)="fileValidate($event)"
-        (saveXmlFile)="saveFile($event)"></app-c-item-data>
+        (saveXmlFile)="saveFile($event)" [fileMode]="fileMode" (encryptFile)="encryptFile($event)"></app-c-item-data>
     <app-c-event-message-data #cEventMessageDataComponent
         *ngIf="selectedFileType=== 'CEventMessageData' ||selectedFileType=== 'CEventMessageData2'"
-        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-c-event-message-data>
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-c-event-message-data>
 
     <app-c-skill #cSkillComponent *ngIf="selectedFileType=== 'CSkillData' " (fileIsValid)="fileValidate($event)"
-        (saveXmlFile)="saveFile($event)"></app-c-skill>
+        (saveXmlFile)="saveFile($event)" [fileMode]="fileMode" (encryptFile)="encryptFile($event)"></app-c-skill>
     <app-action-logic-data #actionLogicDataComponent *ngIf="selectedFileType=== 'ActionLogicData' "
-        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-action-logic-data>
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-action-logic-data>
     <app-exchange-data #exchangeDataComponent *ngIf="selectedFileType=== 'ExchangeData' "
-        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)"></app-exchange-data>
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-exchange-data>
 </div>

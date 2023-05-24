@@ -1,9 +1,15 @@
 @import "../../styles.scss";
 
 
-
-
-
-
+.mode-flex {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center;
+    margin: 15px auto;
+    width: 100%;
+    flex-wrap: wrap;
+}
 
 

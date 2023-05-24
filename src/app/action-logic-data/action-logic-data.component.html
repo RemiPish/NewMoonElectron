@@ -4,8 +4,9 @@
             ({{filteredContent.length}} item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
-            <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
-            <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')" class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
 
         <div class="table-text">
@@ -50,8 +51,8 @@
     <div *ngIf="inEdition" class="page-container edit-page">
         <div class="form-container">
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
             <div class="form-elt-container">
                 <h2 class="section-title">Base Data</h2>
@@ -65,7 +66,7 @@
                         class="table-flex form-group form-input">
                         <div class="line-flex">
                             <label class="form-label">Unknown ({{i}}):</label>
-                            <button (click)="changeShow(i)" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow(i)" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
                         <div *ngIf="showTable[i]">
                             <div *ngFor="let elt of data;let j = index" class=" form-group form-input form-input-line">
@@ -81,8 +82,8 @@
             </div>
 
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
         </div>
     </div>

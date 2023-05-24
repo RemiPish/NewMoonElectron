@@ -3,8 +3,9 @@
         <div class="content-text-subtitle file-title">CSKillData - ({{filteredContent.length}} item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
-            <button (click)="writeXmlFile()" class="btn btn-primary">SAVE FILE</button>
-            <button (click)="openEdition()" class="btn btn-blue">ADD ITEM +</button>
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')" class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
 
         <div class="table-text">
@@ -43,8 +44,8 @@
     <div *ngIf="inEdition" class="page-container edit-page">
         <div class="form-container">
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
             <div class="form-elt-container">
                 <h2 class="section-title">Base</h2>
@@ -75,7 +76,7 @@
                     <div>
                         <div class="line-flex">
                             <h2 class="section-title">Cast</h2>
-                            <button (click)="changeShow('cast')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('cast')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
 
                         <div *ngIf="showCast">
@@ -126,7 +127,7 @@
 
                         <div class="line-flex">
                             <h2 class="section-title">Shoot</h2>
-                            <button (click)="changeShow('shoot')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('shoot')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
                         <div *ngIf="showShoot">
 
@@ -167,7 +168,7 @@
 
                         <div class="line-flex">
                             <h2 class="section-title">Bullet</h2>
-                            <button (click)="changeShow('bullet')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('bullet')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
 
                         <div *ngIf="showBullet">
@@ -235,7 +236,7 @@
 
                         <div class="line-flex">
                             <h2 class="section-title">Target</h2>
-                            <button (click)="changeShow('target')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('target')" class="btn button-3 btn-blue button-3">SHOW/HIDE</button>
                         </div>
 
                         <div *ngIf="showTarget">
@@ -264,7 +265,7 @@
 
                         <div class="line-flex">
                             <h2 class="section-title">Hit</h2>
-                            <button (click)="changeShow('hit')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('hit')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
 
                         <div *ngIf="showHit">
@@ -295,7 +296,7 @@
                         </div>
                         <div class="line-flex">
                             <h2 class="section-title">Equip</h2>
-                            <button (click)="changeShow('equip')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('equip')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
                         <div *ngIf="showEquip">
                             <div *ngFor="let elt of editingItem[42].value; let i = index">
@@ -353,7 +354,7 @@
 
                         <div class="line-flex">
                             <h2 class="section-title">Effects</h2>
-                            <button (click)="changeShow('effects')" class="btn btn-blue">SHOW/HIDE</button>
+                            <button (click)="changeShow('effects')" class="btn button-3 btn-blue">SHOW/HIDE</button>
                         </div>
                         <div *ngIf="showEffects">
                             <div class="form-group form-input form-input-textarea"
@@ -373,8 +374,8 @@
                 </div>
             </div>
             <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn btn-primary">SAVE</button>
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
             </div>
         </div>
     </div>

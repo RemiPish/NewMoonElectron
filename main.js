@@ -175,47 +175,101 @@ ipcMain.on('start-decrypt', (event, arg) => {
   if (!!arg) {
     let folder = "";
     let mode = "";
-    switch (arg["file"]) {
-      case "CItemData":
-        mode = "citem";
-        break;
-      case "CEventMessageData":
-        mode = "ceventmessage"
-        break;
-      case "CEventMessageData2":
-        mode = "ceventmessage"
-        break;
-      case "CSkillData":
-        mode = "cskill";
-        break;
-      case "ActionLogicData":
-        mode = "actionlogic";
-        break;
-      case "ExchangeData":
-        mode = "exchange";
-        break;
-    }
-    if (arg["file"] === "CSkillData") {
-      folder = "Client"
-    }
-    else folder = "Shield";
-    const command = `cd ${arg["comphack"]} && comp_decrypt ${arg["binary"]}\\${folder}\\${arg["file"]}.sbin ${arg["file"]}.bin && comp_bdpatch load ${mode} ${arg["file"]}.bin ${arg["file"]}.xml`;
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing comp_decrypt: ${error.message}`);
-        return;
-      }
-      let filePath = `${arg["comphack"]}\\${arg["file"]}.xml`;
+    let fileName = arg["fileName"];
+
+    if (fs.existsSync(`${arg["comphack"]}\\${fileName}.xml`)) {
+      let filePath = `${arg["comphack"]}\\${fileName}.xml`;
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Error',
+        message: "A file with the same name already exists. It will now edit the existing file!",
+        buttons: ['OK'],
+      });
       fs.readFile(filePath, 'utf-8', (err, data) => {
         if (err) {
           event.reply('file-error-read', err.message);
         } else {
           event.reply('file-selected', { filePath, fileName: path.basename(filePath), fileContent: data });
+
         }
       });
-    });
+    }
+    else {
+      switch (arg["file"]) {
+        case "CItemData":
+          mode = "citem";
+          break;
+        case "CEventMessageData":
+          mode = "ceventmessage"
+          break;
+        case "CEventMessageData2":
+          mode = "ceventmessage"
+          break;
+        case "CSkillData":
+          mode = "cskill";
+          break;
+        case "ActionLogicData":
+          mode = "actionlogic";
+          break;
+        case "ExchangeData":
+          mode = "exchange";
+          break;
+      }
+      if (arg["file"] === "CSkillData") {
+        folder = "Client"
+      }
+      else folder = "Shield";
+
+      const cdCmd = `cd ${arg["comphack"]}`;
+      const decryptCmd = `comp_decrypt ${arg["binary"]}\\${folder}\\${arg["file"]}.sbin  ${arg["file"]}.bin`;
+      const bdPatch = `comp_bdpatch load ${mode} ${arg["file"]}.bin ${fileName}.xml`;
+      let command = "";
+      if (arg["file"] === 'CSkillData') {
+        command = `${cdCmd} && comp_bdpatch load ${mode}  ${arg["binary"]}\\${folder}\\${arg["file"]}.bin ${fileName}.xml`
+      }
+      else command = `${cdCmd} && ${decryptCmd} && ${bdPatch}`;
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: error.message,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        if (stderr) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: stdout,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        if (stderr) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: stderr,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        let filePath = `${arg["comphack"]}\\${fileName}.xml`;
+        fs.readFile(filePath, 'utf-8', (err, data) => {
+          if (err) {
+            event.reply('file-error-read', err.message);
+          } else {
+            event.reply('file-selected', { filePath, fileName: path.basename(filePath), fileContent: data });
+
+          }
+        });
+      });
+    }
   }
 })
+
 ipcMain.on('save-file', (event, arg) => {
   if (!!arg)
 
@@ -238,4 +292,138 @@ ipcMain.on('save-file', (event, arg) => {
       });
     }
 
+})
+
+ipcMain.on('encrypt-file', (event, arg) => {
+  if (!!arg) {
+    let mode = "";
+    let fileName = path.basename(arg["filePath"]);
+    let folder = arg["folder"];
+    switch (arg["fileType"]) {
+      case "CItemData":
+        mode = "citem";
+        break;
+      case "CEventMessageData":
+        mode = "ceventmessage"
+        break;
+      case "CEventMessageData2":
+        mode = "ceventmessage"
+        break;
+      case "CSkillData":
+        mode = "cskill";
+        break;
+      case "ActionLogicData":
+        mode = "actionlogic";
+        break;
+      case "ExchangeData":
+        mode = "exchange";
+        break;
+    }
+    try {
+      fs.writeFileSync(fileName, arg["file"])
+      const cdCmd = `cd ${folder}`;
+      const bdPatch = `comp_bdpatch save ${mode} ${fileName} ${arg["fileType"]}.bin`;
+      const encryptCmd = `comp_encrypt ${arg["fileType"]}.bin ${arg["fileType"]}.sbin`;
+      if (arg["fileType"] === 'CSkillData') {
+        command = `${cdCmd} && ${bdPatch}`
+      }
+      else command = `${cdCmd} && ${bdPatch} && ${encryptCmd}`;
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: error.message,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        if (stderr) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: stdout,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        if (stderr) {
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Error',
+            message: stderr,
+            buttons: ['OK'],
+          });
+          return;
+        }
+        if (arg["fileType"] != 'CSkillData') {
+          dialog.showMessageBox({
+            type: 'question',
+            buttons: ['Yes', 'No'],
+            defaultId: 1,
+            title: 'Confirmation',
+            message: 'Do you want to delete the bin file?',
+          }).then(result => {
+            if (result.response === 0) {
+              exec(`cd ${folder} && del ${arg["fileType"]}.bin`, (error, stdout, stderr) => {
+                if (error) {
+                  dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Error',
+                    message: error.message,
+                    buttons: ['OK'],
+                  });
+                  return;
+                }
+                if (stderr) {
+                  dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Error',
+                    message: stdout,
+                    buttons: ['OK'],
+                  });
+                  return;
+                }
+                if (stderr) {
+                  dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Error',
+                    message: stderr,
+                    buttons: ['OK'],
+                  });
+                  return;
+                }
+                dialog.showMessageBox({
+                  type: 'info',
+                  title: 'File Saved',
+                  message: 'The bin file is deleted! The encrypted file and xml are created!',
+                  buttons: ['OK'],
+                });
+              })
+            } else {
+              dialog.showMessageBox({
+                type: 'info',
+                title: 'Success',
+                message: "The encrypted file and xml are created!",
+                buttons: ['OK'],
+              });
+              return;
+            }
+          });
+        }
+      })
+
+    } catch (err) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Error',
+        message: err.message,
+        buttons: ['OK'],
+      });
+    }
+
+
+
+
+  }
 })
