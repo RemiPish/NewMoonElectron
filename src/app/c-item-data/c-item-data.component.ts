@@ -247,6 +247,7 @@ export class CItemDataComponent {
     this.currentPage = event;
     this.cd.detectChanges();
   }
+  
   writeXmlFile(saveMode: string) {
     const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
     if (confirmation) {

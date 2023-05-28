@@ -157,9 +157,26 @@ export class ExchangeDataComponent {
 			];
 		}
 		else {
+			let datas = [];
+
+			let itemList: item[] = [];
+			let itemList2: item[] = [];
+			itemList.push([{ name: "ID", value: 0 },
+			{ name: "stackSize", value: 0 }])
+			itemList2.push([{ name: "ID", value: 0 },
+			{ name: "stackSize", value: 0 }])
+
+			datas.push([{ name: 'optionDataName', value: "" },
+			{ name: 'items', value: itemList }])
+			datas.push([{ name: 'optionDataName', value: "" },
+			{ name: 'items', value: itemList2 }])
+
+
 			this.editingItem = [
 				{ name: 'ID', value: null },
-				{ name: "datas", value: [] }
+				{
+					name: "datas", value: datas
+				}
 			];
 		}
 		//console.log(this.editingItem)
@@ -216,10 +233,14 @@ export class ExchangeDataComponent {
 	}
 
 	addDtContent() {
+		let itemList: item[] = [];
+		itemList.push([{ name: "ID", value: 0 },
+		{ name: "stackSize", value: 0 }]);
+
 		this.editingItem[1].value.push([
 			{ name: 'optionDataName', value: "" },
 			{
-				name: 'items', value: []
+				name: 'items', value: itemList
 			}]);
 		this.cd.detectChanges();
 	}

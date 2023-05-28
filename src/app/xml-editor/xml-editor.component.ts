@@ -5,6 +5,17 @@ import { CEventMessageDataComponent } from '../c-event-message-data/c-event-mess
 import { CSkillComponent } from '../c-skill/c-skill.component';
 import { ActionLogicDataComponent } from '../action-logic-data/action-logic-data.component';
 import { ExchangeDataComponent } from '../exchange-data/exchange-data.component';
+import { CMessageDataComponent } from '../c-message-data/c-message-data.component';
+import { NpcBarterGroupDataComponent } from '../npc-barter-group-data/npc-barter-group-data.component';
+import { TriUnionKreuzItemDataComponent } from '../tri-union-kreuz-item-data/tri-union-kreuz-item-data.component';
+import { CultureItemDataComponent } from '../culture-item-data/culture-item-data.component';
+import { CChanceItemDataComponent } from '../c-chance-item-data/c-chance-item-data.component';
+import { CSynthesisCatalystDataComponent } from '../c-synthesis-catalyst-data/c-synthesis-catalyst-data.component';
+import { CValuableComponent } from '../c-valuable/c-valuable.component';
+import { DeunionItemCatalystDataComponent } from '../deunion-item-catalyst-data/deunion-item-catalyst-data.component';
+import { NpcBarterDataComponent } from '../npc-barter-data/npc-barter-data.component';
+import { CModelDataComponent } from '../c-model-data/c-model-data.component';
+import { ItemDataComponent } from '../item-data/item-data.component';
 const { XMLParser } = require("fast-xml-parser");
 
 @Component({
@@ -22,6 +33,10 @@ export class XmlEditorComponent {
 	title: string = "";
 	rawXmlTxt: string = "";
 	filePath: string = "";
+	fileTypeList = ['ActionLogicData', 'CChanceItemData', 'CEventMessageData', 'CEventMessageData2', 'CItemData', 'CMessageData',
+		'CModelData1', 'CModelData2', 'CModelData3', 'CSkillData', 'CSynthesisCatalystData', 'CultureItemData', 'CValuable', 'DeunionItemCatalystData',
+		'ExchangeData', 'ItemData', 'NPCBarterData',
+		'NPCBarterGroupData', 'TriUnionKreuzItemData'];
 	selectedFileType = "None";
 	filetypeIsSelected = false;
 	testedFile = false;
@@ -45,6 +60,29 @@ export class XmlEditorComponent {
 	actionLogicDataComponent!: ActionLogicDataComponent;
 	@ViewChild('exchangeDataComponent', { static: false })
 	exchangeDataComponent!: ExchangeDataComponent;
+	@ViewChild('cMessageDataComponent', { static: false })
+	cMessageDataComponent!: CMessageDataComponent;
+	@ViewChild('npcBarterGroupDataComponent', { static: false })
+	npcBarterGroupDataComponent!: NpcBarterGroupDataComponent;
+	@ViewChild('triUnionKreuzItemDataComponent', { static: false })
+	triUnionKreuzItemDataComponent!: TriUnionKreuzItemDataComponent;
+	@ViewChild('cultureItemDataComponent', { static: false })
+	cultureItemDataComponent!: CultureItemDataComponent;
+	@ViewChild('cChanceItemDataComponent', { static: false })
+	cChanceItemDataComponent!: CChanceItemDataComponent;
+	@ViewChild('cSynthesisCatalystDataComponent', { static: false })
+	cSynthesisCatalystDataComponent!: CSynthesisCatalystDataComponent;
+	@ViewChild('cValuableComponent', { static: false })
+	cValuableComponent!: CValuableComponent;
+	@ViewChild('deunionItemCatalystDataComponent', { static: false })
+	deunionItemCatalystDataComponent!: DeunionItemCatalystDataComponent;
+	@ViewChild('npcBarterDataComponent', { static: false })
+	npcBarterDataComponent!: NpcBarterDataComponent;
+	@ViewChild('cModelDataComponent', { static: false })
+	cModelDataComponent!: CModelDataComponent;
+	@ViewChild('itemDataComponent', { static: false })
+	itemDataComponent!: ItemDataComponent;
+
 
 	constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 		const parseConfig = {
@@ -105,6 +143,9 @@ export class XmlEditorComponent {
 					case "CEventMessageData":
 						this.cEventMessageDataComponent.startParsing(this.contentJson);
 						break;
+					case "CMessageData":
+						this.cMessageDataComponent.startParsing(this.contentJson);
+						break;
 					case "CEventMessageData2":
 						this.cEventMessageDataComponent.startParsing(this.contentJson);
 						break;
@@ -116,6 +157,42 @@ export class XmlEditorComponent {
 						break;
 					case "ExchangeData":
 						this.exchangeDataComponent.startParsing(this.contentJson);
+						break;
+					case "NPCBarterGroupData":
+						this.npcBarterGroupDataComponent.startParsing(this.contentJson);
+						break;
+					case "TriUnionKreuzItemData":
+						this.triUnionKreuzItemDataComponent.startParsing(this.contentJson);
+						break;
+					case "CultureItemData":
+						this.cultureItemDataComponent.startParsing(this.contentJson);
+						break;
+					case "CChanceItemData":
+						this.cChanceItemDataComponent.startParsing(this.contentJson);
+						break;
+					case "CSynthesisCatalystData":
+						this.cSynthesisCatalystDataComponent.startParsing(this.contentJson);
+						break;
+					case "CValuable":
+						this.cValuableComponent.startParsing(this.contentJson);
+						break;
+					case "DeunionItemCatalystData":
+						this.deunionItemCatalystDataComponent.startParsing(this.contentJson);
+						break;
+					case "NPCBarterData":
+						this.npcBarterDataComponent.startParsing(this.contentJson);
+						break;
+					case "CModelData1":
+						this.cModelDataComponent.startParsing(this.contentJson);
+						break;
+					case "CModelData2":
+						this.cModelDataComponent.startParsing(this.contentJson);
+						break;
+					case "CModelData3":
+						this.cModelDataComponent.startParsing(this.contentJson);
+						break;
+					case "ItemData":
+						this.itemDataComponent.startParsing(this.contentJson);
 						break;
 				}
 

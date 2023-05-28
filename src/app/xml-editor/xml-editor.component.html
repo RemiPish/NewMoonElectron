@@ -27,15 +27,11 @@
             </div>
 
 
-            <div *ngIf="comphackPath && binaryDataPath">
+            <div class="section-container" *ngIf="comphackPath && binaryDataPath">
                 <span class="content-text-subtitle">Select the file you want to decrypt and generate xml file: </span>
                 <div class="mode-flex">
-                    <button (click)="changeFileType('CItemData')">CItemData</button>
-                    <button (click)="changeFileType('CEventMessageData')">CEventMessageData</button>
-                    <button (click)="changeFileType('CEventMessageData2')">CEventMessageData2</button>
-                    <button (click)="changeFileType('CSkillData')">CSkillData</button>
-                    <button (click)="changeFileType('ActionLogicData')">ActionLogicData</button>
-                    <button (click)="changeFileType('ExchangeData')">ExchangeData</button>
+                    <div *ngFor="let fileType of fileTypeList" class="fileType-text" (click)="changeFileType(fileType)">
+                        {{fileType}}</div>
                 </div>
 
             </div>
@@ -58,13 +54,9 @@
             <h2 class="content-text-subtitle">Edit xml file</h2>
             <span class="content-text-subtitle">Select a file to edit</span>
 
-            <div>
-                <button (click)="changeFileType('CItemData')">CItemData</button>
-                <button (click)="changeFileType('CEventMessageData')">CEventMessageData</button>
-                <button (click)="changeFileType('CEventMessageData2')">CEventMessageData2</button>
-                <button (click)="changeFileType('CSkillData')">CSkillData</button>
-                <button (click)="changeFileType('ActionLogicData')">ActionLogicData</button>
-                <button (click)="changeFileType('ExchangeData')">ExchangeData</button>
+            <div class="mode-flex">
+                <div *ngFor="let fileType of fileTypeList" class="fileType-text" (click)="changeFileType(fileType)">
+                    {{fileType}}</div>
             </div>
 
             <div class="section-container" *ngIf="filetypeIsSelected">
@@ -86,7 +78,6 @@
         *ngIf="selectedFileType=== 'CEventMessageData' ||selectedFileType=== 'CEventMessageData2'"
         (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
         [fileMode]="fileMode"></app-c-event-message-data>
-
     <app-c-skill #cSkillComponent *ngIf="selectedFileType=== 'CSkillData' " (fileIsValid)="fileValidate($event)"
         (saveXmlFile)="saveFile($event)" [fileMode]="fileMode" (encryptFile)="encryptFile($event)"></app-c-skill>
     <app-action-logic-data #actionLogicDataComponent *ngIf="selectedFileType=== 'ActionLogicData' "
@@ -95,4 +86,46 @@
     <app-exchange-data #exchangeDataComponent *ngIf="selectedFileType=== 'ExchangeData' "
         (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
         [fileMode]="fileMode"></app-exchange-data>
+    <app-c-message-data #cMessageDataComponent *ngIf="selectedFileType=== 'CMessageData' "
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-c-message-data>
+    <app-npc-barter-group-data #npcBarterGroupDataComponent *ngIf="selectedFileType=== 'NPCBarterGroupData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-npc-barter-group-data>
+    <app-tri-union-kreuz-item-data #triUnionKreuzItemDataComponent *ngIf="selectedFileType=== 'TriUnionKreuzItemData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-tri-union-kreuz-item-data>
+    <app-culture-item-data #cultureItemDataComponent *ngIf="selectedFileType=== 'CultureItemData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode">
+    </app-culture-item-data>
+    <app-c-chance-item-data #cChanceItemDataComponent *ngIf="selectedFileType=== 'CChanceItemData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode">
+    </app-c-chance-item-data>
+    <app-c-synthesis-catalyst-data #cSynthesisCatalystDataComponent *ngIf="selectedFileType=== 'CSynthesisCatalystData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode">
+    </app-c-synthesis-catalyst-data>
+    <app-c-valuable #cValuableComponent *ngIf="selectedFileType=== 'CValuable'" (fileIsValid)="fileValidate($event)"
+        (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)" [fileMode]="fileMode">
+    </app-c-valuable>
+    <app-deunion-item-catalyst-data #deunionItemCatalystDataComponent
+        *ngIf="selectedFileType=== 'DeunionItemCatalystData'" (fileIsValid)="fileValidate($event)"
+        (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)" [fileMode]="fileMode">
+    </app-deunion-item-catalyst-data>
+    <app-npc-barter-data #npcBarterDataComponent *ngIf="selectedFileType=== 'NPCBarterData'"
+        (fileIsValid)="fileValidate($event)" (saveXmlFile)="saveFile($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-npc-barter-data>
+    <app-c-model-data #cModelDataComponent *ngIf="selectedFileType=== 'CModelData1'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-c-model-data>
+    <app-c-model-data #cModelDataComponent *ngIf="selectedFileType=== 'CModelData2'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-c-model-data>
+    <app-c-model-data #cModelDataComponent *ngIf="selectedFileType=== 'CModelData3'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)"
+        [fileMode]="fileMode"></app-c-model-data>
+    <app-item-data #itemDataComponent *ngIf="selectedFileType=== 'ItemData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" [fileMode]="fileMode"></app-item-data>
 </div>

@@ -23,7 +23,6 @@ function createWindow() {
     },
   })
 
-
   win.loadURL(`file://${__dirname}/dist/newmoon-electron/index.html`)
 
   //// uncomment below to open the DevTools.
@@ -33,7 +32,6 @@ function createWindow() {
   win.on('closed', function () {
     win = null
   })
-
 
   win.on('blur', (event) => {
     if (!triggeringProgrammaticBlur) {
@@ -54,6 +52,70 @@ function createWindow() {
       }, 100);
     }
   })
+}
+
+function getMode(str) {
+  let mode = "";
+  switch (str) {
+    case "CItemData":
+      mode = "citem";
+      break;
+    case "CEventMessageData":
+      mode = "ceventmessage"
+      break;
+    case "CEventMessageData2":
+      mode = "ceventmessage"
+      break;
+    case "CMessageData":
+      mode = "cmessage"
+      break;
+    case "CSkillData":
+      mode = "cskill";
+      break;
+    case "ActionLogicData":
+      mode = "actionlogic";
+      break;
+    case "ExchangeData":
+      mode = "exchange";
+      break;
+    case "NPCBarterGroupData":
+      mode = "npcbartergroup";
+      break;
+    case "TriUnionKreuzItemData":
+      mode = "triunionkreuzitem";
+      break;
+    case "CultureItemData":
+      mode = "cultureitem";
+      break;
+    case "CChanceItemData":
+      mode = "cchanceitem";
+      break;
+    case "CSynthesisCatalystData":
+      mode = "csynthcatalystdata";
+      break;
+    case "CValuable":
+      mode = "cvaluable";
+      break;
+    case "DeunionItemCatalystData":
+      mode = "deunionitemcatalyst";
+      break;
+    case "NPCBarterData":
+      mode = "npcbarter";
+      break;
+    case "CModelData1":
+      mode = "cmodel";
+      break;
+    case "CModelData2":
+      mode = "cmodel";
+      break;
+    case "CModelData3":
+      mode = "cmodel";
+      break;
+    case "ItemData":
+      mode = "item";
+      break;
+  }
+  return mode;
 }
 
 // Create window on electron initialization
@@ -195,26 +257,8 @@ ipcMain.on('start-decrypt', (event, arg) => {
       });
     }
     else {
-      switch (arg["file"]) {
-        case "CItemData":
-          mode = "citem";
-          break;
-        case "CEventMessageData":
-          mode = "ceventmessage"
-          break;
-        case "CEventMessageData2":
-          mode = "ceventmessage"
-          break;
-        case "CSkillData":
-          mode = "cskill";
-          break;
-        case "ActionLogicData":
-          mode = "actionlogic";
-          break;
-        case "ExchangeData":
-          mode = "exchange";
-          break;
-      }
+      mode = getMode(arg["file"]);
+
       if (arg["file"] === "CSkillData") {
         folder = "Client"
       }
@@ -274,6 +318,7 @@ ipcMain.on('save-file', (event, arg) => {
   if (!!arg)
 
     try {
+      console.log(arg["filePath"])
       // Attempt to write the file
       fs.writeFileSync(arg["filePath"], arg["file"])
       // Show a success message
@@ -299,28 +344,10 @@ ipcMain.on('encrypt-file', (event, arg) => {
     let mode = "";
     let fileName = path.basename(arg["filePath"]);
     let folder = arg["folder"];
-    switch (arg["fileType"]) {
-      case "CItemData":
-        mode = "citem";
-        break;
-      case "CEventMessageData":
-        mode = "ceventmessage"
-        break;
-      case "CEventMessageData2":
-        mode = "ceventmessage"
-        break;
-      case "CSkillData":
-        mode = "cskill";
-        break;
-      case "ActionLogicData":
-        mode = "actionlogic";
-        break;
-      case "ExchangeData":
-        mode = "exchange";
-        break;
-    }
+    mode = getMode(arg["fileType"]);
+
     try {
-      fs.writeFileSync(fileName, arg["file"])
+      fs.writeFileSync(arg["filePath"], arg["file"])
       const cdCmd = `cd ${folder}`;
       const bdPatch = `comp_bdpatch save ${mode} ${fileName} ${arg["fileType"]}.bin`;
       const encryptCmd = `comp_encrypt ${arg["fileType"]}.bin ${arg["fileType"]}.sbin`;

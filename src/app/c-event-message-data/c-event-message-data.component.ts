@@ -58,7 +58,6 @@ export class CEventMessageDataComponent {
 	async parseCEventMessageData(json: string) {
 		try {
 			const parsed = JSON.parse(json);
-			console.log(parsed)
 			const items = await Promise.all(parsed.map(async (item: any) => {
 
 				const lines = item.member.find((m: any) => m["@name"] === "lines");

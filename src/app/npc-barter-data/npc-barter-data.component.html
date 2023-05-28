@@ -1,0 +1,177 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">NPCBarterData -
+            ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn btn-blue button-3">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Result Items</th>
+                        <th>Trade Items</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td class="data-table">
+                            <table *ngFor="let data of item[1].value">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>SubType</th>
+                                    <th>Amount</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{data[0].value}}</td>
+                                    <td>{{data[1].value}}</td>
+                                    <td>{{data[2].value}}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="data-table">
+                            <table *ngFor="let data of item[2].value">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>SubType</th>
+                                    <th>Amount</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{data[0].value}}</td>
+                                    <td>{{data[1].value}}</td>
+                                    <td>{{data[2].value}}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf=" inEdition" class="page-container edit-page">
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+            <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
+        </div>
+        <div class="form-container">
+            <div class="form-elt-container">
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">ID:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                </div>
+                <div class="line-flex">
+                    <h2 class="section-title">Result Items ({{ editingItem[1].value.length}}):</h2>
+                    <button (click)="addItemData('result')" class="btn btn-blue button-3">+</button>
+                </div>
+                <div class="dt-content" *ngFor="let cnt of editingItem[1].value; let i = index">
+
+                    <div class="line-flex">
+                        <label class="form-label">Item {{i+1}}:</label>
+                        <button *ngIf="i>0" (click)="removeItemData('result',i || 0)"
+                            class="btn btn-error button-3">-</button>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Type:</label>
+                        <select [(ngModel)]="cnt[0].value">
+                            <option value="NONE">NONE</option>
+                            <option value="ITEM">ITEM</option>
+                            <option value="ONE_TIME_VALUABLE">ONE_TIME_VALUABLE</option>
+                            <option value="STATUS_CHARACTER">STATUS_CHARACTER</option>
+                            <option value="EVENT_COUNTER">EVENT_COUNTER</option>
+                            <option value="COOLDOWN">COOLDOWN</option>
+                            <option value="BETHEL">BETHEL</option>
+                            <option value="STATUS_DEMON">STATUS_DEMON</option>
+                            <option value="STATUS_CHARACTER_AND_DEMON">STATUS_CHARACTER_AND_DEMON</option>
+                            <option value="SKILL_CHARACTER">SKILL_CHARACTER</option>
+                            <option value="SKILL_DEMON">SKILL_DEMON</option>
+                            <option value="SOUL_POINT">SOUL_POINT</option>
+                            <option value="PLUGIN">PLUGIN</option>
+                            <option value="COIN">COIN</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Subtype</label>
+                        <input class="form-control" type="number" [(ngModel)]="cnt[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Amount:</label>
+                        <input class="form-control" type="number" [(ngModel)]="cnt[2].value">
+                    </div>
+                </div>
+                <div class="line-flex">
+                    <h2 class="section-title">Trade Items ({{ editingItem[2].value.length}}):</h2>
+                    <button (click)="addItemData('trade')" class="btn btn-blue button-3">+</button>
+                </div>
+                <div class="dt-content" *ngFor="let cnt of editingItem[2].value; let i = index">
+                    <div class="line-flex">
+                        <label class="form-label">Item {{i+1}}:</label>
+                        <button *ngIf="i>0" (click)="removeItemData('trade',i || 0)"
+                            class="btn btn-error button-3">-</button>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Type:</label>
+                        <select [(ngModel)]="cnt[0].value">
+                            <option value="NONE">NONE</option>
+                            <option value="ITEM">ITEM</option>
+                            <option value="ONE_TIME_VALUABLE">ONE_TIME_VALUABLE</option>
+                            <option value="STATUS_CHARACTER">STATUS_CHARACTER</option>
+                            <option value="EVENT_COUNTER">EVENT_COUNTER</option>
+                            <option value="COOLDOWN">COOLDOWN</option>
+                            <option value="BETHEL">BETHEL</option>
+                            <option value="STATUS_DEMON">STATUS_DEMON</option>
+                            <option value="STATUS_CHARACTER_AND_DEMON">STATUS_CHARACTER_AND_DEMON</option>
+                            <option value="SKILL_CHARACTER">SKILL_CHARACTER</option>
+                            <option value="SKILL_DEMON">SKILL_DEMON</option>
+                            <option value="SOUL_POINT">SOUL_POINT</option>
+                            <option value="PLUGIN">PLUGIN</option>
+                            <option value="COIN">COIN</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Subtype</label>
+                        <input class="form-control" type="number" [(ngModel)]="cnt[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Amount:</label>
+                        <input class="form-control" type="number" [(ngModel)]="cnt[2].value">
+                    </div>
+                </div>
+                <div *ngIf="formMsg">
+                    <span class="error-txt">{{formMsg}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+            <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
+        </div>
+    </div>

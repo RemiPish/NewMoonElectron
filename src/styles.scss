@@ -218,7 +218,7 @@ body {
     padding: 15px;
 }
 
-.table-text{
+.table-text {
     width: 100%;
 }
 
@@ -228,7 +228,8 @@ body {
     color: white;
 }
 
-.fileElt td, .fileElt th {
+.fileElt td,
+.fileElt th {
     border: 1px solid #ddd;
     padding: 8px;
 }
@@ -271,6 +272,7 @@ body {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 /* CSS */
@@ -323,4 +325,12 @@ body {
 .button-3:active {
     background-color: #298e46;
     box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+.pagination-flex {
+    margin: 10px;
+}
+
+.pagination-input {
+    width: 90px;
 }

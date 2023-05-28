@@ -20,6 +20,17 @@ import { CEventMessageDataComponent } from './c-event-message-data/c-event-messa
 import { CSkillComponent } from './c-skill/c-skill.component';
 import { ActionLogicDataComponent } from './action-logic-data/action-logic-data.component';
 import { ExchangeDataComponent } from './exchange-data/exchange-data.component';
+import { CMessageDataComponent } from './c-message-data/c-message-data.component';
+import { NpcBarterGroupDataComponent } from './npc-barter-group-data/npc-barter-group-data.component';
+import { TriUnionKreuzItemDataComponent } from './tri-union-kreuz-item-data/tri-union-kreuz-item-data.component';
+import { CultureItemDataComponent } from './culture-item-data/culture-item-data.component';
+import { CChanceItemDataComponent } from './c-chance-item-data/c-chance-item-data.component';
+import { CSynthesisCatalystDataComponent } from './c-synthesis-catalyst-data/c-synthesis-catalyst-data.component';
+import { CValuableComponent } from './c-valuable/c-valuable.component';
+import { DeunionItemCatalystDataComponent } from './deunion-item-catalyst-data/deunion-item-catalyst-data.component';
+import { NpcBarterDataComponent } from './npc-barter-data/npc-barter-data.component';
+import { CModelDataComponent } from './c-model-data/c-model-data.component';
+import { ItemDataComponent } from './item-data/item-data.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +41,18 @@ import { ExchangeDataComponent } from './exchange-data/exchange-data.component';
     CEventMessageDataComponent,
     CSkillComponent,
     ActionLogicDataComponent,
-    ExchangeDataComponent
+    ExchangeDataComponent,
+    CMessageDataComponent,
+    NpcBarterGroupDataComponent,
+    TriUnionKreuzItemDataComponent,
+    CultureItemDataComponent,
+    CChanceItemDataComponent,
+    CSynthesisCatalystDataComponent,
+    CValuableComponent,
+    DeunionItemCatalystDataComponent,
+    NpcBarterDataComponent,
+    CModelDataComponent,
+    ItemDataComponent
   ],
   imports: [
     BrowserModule,

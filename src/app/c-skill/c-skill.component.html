@@ -11,9 +11,13 @@
         <div class="table-text">
             <div class="search-flex">
                 <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
-                <button (click)="onSearch()" class="upload-btn">Search</button>
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
             </div>
-
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
             <table *ngIf="filteredContent" class="fileElt">
                 <thead>
                     <tr>
@@ -38,7 +42,11 @@
                     </tr>
                 </tbody>
             </table>
-            <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
         </div>
     </div>
     <div *ngIf="inEdition" class="page-container edit-page">
