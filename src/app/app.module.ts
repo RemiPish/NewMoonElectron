@@ -31,6 +31,37 @@ import { DeunionItemCatalystDataComponent } from './deunion-item-catalyst-data/d
 import { NpcBarterDataComponent } from './npc-barter-data/npc-barter-data.component';
 import { CModelDataComponent } from './c-model-data/c-model-data.component';
 import { ItemDataComponent } from './item-data/item-data.component';
+import { GvgDataComponent } from './gvg-data/gvg-data.component';
+import { CCultureDataComponent } from './c-culture-data/c-culture-data.component';
+import { ModificationExtCatalystDataComponent } from './modification-ext-catalyst-data/modification-ext-catalyst-data.component';
+import { PcDataComponent } from './pc-data/pc-data.component';
+import { ChanceItemDataComponent } from './chance-item-data/chance-item-data.component';
+import { AutoLiveDataComponent } from './auto-live-data/auto-live-data.component';
+import { CUraFieldDataComponent } from './c-ura-field-data/c-ura-field-data.component';
+import { CHouraiDataComponent } from './c-hourai-data/c-hourai-data.component';
+import { SlotPiercingDataComponent } from './slot-piercing-data/slot-piercing-data.component';
+import { WorldDataComponent } from './world-data/world-data.component';
+import { QuestBonusCodeDataComponent } from './quest-bonus-code-data/quest-bonus-code-data.component';
+import { CIconDataComponent } from './c-icon-data/c-icon-data.component';
+import { GuardianUnlockDataComponent } from './guardian-unlock-data/guardian-unlock-data.component';
+import { UltimateBattleBaseDataComponent } from './ultimate-battle-base-data/ultimate-battle-base-data.component';
+import { CAppearanceEquipDataComponent } from './c-appearance-equip-data/c-appearance-equip-data.component';
+import { BazaarClerkNpcDataComponent } from './bazaar-clerk-npc-data/bazaar-clerk-npc-data.component';
+import { UraFieldTowerDataComponent } from './ura-field-tower-data/ura-field-tower-data.component';
+import { MitamaReunionBonusDataComponent } from './mitama-reunion-bonus-data/mitama-reunion-bonus-data.component';
+import { CSpecialSkillEffectDataComponent } from './c-special-skill-effect-data/c-special-skill-effect-data.component';
+import { QuestBonusDataComponent } from './quest-bonus-data/quest-bonus-data.component';
+import { CGuideDataComponent } from './c-guide-data/c-guide-data.component';
+import { AiDataComponent } from './ai-data/ai-data.component';
+import { DevilEquipmentItemDataComponent } from './devil-equipment-item-data/devil-equipment-item-data.component';
+import { CDevilEquipmentExclusiveDataComponent } from './c-devil-equipment-exclusive-data/c-devil-equipment-exclusive-data.component';
+import { TankDataComponent } from './tank-data/tank-data.component';
+import { ToolListComponent } from './tool-list/tool-list.component';
+import { PgMakerComponent } from './pg-maker/pg-maker.component';
+import { CDevilBookBonusMitamaDataComponent } from './c-devil-book-bonus-mitama-data/c-devil-book-bonus-mitama-data.component';
+import { CDevilBoostIconDataComponent } from './c-devil-boost-icon-data/c-devil-boost-icon-data.component';
+import { DevilFusionDataComponent } from './devil-fusion-data/devil-fusion-data.component';
+import { BlendDataComponent } from './blend-data/blend-data.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +83,38 @@ import { ItemDataComponent } from './item-data/item-data.component';
     DeunionItemCatalystDataComponent,
     NpcBarterDataComponent,
     CModelDataComponent,
-    ItemDataComponent
+    ItemDataComponent,
+    GvgDataComponent,
+    CCultureDataComponent,
+    ModificationExtCatalystDataComponent,
+    PcDataComponent,
+    ChanceItemDataComponent,
+    AutoLiveDataComponent,
+    CUraFieldDataComponent,
+    CHouraiDataComponent,
+    SlotPiercingDataComponent,
+    WorldDataComponent,
+    QuestBonusCodeDataComponent,
+    CIconDataComponent,
+    GuardianUnlockDataComponent,
+    UltimateBattleBaseDataComponent,
+    CAppearanceEquipDataComponent,
+    BazaarClerkNpcDataComponent,
+    UraFieldTowerDataComponent,
+    MitamaReunionBonusDataComponent,
+    CSpecialSkillEffectDataComponent,
+    QuestBonusDataComponent,
+    CGuideDataComponent,
+    AiDataComponent,
+    DevilEquipmentItemDataComponent,
+    CDevilEquipmentExclusiveDataComponent,
+    TankDataComponent,
+    ToolListComponent,
+    PgMakerComponent,
+    CDevilBookBonusMitamaDataComponent,
+    CDevilBoostIconDataComponent,
+    DevilFusionDataComponent,
+    BlendDataComponent
   ],
   imports: [
     BrowserModule,

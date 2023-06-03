@@ -35,6 +35,7 @@ export class CItemDataComponent {
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
+  @Output() contentParsed = new EventEmitter<any>();
 
   inEdition: boolean = false;
   searchTableText = "";
@@ -99,6 +100,11 @@ export class CItemDataComponent {
         this.cd.detectChanges();
       }
     }
+  }
+
+  async parseContent(json: string) {
+    let res = await this.parseCItemData(json);
+    this.contentParsed.emit(res);
   }
 
   async parseCItemData(json: string) {
@@ -247,15 +253,15 @@ export class CItemDataComponent {
     this.currentPage = event;
     this.cd.detectChanges();
   }
-  
-  writeXmlFile(saveMode: string) {
-    const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
+
+  writeXmlFile(saveMode: string, content: any) {
+    const confirmation = confirm('Save this CItemData file? (The file will be overwritten by this change)');
     if (confirmation) {
       // Create the root XML element
       let xml = '<objects>\n';
 
       // Loop through each item in this.content array
-      this.content.forEach((item: cItemDataStructure) => {
+      content.forEach((item: cItemDataStructure) => {
         // Write the opening tag for the item
         xml += '	<object name="MiCItemData">\n';
 

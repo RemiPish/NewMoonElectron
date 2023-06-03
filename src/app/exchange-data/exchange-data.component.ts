@@ -26,10 +26,11 @@ export type exchangeDataStructure = [
 export class ExchangeDataComponent {
 
 	contentJson: string = "";
-	@Input() fileMode: string = "";
+	@Input() fileMode?: string = "";
 	@Output() fileIsValid = new EventEmitter<boolean>();
 	@Output() saveXmlFile = new EventEmitter<string>();
 	@Output() encryptFile = new EventEmitter<string>();
+	@Output() contentParsed = new EventEmitter<any>();
 
 	inEdition: boolean = false;
 	searchTableText = "";
@@ -46,6 +47,11 @@ export class ExchangeDataComponent {
 
 	constructor(private cd: ChangeDetectorRef) {
 
+	}
+
+	async parseContent(json: string) {
+		let res = await this.parseExchangeData(json);
+		this.contentParsed.emit(res);
 	}
 
 	async startParsing(json: string) {
@@ -101,23 +107,45 @@ export class ExchangeDataComponent {
 			console.log(parsed)
 			const items = await Promise.all(parsed.map(async (item: any) => {
 				let datas: data[] = [];
-				item.member.find((m: any) => m["@name"] === "options").element.forEach((opt: any) => {
-					let nameD = opt.object.member.find((m: any) => m["@name"] === "name")["#text"];
+				if (item.member.find((m: any) => m["@name"] === "options").element.length) {
+					item.member.find((m: any) => m["@name"] === "options").element.forEach((opt: any) => {
+						let nameD = opt.object.member.find((m: any) => m["@name"] === "name")["#text"];
+						let itemList: item[] = [];
+						if (!!opt.object.member.find((m: any) => m["@name"] === "items").element && opt.object.member.find((m: any) => m["@name"] === "items").element?.length > 1) {
+							opt.object.member.find((m: any) => m["@name"] === "items").element.forEach((it: any) => {
+								itemList.push([{ name: "ID", value: it.object.member.find((m: any) => m["@name"] === "ID")["#text"] },
+								{ name: "stackSize", value: it.object.member.find((m: any) => m["@name"] === "stackSize")["#text"] }])
+							})
+						}
+						else if (!!opt.object.member.find((m: any) => m["@name"] === "items").element) {
+							itemList.push([{ name: "ID", value: opt.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "ID")["#text"] },
+							{ name: "stackSize", value: opt.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "stackSize")["#text"] }])
+						}
+
+						datas.push([{ name: 'optionDataName', value: nameD },
+						{ name: 'items', value: itemList }])
+					})
+				}
+				else {
+
+					let nameD = item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "name")["#text"];
 					let itemList: item[] = [];
-					if (!!opt.object.member.find((m: any) => m["@name"] === "items").element && opt.object.member.find((m: any) => m["@name"] === "items").element?.length > 1) {
-						opt.object.member.find((m: any) => m["@name"] === "items").element.forEach((it: any) => {
+					if (!!item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element && item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element?.length > 1) {
+						item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element.forEach((it: any) => {
 							itemList.push([{ name: "ID", value: it.object.member.find((m: any) => m["@name"] === "ID")["#text"] },
 							{ name: "stackSize", value: it.object.member.find((m: any) => m["@name"] === "stackSize")["#text"] }])
 						})
 					}
-					else if (!!opt.object.member.find((m: any) => m["@name"] === "items").element) {
-						itemList.push([{ name: "ID", value: opt.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "ID")["#text"] },
-						{ name: "stackSize", value: opt.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "stackSize")["#text"] }])
+					else if (!!item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element) {
+						itemList.push([{ name: "ID", value: item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "ID")["#text"] },
+						{ name: "stackSize", value: item.member.find((m: any) => m["@name"] === "options").element.object.member.find((m: any) => m["@name"] === "items").element.object.member.find((m: any) => m["@name"] === "stackSize")["#text"] }])
 					}
 
 					datas.push([{ name: 'optionDataName', value: nameD },
 					{ name: 'items', value: itemList }])
-				})
+
+				}
+
 				return [
 					{ name: "ID", value: item.member.find((m: any) => m["@name"] === "ID")["#text"] },
 					{ name: "datas", value: datas },
@@ -270,14 +298,14 @@ export class ExchangeDataComponent {
 		this.cd.detectChanges();
 	}
 
-	writeXmlFile(saveMode: string) {
-		const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
+	writeXmlFile(saveMode: string, content: any) {
+		const confirmation = confirm('Save this ExchangeData file? (The file will be overwritten by this change)');
 		if (confirmation) {
 			// Create the root XML element
 			let xml = '<objects>\n';
 
 			// Loop through each item in this.content array
-			this.content.forEach((item: exchangeDataStructure) => {
+			content.forEach((item: exchangeDataStructure) => {
 				// Write the opening tag for the item
 				xml += '	<object name="MiExchangeData">\n';
 				xml += `    <member name="ID">${item[0].value}</member>\n`;

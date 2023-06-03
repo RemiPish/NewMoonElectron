@@ -1,29 +1,3 @@
 @import "../../styles.scss";
-.logo-container {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.logo-container img {
-    width: 250px;
-    height: auto;
-}
-
-.links {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.links a {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 0 10px;
-    text-decoration: none;
-    font-size: 18px;
-}
 

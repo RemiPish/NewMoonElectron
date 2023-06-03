@@ -1,0 +1,179 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">AIData - ({{filteredContent.length}}
+            item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Aggro Level Limit</th>
+                        <th>Aggro Normal</th>
+                        <th>Aggro Night</th>
+                        <th>Aggro Cast</th>
+                        <th>Think Speed</th>
+                        <th>Deaggro Scale</th>
+                        <th>Strike First</th>
+                        <th>Normal Skill Use</th>
+                        <th>Aggro Limit</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }}</td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <th>Distance</th>
+                                    <th>FOV</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{ item[2].value }}</td>
+                                    <td>{{ item[3].value }}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <th>Distance</th>
+                                    <th>FOV</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{ item[4].value }}</td>
+                                    <td>{{ item[5].value }}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <th>Distance</th>
+                                    <th>FOV</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{ item[6].value }}</td>
+                                    <td>{{ item[7].value }}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>{{ item[8].value }}</td>
+                        <td>{{ item[9].value }}</td>
+                        <td>{{ item[10].value }}</td>
+                        <td>{{ item[11].value }}</td>
+                        <td>{{ item[12].value }}</td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroLevelLimit:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroNormal Distance:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroNormal FOV:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroNight Distance:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroNight FOV:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroCast Distance:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[6].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">AggroCast FOV:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Think Speed:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[8].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Deaggro Scale:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[9].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Strike First:</label>
+                        <select [(ngModel)]="editingItem[10].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Normal Skill Use:</label>
+                        <select [(ngModel)]="editingItem[11].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Aggro Limit:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[12].value">
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="formMsg">
+                <span class="error-txt">{{formMsg}}</span>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>

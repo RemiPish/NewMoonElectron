@@ -1,4 +1,4 @@
-import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
+import { Component, Output, OnChanges, SimpleChanges, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
 export type cMessageDataStructure = [
   { name: 'ID', value: number },
@@ -10,9 +10,10 @@ export type cMessageDataStructure = [
   templateUrl: './c-message-data.component.html',
   styleUrls: ['./c-message-data.component.scss']
 })
-export class CMessageDataComponent {
+export class CMessageDataComponent implements OnChanges {
   contentJson: string = "";
   @Input() fileMode: string = "";
+  @Input() type: string = "";
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
@@ -33,7 +34,23 @@ export class CMessageDataComponent {
   constructor(private cd: ChangeDetectorRef) {
 
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['type']) {
 
+      this.inEdition = false;
+      this.searchTableText = "";
+      this.content = [];
+      this.filteredContent = [];
+
+      this.currentPage = 1;
+      this.formMsg = "";
+
+      this.selectedItem = null;
+      this.editingItem = null;
+      this.loadingTable = false;
+      this.isValidFile = false;
+    }
+  }
   async startParsing(json: string) {
     this.loadingTable = true;
     this.inEdition = false

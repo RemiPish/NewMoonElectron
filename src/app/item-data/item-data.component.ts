@@ -47,6 +47,7 @@ export class ItemDataComponent {
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
+  @Output() contentParsed = new EventEmitter<any>();
 
   inEdition: boolean = false;
   searchTableText = "";
@@ -181,6 +182,11 @@ export class ItemDataComponent {
       this.fileIsValid.emit(false);
       return [];
     }
+  }
+
+  async parseContent(json: string) {
+    let res = await this.parseItemData(json);
+    this.contentParsed.emit(res);
   }
 
   openEdition(id?: any) {
@@ -345,14 +351,14 @@ export class ItemDataComponent {
     this.cd.detectChanges();
   }
 
-  writeXmlFile(saveMode: string) {
-    const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
+  writeXmlFile(saveMode: string, content: any) {
+    const confirmation = confirm('Save this ItemData file? (The file will be overwritten by this change)');
     if (confirmation) {
       // Create the root XML element
       let xml = '<objects>\n';
 
       // Loop through each item in this.content array
-      this.content.forEach((item: itemDataStructure) => {
+      content.forEach((item: itemDataStructure) => {
         // Write the opening tag for the item
         xml += '	<object name="MiItemData">\n';
 

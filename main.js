@@ -111,9 +111,224 @@ function getMode(str) {
     case "CModelData3":
       mode = "cmodel";
       break;
+    case "CModelData1(Client)":
+      mode = "cmodel";
+      break;
+    case "CModelData2(Client)":
+      mode = "cmodel";
+      break;
+    case "CModelData3(Client)":
+      mode = "cmodel";
+      break;
     case "ItemData":
       mode = "item";
       break;
+    case "GvGData":
+      mode = "gvg";
+      break;
+    case "CCultureData":
+      mode = "cculture";
+      break;
+    case "ModificationExtCatalystData":
+      mode = "modextcatalyst";
+      break;
+    case "ModificationCatalystData":
+      mode = "modcatalyst";
+      break;
+    case "PCData":
+      mode = "pc";
+      break;
+    case "ChanceItemData":
+      mode = "chanceitem";
+      break;
+    case "AutoLiveData":
+      mode = "autolive";
+      break;
+    case "CUraFieldData":
+      mode = "curafield";
+      break;
+    case "EnchantInitializeData":
+      mode = "enchantinit";
+      break;
+    case "UnionItemsHelperData":
+      mode = "unionitemshelper";
+      break;
+    case "CHouraiData":
+      mode = "chourai";
+      break;
+    case "EnchantPiercingData":
+      mode = "enchantpiercing";
+      break;
+    case "SlotPiercingData":
+      mode = "slotpiercing";
+      break;
+    case "CMessageData_klan-playstyle":
+      mode = "cmessage";
+      break;
+    case "CMessageData_klan-category":
+      mode = "cmessage";
+      break;
+    case "CMessageData_klan-series":
+      mode = "cmessage";
+      break;
+    case "CMessageData_yorosiku":
+      mode = "cmessage";
+      break;
+    case "CMessageData_System":
+      mode = "cmessage";
+      break;
+    case "CMessageData_SysHelp":
+      mode = "cmessage";
+      break;
+    case "CMessageData_Shop":
+      mode = "cmessage";
+      break;
+    case "CMessageData_reunion":
+      mode = "cmessage";
+      break;
+    case "CMessageData_party-purpose":
+      mode = "cmessage";
+      break;
+    case "CMessageData_party-playstyle":
+      mode = "cmessage";
+      break;
+    case "CMessageData_party-free":
+      mode = "cmessage";
+      break;
+    case "CMessageData_omedeto":
+      mode = "cmessage";
+      break;
+    case "CMessageData_NakamaQuest":
+      mode = "cmessage";
+      break;
+    case "CMessageData_Expert":
+      mode = "cmessage";
+      break;
+    case "CMessageData_DevilPresent":
+      mode = "cmessage";
+      break;
+    case "CMessageData_DevilBook":
+      mode = "cmessage";
+      break;
+    case "CMessageData_Charastic":
+      mode = "cmessage";
+      break;
+    case "CMessageData_Bazaar":
+      mode = "cmessage";
+      break;
+    case "SlotInitializeData":
+      mode = "slotinit";
+      break;
+    case "WorldData":
+      mode = "world";
+      break;
+    case "QuestBonusCodeData":
+      mode = "questbonuscode";
+      break;
+    case "CIconData_COMPShopCategory":
+      mode = "cicon";
+      break;
+    case "DevilBookBonusMitamaData":
+      mode = "devilbookbonusmitama";
+      break;
+    case "GuardianUnlockData":
+      mode = "guardianunlock";
+      break;
+    case "GuardianSpecialData":
+      mode = "guardianspecial";
+      break;
+    case "DevilBookBonusData":
+      mode = "devilbookbonus";
+      break;
+    case "UltimateBattleBaseData":
+      mode = "ultimatebattlebase";
+      break;
+    case "BazaarClerkNPCData":
+      mode = "bazaarclerknpc";
+      break;
+    case "UraFieldTowerData":
+      mode = "urafieldtower";
+      break;
+    case "MitamaReunionBonusData":
+      mode = "mitamabonus";
+      break;
+    case "CSpecialSkillEffectData":
+      mode = "cspskilleffect";
+      break;
+    case "QuestBonusData":
+      mode = "questbonus";
+      break;
+    case "CGuideData":
+      mode = "cguide";
+      break;
+    case "AIData":
+      mode = "ai";
+      break;
+    case "CEquipFaceData":
+      mode = "cappearanceequip";
+      break;
+    case "CEquipFaceData(Client)":
+      mode = "cappearanceequip";
+      break;
+    case "CEquipEyeData":
+      mode = "cappearanceequip";
+      break;
+    case "CEquipHairData":
+      mode = "cappearanceequip";
+      break;
+    case "CIconData_Skill":
+      mode = "cicon";
+      break;
+    case "CIconData_Status":
+      mode = "cicon";
+      break;
+    case "CIconData_Item":
+      mode = "cicon";
+      break;
+    case "CIconData_Devil":
+      mode = "cicon";
+      break;
+    case "CIconData_ItemClass":
+      mode = "cicon";
+      break;
+    case "CIconData_Valuable":
+      mode = "cicon";
+      break;
+    case "CIconData_UIImageList":
+      mode = "cicon";
+      break;
+    case "CIconData_SkillSort":
+      mode = "cicon";
+      break;
+    case "CIconData_Emote":
+      mode = "cicon";
+      break;
+    case "DevilEquipmentItemData":
+      mode = "devilequipitem";
+      break;
+    case "CDevilEquipmentExclusiveData":
+      mode = "cdevilequipexclusive";
+      break;
+    case "TankData":
+      mode = "tank";
+      break;
+    case "CDevilBookBonusMitamaData":
+      mode = "cdevilbookbonusmitama";
+      break;
+    case "CDevilBoostIconData":
+      mode = "cdevilboosticon";
+      break;
+    case "CDevilBookBonusData":
+      mode = "cdevilbookbonus";
+      break;
+    case "DevilFusionData":
+      mode = "devilfusion";
+      break;
+    case "BlendData":
+      mode = "blend";
+      break;
+
+
   }
   return mode;
 }
@@ -178,6 +393,7 @@ ipcMain.on('open-comphack-path-dialog', (event) => {
   });
 })
 
+
 ipcMain.on('open-binarydata-path-dialog', (event) => {
   dialog.showOpenDialog({
     properties: ['openDirectory']
@@ -233,6 +449,139 @@ ipcMain.on('open-file-dialog', (event) => {
   });
 });
 
+ipcMain.on('delete-file', (event, arg) => {
+  exec(`cd ${arg["path"]} && del ${arg["title"]}`, (error, stdout, stderr) => {
+    if (error) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Error',
+        message: error.message,
+        buttons: ['OK'],
+      });
+      return;
+    }
+    if (stderr) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Error',
+        message: stdout,
+        buttons: ['OK'],
+      });
+      return;
+    }
+    if (stderr) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Error',
+        message: stderr,
+        buttons: ['OK'],
+      });
+      return;
+    }
+  });
+})
+
+function readFileAsync(filePath, encoding) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, encoding, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+ipcMain.on('start-decrypt-list', (event, arg) => {
+  let folder = "";
+  let mode = "";
+  try {
+    if (!!arg) {
+      let fileNameList = arg["fileNameList"];
+      let parsedList = [];
+      fileNameList.forEach(async fileName => {
+        mode = getMode(fileName);
+
+        if (['CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+          'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(fileName)) {
+          folder = "Client"
+        }
+        else folder = "Shield";
+
+        let cdCmd = `cd ${arg["comphack"]}`;
+        let decryptCmd = `comp_decrypt ${arg["binary"]}\\${folder}\\${fileName}.sbin  ${fileName}.bin`;
+        let bdPatch = `comp_bdpatch load ${mode} ${fileName}.bin ${fileName}.xml`;
+        let filePath = `${arg["comphack"]}\\${fileName}.xml`;
+
+        let command = "";
+        if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+          'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
+          let file = arg["file"];
+          switch (arg["file"]) {
+            case "CEquipFaceData(Client)":
+              file = "CEquipFaceData";
+              break;
+            case "CModelData1(Client)":
+              file = "CModelData1";
+              break;
+            case "CModelData2(Client)":
+              file = "CModelData2";
+              break;
+            case "CModelData3(Client)":
+              file = "CModelData3";
+              break;
+          }
+
+          command = `${cdCmd} && comp_bdpatch load ${mode}  ${arg["binary"]}\\${folder}\\${file}.bin ${fileName}.xml`
+        }
+        else command = `${cdCmd} && ${decryptCmd} && ${bdPatch}`;
+        exec(command, async (error, stdout, stderr) => {
+          if (error) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: error.message,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          if (stderr) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: stdout,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          if (stderr) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: stderr,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          const data = await readFileAsync(filePath, 'utf-8');
+          await parsedList.push(data);
+          if (parsedList.length === fileNameList.length) {
+            event.reply('files-selected-list', parsedList);
+          }
+
+        })
+      })
+
+
+    }
+  }
+  catch (err) {
+    console.log(err);
+    event.reply('file-error-read', err.message);
+  }
+})
+
 ipcMain.on('start-decrypt', (event, arg) => {
   if (!!arg) {
     let folder = "";
@@ -259,7 +608,8 @@ ipcMain.on('start-decrypt', (event, arg) => {
     else {
       mode = getMode(arg["file"]);
 
-      if (arg["file"] === "CSkillData") {
+      if (['CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+        'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
         folder = "Client"
       }
       else folder = "Shield";
@@ -268,8 +618,25 @@ ipcMain.on('start-decrypt', (event, arg) => {
       const decryptCmd = `comp_decrypt ${arg["binary"]}\\${folder}\\${arg["file"]}.sbin  ${arg["file"]}.bin`;
       const bdPatch = `comp_bdpatch load ${mode} ${arg["file"]}.bin ${fileName}.xml`;
       let command = "";
-      if (arg["file"] === 'CSkillData') {
-        command = `${cdCmd} && comp_bdpatch load ${mode}  ${arg["binary"]}\\${folder}\\${arg["file"]}.bin ${fileName}.xml`
+      if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+        'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
+        let file = arg["file"];
+        switch (arg["file"]) {
+          case "CEquipFaceData(Client)":
+            file = "CEquipFaceData";
+            break;
+          case "CModelData1(Client)":
+            file = "CModelData1";
+            break;
+          case "CModelData2(Client)":
+            file = "CModelData2";
+            break;
+          case "CModelData3(Client)":
+            file = "CModelData3";
+            break;
+        }
+
+        command = `${cdCmd} && comp_bdpatch load ${mode}  ${arg["binary"]}\\${folder}\\${file}.bin ${fileName}.xml`
       }
       else command = `${cdCmd} && ${decryptCmd} && ${bdPatch}`;
       exec(command, (error, stdout, stderr) => {
@@ -316,7 +683,6 @@ ipcMain.on('start-decrypt', (event, arg) => {
 
 ipcMain.on('save-file', (event, arg) => {
   if (!!arg)
-
     try {
       console.log(arg["filePath"])
       // Attempt to write the file
@@ -347,100 +713,79 @@ ipcMain.on('encrypt-file', (event, arg) => {
     mode = getMode(arg["fileType"]);
 
     try {
-      fs.writeFileSync(arg["filePath"], arg["file"])
-      const cdCmd = `cd ${folder}`;
-      const bdPatch = `comp_bdpatch save ${mode} ${fileName} ${arg["fileType"]}.bin`;
-      const encryptCmd = `comp_encrypt ${arg["fileType"]}.bin ${arg["fileType"]}.sbin`;
-      if (arg["fileType"] === 'CSkillData') {
-        command = `${cdCmd} && ${bdPatch}`
-      }
-      else command = `${cdCmd} && ${bdPatch} && ${encryptCmd}`;
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: error.message,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        if (stderr) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: stdout,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        if (stderr) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: stderr,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        if (arg["fileType"] != 'CSkillData') {
-          dialog.showMessageBox({
-            type: 'question',
-            buttons: ['Yes', 'No'],
-            defaultId: 1,
-            title: 'Confirmation',
-            message: 'Do you want to delete the bin file?',
-          }).then(result => {
-            if (result.response === 0) {
-              exec(`cd ${folder} && del ${arg["fileType"]}.bin`, (error, stdout, stderr) => {
-                if (error) {
-                  dialog.showMessageBox({
-                    type: 'info',
-                    title: 'Error',
-                    message: error.message,
-                    buttons: ['OK'],
-                  });
-                  return;
-                }
-                if (stderr) {
-                  dialog.showMessageBox({
-                    type: 'info',
-                    title: 'Error',
-                    message: stdout,
-                    buttons: ['OK'],
-                  });
-                  return;
-                }
-                if (stderr) {
-                  dialog.showMessageBox({
-                    type: 'info',
-                    title: 'Error',
-                    message: stderr,
-                    buttons: ['OK'],
-                  });
-                  return;
-                }
-                dialog.showMessageBox({
-                  type: 'info',
-                  title: 'File Saved',
-                  message: 'The bin file is deleted! The encrypted file and xml are created!',
-                  buttons: ['OK'],
-                });
-              })
-            } else {
+      dialog.showOpenDialog({
+        properties: ['openDirectory']
+      }).then(result => {
+        if (!result.canceled) {
+          let fileType = arg["fileType"];
+          switch (arg["fileType"]) {
+            case "CEquipFaceData(Client)":
+              fileType = "CEquipFaceData";
+              break;
+            case "CModelData1(Client)":
+              fileType = "CModelData1";
+              break;
+            case "CModelData2(Client)":
+              fileType = "CModelData2";
+              break;
+            case "CModelData3(Client)":
+              fileType = "CModelData3";
+              break;
+          }
+          const selectedDirectory = result.filePaths[0];
+          const xmlFilePath = selectedDirectory + "\\" + fileName
+          fs.writeFileSync(xmlFilePath, arg["file"]);
+          const cdCmd = `cd ${folder}`;
+          let bdPatch = `comp_bdpatch save ${mode} ${xmlFilePath} ${fileType}.bin`;
+          const encryptCmd = `comp_encrypt ${arg["fileType"]}.bin ${selectedDirectory}\\${arg["fileType"]}.sbin`;
+          const deleteXML = `del ${arg["filePath"]} && del ${arg["fileType"]}.bin`;
+          if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote', ,
+            'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData', 'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)"].includes(arg["fileType"])) {
+            bdPatch = `comp_bdpatch save ${mode} ${xmlFilePath} ${selectedDirectory}\\${fileType}.bin`;
+            command = `${cdCmd} && ${bdPatch}`
+          }
+          else command = `${cdCmd} && ${bdPatch} && ${encryptCmd} && ${deleteXML}`;
+          exec(command, (error, stdout, stderr) => {
+            if (error) {
               dialog.showMessageBox({
                 type: 'info',
-                title: 'Success',
-                message: "The encrypted file and xml are created!",
+                title: 'Error',
+                message: error.message,
                 buttons: ['OK'],
               });
               return;
             }
-          });
+            if (stderr) {
+              dialog.showMessageBox({
+                type: 'info',
+                title: 'Error',
+                message: stdout,
+                buttons: ['OK'],
+              });
+              return;
+            }
+            if (stderr) {
+              dialog.showMessageBox({
+                type: 'info',
+                title: 'Error',
+                message: stderr,
+                buttons: ['OK'],
+              });
+              return;
+            }
+
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Success',
+              message: "The encrypted file and xml are created!",
+              buttons: ['OK'],
+            });
+            return;
+          })
         }
       })
-
-    } catch (err) {
+    }
+    catch (err) {
       dialog.showMessageBox({
         type: 'info',
         title: 'Error',
@@ -448,9 +793,5 @@ ipcMain.on('encrypt-file', (event, arg) => {
         buttons: ['OK'],
       });
     }
-
-
-
-
   }
 })

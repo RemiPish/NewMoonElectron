@@ -3,8 +3,8 @@
         <div class="content-text-subtitle file-title">ItemData - ({{filteredContent.length}} item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
-            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
-            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+            <button (click)="writeXmlFile('xml',content)" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin',content)"
                 class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
@@ -355,7 +355,7 @@
                             <option value="CHAOS">CHAOS</option>
                         </select>
                     </div>
-                    <div class="form-elt-container">
+                    <div class="form-elt-container flex-box">
                         <div class="line-flex">
                             <h2 class="section-title">Skill Table ({{ editingItem[20].value.length}})</h2>
                             <button (click)="addSkill()" class="btn btn-blue button-3">+</button>

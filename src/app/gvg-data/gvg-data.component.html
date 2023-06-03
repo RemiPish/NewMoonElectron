@@ -1,0 +1,173 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">GvG - ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Unknown1</th>
+                        <th>Unknown2</th>
+                        <th>Unknown3</th>
+                        <th>Unknown4</th>
+                        <th>Unknown5</th>
+                        <th>Unknown6</th>
+                        <th>Unknown7</th>
+                        <th>Unknown8</th>
+                        <th>Unknown9</th>
+                        <th>Unknown10</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }}</td>
+                        <td>{{ item[2].value }}</td>
+                        <td>{{ item[3].value }}</td>
+                        <td>{{ item[4].value }}</td>
+                        <td>{{ item[5].value }}</td>
+                        <td>{{ item[6].value }}</td>
+                        <td>{{ item[7].value }}</td>
+                        <td><span *ngFor="let elt of item[8].value">{{elt}} </span> </td>
+                        <td>{{ item[9].value }}</td>
+                        <td>
+                            <table *ngFor="let data of item[10].value">
+                                <thead>
+                                    <th>Unknown1</th>
+                                    <th>Unknown2</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{data[0]}}</td>
+                                    <td>{{data[1]}}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value || 'zero')" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown1:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown2:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown3:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown4:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown5:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown6:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[6].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown7:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Unknown8</h2>
+                        </div>
+
+                        <div *ngFor="let elt of editingItem[8].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[8].value[i]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unknown9:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[9].value">
+                    </div>
+
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Unknown10 ({{ editingItem[10].value.length}})</h2>
+                            <button (click)="addUk10()" class="btn btn-blue button-3">+</button>
+                        </div>
+
+                        <div *ngFor="let motion of editingItem[10].value; let i = index">
+                            <div class="line-flex">
+                                <label class="form-label">Array {{i+1}}:</label>
+                                <button *ngIf="i>0" (click)="removeUk10(i || 0)"
+                                    class="btn btn-error button-3">-</button>
+                            </div>
+
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Unknown1:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[10].value[i][0]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Unknown2:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[10].value[i][1]">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="formMsg">
+                <span class="error-txt">{{formMsg}}</span>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>

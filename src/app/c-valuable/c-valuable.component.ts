@@ -1,6 +1,6 @@
 import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
-export type cChanceItemDataStructure = [
+export type cValuableStructure = [
   { name: 'ID', value: number },
   { name: 'name', value: string },
 ];
@@ -188,7 +188,7 @@ export class CValuableComponent {
       let xml = '<objects>\n';
 
       // Loop through each item in this.content array
-      this.content.forEach((item: cChanceItemDataStructure) => {
+      this.content.forEach((item: cValuableStructure) => {
         // Write the opening tag for the item
         xml += '	<object name="MiCValuableData">\n';
         xml += `    <member name="ID">${item[0].value}</member>\n`;

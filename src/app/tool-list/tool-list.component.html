@@ -1,0 +1,45 @@
+<div class="back">
+    <a routerLink="">Back</a>
+</div>
+<div class="content-text-container">
+    <span class="content-text-title">Tools Directory</span>
+</div>
+<div class="page">
+    <div class="page-container table-page">
+        <div class="section-container">
+            <span class="content-text-subtitle">Select the COMP_hack directory (containing comp_decrypt,
+                comp_encrypt,
+                and
+                comp_bdpatch): </span>
+            <div class="line-flex">
+                <span class="content-text-subtitle" *ngIf="comphackPath != ''">{{comphackPath}}</span>
+                <button (click)="openCompHackPathDialog()" class="upload-btn button-3">SELECT</button>
+            </div>
+
+            <div class="section-container" *ngIf="comphackPath">
+                <span class="content-text-subtitle">Select the BinaryData directory (containing Client and Shield
+                    Folders): </span>
+                <div class="line-flex">
+                    <span class="content-text-subtitle" *ngIf="binaryDataPath != ''">{{binaryDataPath}}</span>
+                    <button (click)="openBinaryDataPathDialog()" class="upload-btn button-3">SELECT</button>
+                </div>
+            </div>
+
+
+            <div class="section-container" *ngIf="comphackPath && binaryDataPath">
+                <span class="content-text-subtitle">Select the tool: </span>
+                <div class="mode-flex fileType-box">
+                    <div *ngFor="let fileType of toolTypeList" class="fileType-text" (click)="changeToolType(fileType)">
+                        {{fileType}}</div>
+                </div>
+            </div>
+            <div class="section-container" *ngIf="tooltypeIsSelected">
+                <button (click)="openTool()" class="upload-btn button-3">BEGIN</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-pg-maker #pgMakerComponent *ngIf="selectedToolType=== 'PG Maker' && openedTool" [comphackPath]="comphackPath"
+    [binaryDataPath]="binaryDataPath"></app-pg-maker>
