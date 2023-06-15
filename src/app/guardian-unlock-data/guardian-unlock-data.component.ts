@@ -2,8 +2,6 @@ import { Component, Output, OnChanges, SimpleChanges, ChangeDetectorRef, EventEm
 export type guardianUnlockDataStructure = [
   { name: 'ID', value: number },
   { name: 'requirement', value: number[] },
-
-
 ];
 @Component({
   selector: 'app-guardian-unlock-data',

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { IpcService } from '../ipc.service';
 import { PgMakerComponent } from '../pg-maker/pg-maker.component';
+import { ShopMakerComponent } from '../shop-maker/shop-maker.component';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class ToolListComponent {
   title: string = "";
   rawXmlTxt: string = "";
   filePath: string = "";
-  toolTypeList: string[] = ['PG Maker'];
+  toolTypeList: string[] = ['PG Maker', 'Shop Maker'];
   searchTxt: string = "";
   selectedToolType = "None";
   tooltypeIsSelected = false;
@@ -26,6 +27,8 @@ export class ToolListComponent {
   openedTool = false;
   @ViewChild('pgMakerComponent', { static: false })
   pgMakerComponent!: PgMakerComponent;
+  @ViewChild('shopMakerComponent', { static: false })
+  shopMakerComponent!: ShopMakerComponent;
 
   constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 

@@ -327,8 +327,84 @@ function getMode(str) {
     case "BlendData":
       mode = "blend";
       break;
-
-
+    case "BlendExtData":
+      mode = "blendext";
+      break;
+    case "DevilBoostLotData":
+      mode = "devilboostlot";
+      break;
+    case "DisassemblyTriggerData":
+      mode = "disassemblytrig";
+      break;
+    case "ModifiedEffectData":
+      mode = "modeffect";
+      break;
+    case "MitamaReunionSetBonusData":
+      mode = "mitamasetbonus";
+      break;
+    case "MissionData":
+      mode = "mission";
+      break;
+    case "CLoadingCommercialData":
+      mode = "cloadingcommercial";
+      break;
+    case "MitamaUnionBonusData":
+      mode = "mitamaunion";
+      break;
+    case "GuardianAssistData":
+      mode = "guardianassist";
+      break;
+    case "ModificationTriggerData":
+      mode = "modtrigger";
+      break;
+    case "CDevilDungeonData":
+      mode = "cdevildungeon";
+      break;
+    case "ModificationExtRecipeData":
+      mode = "modextrecipe";
+      break;
+    case "CNakamaQuestRewardData":
+      mode = "cnakamaquestreward";
+      break;
+    case "WarpPointData":
+      mode = "warppoint";
+      break;
+    case "GvGTrophyData":
+      mode = "gvgtrophy";
+      break;
+    case "DevilBoostItemData":
+      mode = "devilboostitem";
+      break;
+    case "TriUnionSpecialData":
+      mode = "triunionspecial";
+      break;
+    case "TimeLimitData":
+      mode = "timelimit";
+      break;
+    case 'CTitleData':
+      mode = "ctitle";
+      break;
+    case 'DevilData':
+      mode = "devil";
+      break;
+    case 'HNPCData':
+      mode = "hnpc";
+      break;
+    case "NPCBarterConditionData":
+      mode = "npcbartercondition";
+      break;
+    case "CTransformedModelData":
+      mode = "ctransformedmodel";
+      break;
+    case "ZoneData":
+      mode = "zone";
+      break;
+    case "SkillData":
+      mode = "skill";
+      break;
+    case "CKeyItemData":
+      mode = "ckeyitem";
+      break;
   }
   return mode;
 }
@@ -430,6 +506,21 @@ ipcMain.on('open-binarydata-path-dialog', (event) => {
   });
 })
 
+ipcMain.on('open-gamefile', (event, arg) => {
+  dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [{ name: arg['ext'], extensions: [arg['ext']] }],
+  }).then((result) => {
+    if (!result.canceled && result.filePaths.length > 0) {
+      const filePath = result.filePaths[0];
+      event.reply('gamefile-selected', { filePath, fileName: path.basename(filePath) });
+
+    } else {
+      event.reply('gamefile-error-read', err.message);
+    }
+  })
+})
+
 
 ipcMain.on('open-file-dialog', (event) => {
   dialog.showOpenDialog({
@@ -448,6 +539,8 @@ ipcMain.on('open-file-dialog', (event) => {
     }
   });
 });
+
+
 
 ipcMain.on('delete-file', (event, arg) => {
   exec(`cd ${arg["path"]} && del ${arg["title"]}`, (error, stdout, stderr) => {
@@ -516,9 +609,9 @@ ipcMain.on('start-decrypt-list', (event, arg) => {
 
         let command = "";
         if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
-          'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
-          let file = arg["file"];
-          switch (arg["file"]) {
+          'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(fileName)) {
+          let file = fileName;
+          switch (fileName) {
             case "CEquipFaceData(Client)":
               file = "CEquipFaceData";
               break;
@@ -774,12 +867,16 @@ ipcMain.on('encrypt-file', (event, arg) => {
               return;
             }
 
-            dialog.showMessageBox({
+            const result = dialog.showMessageBoxSync({
               type: 'info',
               title: 'Success',
               message: "The encrypted file and xml are created!",
               buttons: ['OK'],
             });
+
+            if (result === 0 || result === -1) {
+              event.reply('file-saved', { fileType: fileType });
+            }
             return;
           })
         }

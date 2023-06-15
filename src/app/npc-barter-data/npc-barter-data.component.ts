@@ -22,6 +22,8 @@ export class NpcBarterDataComponent {
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
+  @Output() contentParsed = new EventEmitter<any>();
+
   inEdition: boolean = false;
   searchTableText = "";
   content: any[] = [];
@@ -56,6 +58,11 @@ export class NpcBarterDataComponent {
     }
     this.loadingTable = false;
     this.cd.detectChanges();
+  }
+
+  async parseContent(json: string) {
+    let res = await this.parseData(json);
+    this.contentParsed.emit(res);
   }
 
   onSearch() {
@@ -101,10 +108,9 @@ export class NpcBarterDataComponent {
           });
         }
         else {
-          console.log("1 result")
-          resultItems.push([{ name: 'type', value: item.member.find((m: any) => m["@name"] === "resultItems").object.member.find((m: any) => m["@name"] === 'type')["#text"] },
-          { name: 'subtype', value: item.member.find((m: any) => m["@name"] === "resultItems").object.member.find((m: any) => m["@name"] === 'subtype')["#text"] },
-          { name: 'amount', value: item.member.find((m: any) => m["@name"] === "resultItems").object.member.find((m: any) => m["@name"] === 'amount')["#text"] }
+          resultItems.push([{ name: 'type', value: item.member.find((m: any) => m["@name"] === "resultItems").element.object.member.find((m: any) => m["@name"] === 'type')["#text"] },
+          { name: 'subtype', value: item.member.find((m: any) => m["@name"] === "resultItems").element.object.member.find((m: any) => m["@name"] === 'subtype')["#text"] },
+          { name: 'amount', value: item.member.find((m: any) => m["@name"] === "resultItems").element.object.member.find((m: any) => m["@name"] === 'amount')["#text"] }
           ]);
         }
 
@@ -116,9 +122,9 @@ export class NpcBarterDataComponent {
           })
         }
         else {
-          tradeItems.push([{ name: 'type', value: item.member.find((m: any) => m["@name"] === "tradeItems").object.member.find((m: any) => m["@name"] === 'type')["#text"] },
-          { name: 'subtype', value: item.member.find((m: any) => m["@name"] === "tradeItems").object.member.find((m: any) => m["@name"] === 'subtype')["#text"] },
-          { name: 'amount', value: item.member.find((m: any) => m["@name"] === "tradeItems").object.member.find((m: any) => m["@name"] === 'amount')["#text"] }])
+          tradeItems.push([{ name: 'type', value: item.member.find((m: any) => m["@name"] === "tradeItems").element.object.member.find((m: any) => m["@name"] === 'type')["#text"] },
+          { name: 'subtype', value: item.member.find((m: any) => m["@name"] === "tradeItems").element.object.member.find((m: any) => m["@name"] === 'subtype')["#text"] },
+          { name: 'amount', value: item.member.find((m: any) => m["@name"] === "tradeItems").element.object.member.find((m: any) => m["@name"] === 'amount')["#text"] }])
         }
 
         return [
@@ -270,12 +276,12 @@ export class NpcBarterDataComponent {
     this.cd.detectChanges();
   }
 
-  writeXmlFile(saveMode: string) {
+  writeXmlFile(saveMode: string, content: any) {
     const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
     if (confirmation) {
       let xml = '<objects>\n';
 
-      this.content.forEach((item: npcBarterDataStructure) => {
+      content.forEach((item: npcBarterDataStructure) => {
         // Write the opening tag for the item
         xml += '	<object name="MiNPCBarterData">\n';
         xml += `    	<member name="ID">${item[0].value}</member>\n`;

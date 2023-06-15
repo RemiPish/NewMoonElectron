@@ -1,0 +1,338 @@
+<div class="content-text-container">
+    <span class="content-text-title">Shop Maker</span>
+</div>
+
+<div class="line-flex">
+    <i *ngIf="loadingSpinner" class="fas fa-spinner fa-spin"></i>
+</div>
+
+<div *ngIf="!loadingSpinner">
+    <div *ngIf="npcBarterGroupList.length && npcBarterList.length && citemList.length && !inEdition"
+        class="page-container edit-page">
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="saveChange()" class="btn btn-primary button-3">SAVE ALL CHANGES</button>
+
+            <button (click)="addItem()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div *ngIf="finalBarterList.length" class=" table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changePage($event)">
+            </div>
+            <table *ngIf="finalBarterList" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>Shop ID</th>
+                        <th>Barter List</th>
+                        <th *ngIf="!inEdition">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 5, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>
+                            <div *ngFor="let bil of item[1].value" class="box-border">
+                                <div class="id-title">
+                                    Barter ID: {{ bil[0].value}}
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Selling Item:</th>
+                                            <th>Trading For:</th>
+                                            <th>Conditions</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="div-border" *ngFor="let res of bil[1].value">
+                                                    <div *ngIf="res[3].value != ''" class="id-title">{{res[3].value}}
+                                                    </div>
+                                                    <div>Item Id: {{ res[1].value }}</div>
+                                                    <div>Amount: {{res[2].value}}</div>
+                                                    <div>Type: {{res[0].value}}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="div-border" *ngFor="let res of bil[2].value">
+                                                    <div *ngIf="res[3].value != ''" class="id-title">{{res[3].value}}
+                                                    </div>
+                                                    <div>Type: {{res[0].value}}</div>
+                                                    <div>Item Id: {{ res[1].value }}</div>
+                                                    <div>Amount: {{res[2].value}}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="div-border" *ngFor="let res of bil[4].value">
+                                                    <div *ngIf="res[3].value != ''" class="id-title">{{res[3].value}}
+                                                    </div>
+                                                    <div>Type: {{ res[0].value }}</div>
+                                                    <div> Value1: {{res[1].value}}</div>
+                                                    <div *ngIf="res[2].value != 0">Value2: {{res[2].value}}</div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div *ngIf="editingItem && inEdition" class="page-container edit-page">
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+        <table class="fileElt">
+            <thead>
+                <tr>
+                    <th>Shop ID</th>
+                    <th>Barter List</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ editingItem[0].value }}</td>
+                    <td>
+                        <div *ngFor="let edl of editingItem[1].value ; let i = index" class="box-border">
+                            <div class="form-input">
+                                <div class="edit-id-flex">
+                                    <div class="id-title">
+                                        Barter ID: {{ edl[0].value}}
+                                    </div>
+                                    <div class="form-input form-input-line">
+                                        <label class="form-label">Flags:</label>
+                                        <input class="form-control" type="number" [(ngModel)]="edl[3].value">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button *ngIf="i>0" class="btn btn-error button-3"
+                                        (click)="removeBarterItem(i||0)">REMOVE
+                                        BARTER ITEM</button>
+                                </div>
+                            </div>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Selling Item:</th>
+                                        <th>Trading For:</th>
+                                        <th>Conditions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="div-border" *ngFor="let res of edl[1].value; let j = index">
+                                                <div>
+                                                    <button *ngIf="j>0" class="btn btn-error button-3"
+                                                        (click)="removeSellingItem(i,j)">REMOVE
+                                                        SELLING ITEM</button>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Type:</label>
+                                                    <select [(ngModel)]="res[0].value">
+                                                        <option value="NONE">NONE</option>
+                                                        <option value="ITEM">ITEM</option>
+                                                        <option value="ONE_TIME_VALUABLE">ONE_TIME_VALUABLE</option>
+                                                        <option value="STATUS_CHARACTER">STATUS_CHARACTER</option>
+                                                        <option value="EVENT_COUNTER">EVENT_COUNTER</option>
+                                                        <option value="COOLDOWN">COOLDOWN</option>
+                                                        <option value="BETHEL">BETHEL</option>
+                                                        <option value="STATUS_DEMON">STATUS_DEMON</option>
+                                                        <option value="STATUS_CHARACTER_AND_DEMON">
+                                                            STATUS_CHARACTER_AND_DEMON</option>
+                                                        <option value="SKILL_CHARACTER">SKILL_CHARACTER</option>
+                                                        <option value="SKILL_DEMON">SKILL_DEMON</option>
+                                                        <option value="SOUL_POINT">SOUL_POINT</option>
+                                                        <option value="PLUGIN">PLUGIN</option>
+                                                        <option value="COIN">COIN</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Item Id:</label>
+                                                    <div class="dropdown">
+                                                        <input appClickedOutside
+                                                            (clickedOutside)="handleClickDropdown(i,0,j)" type="text"
+                                                            [(ngModel)]="res[1].value"
+                                                            (click)="filterOptions(res[0].value,i,0,j)"
+                                                            (input)="filterOptions(res[0].value, i,0,j)"
+                                                            placeholder="Search">
+                                                        <ul class="dropdown-list">
+                                                            <li *ngFor="let option of filteredOptions[i][0][j]"
+                                                                (click)="selectOption(option,i,0,j)">{{ option }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Amount:</label>
+                                                    <input class="form-control" type="number"
+                                                        [(ngModel)]="res[2].value">
+                                                </div>
+                                            </div>
+                                            <div class="form-input form-input-line">
+                                                <button class="btn btn-primary button-3" (click)="addSellingItem(i)">ADD
+                                                    A
+                                                    NEW SELLING ITEM</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="div-border" *ngFor="let res of edl[2].value; let k = index">
+                                                <div>
+                                                    <button *ngIf="k>0" class="btn btn-error button-3"
+                                                        (click)="removeTradingItem(i,k)">REMOVE
+                                                        TRADING ITEM</button>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Type:</label>
+                                                    <select [(ngModel)]="res[0].value">
+                                                        <option value="NONE">NONE</option>
+                                                        <option value="ITEM">ITEM</option>
+                                                        <option value="ONE_TIME_VALUABLE">ONE_TIME_VALUABLE</option>
+                                                        <option value="STATUS_CHARACTER">STATUS_CHARACTER</option>
+                                                        <option value="EVENT_COUNTER">EVENT_COUNTER</option>
+                                                        <option value="COOLDOWN">COOLDOWN</option>
+                                                        <option value="BETHEL">BETHEL</option>
+                                                        <option value="STATUS_DEMON">STATUS_DEMON</option>
+                                                        <option value="STATUS_CHARACTER_AND_DEMON">
+                                                            STATUS_CHARACTER_AND_DEMON</option>
+                                                        <option value="SKILL_CHARACTER">SKILL_CHARACTER</option>
+                                                        <option value="SKILL_DEMON">SKILL_DEMON</option>
+                                                        <option value="SOUL_POINT">SOUL_POINT</option>
+                                                        <option value="PLUGIN">PLUGIN</option>
+                                                        <option value="COIN">COIN</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Item Id:</label>
+                                                    <div class="dropdown">
+                                                        <input appClickedOutside
+                                                            (clickedOutside)="handleClickDropdown(i,1,k)" type="text"
+                                                            [(ngModel)]="res[1].value"
+                                                            (click)="filterOptions(res[0].value,i,1,k)"
+                                                            (input)="filterOptions(res[0].value, i,1,k)"
+                                                            placeholder="Search">
+                                                        <ul class="dropdown-list">
+                                                            <li *ngFor="let option of filteredOptions[i][1][k]"
+                                                                (click)="selectOption(option,i,1,k)">{{ option }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Amount:</label>
+                                                    <input class="form-control" type="number"
+                                                        [(ngModel)]="res[2].value">
+                                                </div>
+                                            </div>
+                                            <div class="form-input form-input-line">
+                                                <button class="btn btn-primary button-3" (click)="addTradingItem(i)">ADD
+                                                    A
+                                                    NEW TRADING ITEM</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="div-border" *ngFor="let res of edl[4].value; let l = index;">
+                                                <div>
+                                                    <button class="btn btn-error button-3"
+                                                        (click)="removeCond(i,l)">REMOVE
+                                                        CONDITION</button>
+                                                </div>
+                                                <div class="form-group form-input form-input-line">
+                                                    <label class="form-label">Type:</label>
+                                                    <select [(ngModel)]="res[0].value">
+                                                        <option value='NONE'>NONE</option>
+                                                        <option value='CHARACTER_LEVEL'>CHARACTER_LEVEL</option>
+                                                        <option value='DEMON_LEVEL'>DEMON_LEVEL</option>
+                                                        <option value='CHARACTER_SKILL'>CHARACTER_SKILL</option>
+                                                        <option value='DEMON_SKILL_INHERITANCE'>DEMON_SKILL_INHERITANCE
+                                                        </option>
+                                                        <option value='CHARACTER_NO_STATUS'>CHARACTER_NO_STATUS</option>
+                                                        <option value='DEMON_NO_STATUS'>DEMON_NO_STATUS</option>
+                                                        <option value='CHARACTER_NO_SKILL'>CHARACTER_NO_SKILL</option>
+                                                        <option value='DEMON_TYPE'>DEMON_TYPE</option>
+                                                        <option value='DEMON_BASE_TYPE'>DEMON_BASE_TYPE</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Value1:</label>
+                                                    <div class="dropdown">
+                                                        <input appClickedOutside
+                                                            (clickedOutside)="handleClickDropdown(i,2,l)" type="text"
+                                                            [(ngModel)]="res[1].value"
+                                                            (click)="filterOptions(res[0].value,i,2,l,true)"
+                                                            (input)="filterOptions(res[0].value, i,2,l,true)"
+                                                            placeholder="Search">
+                                                        <ul class="dropdown-list">
+                                                            <li *ngFor="let option of filteredOptions[i][2][l]"
+                                                                (click)="selectOption(option,i,2,l,true)">{{ option }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-input form-input-line">
+                                                    <label class="form-label">Value2:</label>
+                                                    <input class="form-control" type="number"
+                                                        [(ngModel)]="res[2].value">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-input form-input-line">
+                                                <button class="btn btn-primary button-3" (click)="addCond(i)">ADD
+                                                    A
+                                                    NEW CONDITION</button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="editingItem[1].value.length <100" class="form-input form-input-line">
+                            <button class="btn btn-primary button-3" (click)="addBarterItem()">ADD A NEW BARTER
+                                ITEM</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>
+<app-npc-barter-group-data #npcBarterGroupDataComponent (contentParsed)="setNPCBarterGroupData($event)"
+    (encryptFile)="encryptFile($event, 'NPCBarterGroupData')"></app-npc-barter-group-data>
+<app-npc-barter-data #npcBarterDataComponent (contentParsed)="setNPCBarterData($event)"
+    (encryptFile)="encryptFile($event, 'NPCBarterData')"></app-npc-barter-data>
+<app-npc-barter-condition-data #npcBarterConditionDataComponent (contentParsed)="setNPCBarterCondData($event)"
+    (encryptFile)="encryptFile($event, 'NPCBarterConditionData')"></app-npc-barter-condition-data>
+<app-c-item-data #cItemDataComponent (contentParsed)="setCItemData($event)"
+    (encryptFile)="encryptFile($event, 'CItemData')"></app-c-item-data>
+<app-c-skill #cSkillComponent (contentParsed)="setCSkillData($event)"
+    (encryptFile)="encryptFile($event, 'CSkillData')"></app-c-skill>
+<app-c-key-item-data #cKeyItemDataComponent (contentParsed)="setCKeyItemData($event)"
+    (encryptFile)="encryptFile($event, 'CKeyItemData')"></app-c-key-item-data>

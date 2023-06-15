@@ -75,7 +75,7 @@ export class CSkillComponent {
     @Output() fileIsValid = new EventEmitter<boolean>();
     @Output() saveXmlFile = new EventEmitter<string>();
     @Output() encryptFile = new EventEmitter<string>();
-
+    @Output() contentParsed = new EventEmitter<any>();
     inEdition: boolean = false;
     searchTableText = "";
     content: any[] = [];
@@ -135,6 +135,11 @@ export class CSkillComponent {
 
         this.currentPage = 1;
         this.cd.detectChanges();
+    }
+
+    async parseContent(json: string) {
+        let res = await this.parseCSkill(json);
+        this.contentParsed.emit(res);
     }
 
     deleteItem(item: any) {
@@ -570,8 +575,8 @@ export class CSkillComponent {
             xml += '</objects>';
 
             if (saveMode === 'xml')
-				this.saveXmlFile.emit(xml);
-			else this.encryptFile.emit(xml);
+                this.saveXmlFile.emit(xml);
+            else this.encryptFile.emit(xml);
         }
     }
 

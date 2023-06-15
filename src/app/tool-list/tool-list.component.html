@@ -29,7 +29,9 @@
             <div class="section-container" *ngIf="comphackPath && binaryDataPath">
                 <span class="content-text-subtitle">Select the tool: </span>
                 <div class="mode-flex fileType-box">
-                    <div *ngFor="let fileType of toolTypeList" class="fileType-text" (click)="changeToolType(fileType)">
+                    <div *ngFor="let fileType of toolTypeList"
+                        [ngClass]="selectedToolType === fileType ? 'fileType-textSelected' : 'fileType-text'"
+                        (click)="changeToolType(fileType)">
                         {{fileType}}</div>
                 </div>
             </div>
@@ -43,3 +45,6 @@
 
 <app-pg-maker #pgMakerComponent *ngIf="selectedToolType=== 'PG Maker' && openedTool" [comphackPath]="comphackPath"
     [binaryDataPath]="binaryDataPath"></app-pg-maker>
+
+<app-shop-maker #shopMakerComponent *ngIf="selectedToolType=== 'Shop Maker' && openedTool" [comphackPath]="comphackPath"
+    [binaryDataPath]="binaryDataPath"></app-shop-maker>

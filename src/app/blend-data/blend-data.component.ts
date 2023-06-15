@@ -144,30 +144,30 @@ export class BlendDataComponent {
         let probTbl: any[] = [];
         if (item.member[3].element.length) {
           item.member[3].element.forEach((m: any) => {
-            probTbl.push(m.object.member["#text"])
+            probTbl.push(m)
           })
         }
         else {
-          probTbl.push(item.member[2].element.object.member["#text"]);
+          probTbl.push(item.member[3].element);
 
         }
         return [
           { name: "ID", value: item.member.find((m: any) => m["@name"] === "ID")["#text"] },
-          { name: "inputItems", value: inputList},
+          { name: "inputItems", value: inputList },
           { name: 'resultItems', value: resultList },
           { name: "probabilities", value: probTbl },
-          { name: "materialLossRate", value: item.member.find((m: any) => m["@name"] === "materialLossRate")["#text"]},
-          { name: "expertiseID", value: item.member.find((m: any) => m["@name"] === "expertiseID")["#text"]},
-          { name: "requiredClass", value: item.member.find((m: any) => m["@name"] === "requiredClass")["#text"]},
-          { name: "requiredRank", value: item.member.find((m: any) => m["@name"] === "requiredRank")["#text"]},
-          { name: "failExpertUp", value: item.member.find((m: any) => m["@name"] === "failExpertUp")["#text"]},
-          { name: "successExpertUp", value: item.member.find((m: any) => m["@name"] === "successExpertUp")["#text"]},
-          { name: "greatSuccessExpertUp", value: item.member.find((m: any) => m["@name"] === "greatSuccessExpertUp")["#text"]},
-          { name: "expertSuccessBoost", value: item.member.find((m: any) => m["@name"] === "expertSuccessBoost")["#text"]},
-          { name: "expertGreatSuccessBoost", value: item.member.find((m: any) => m["@name"] === "expertGreatSuccessBoost")["#text"]},
-          { name: "hidden", value: item.member.find((m: any) => m["@name"] === "hidden")["#text"]},
-          { name: "questID", value: item.member.find((m: any) => m["@name"] === "questID")["#text"]},
-          { name: "extensionGroupID", value: item.member.find((m: any) => m["@name"] === "extensionGroupID")["#text"]},
+          { name: "materialLossRate", value: item.member.find((m: any) => m["@name"] === "materialLossRate")["#text"] },
+          { name: "expertiseID", value: item.member.find((m: any) => m["@name"] === "expertiseID")["#text"] },
+          { name: "requiredClass", value: item.member.find((m: any) => m["@name"] === "requiredClass")["#text"] },
+          { name: "requiredRank", value: item.member.find((m: any) => m["@name"] === "requiredRank")["#text"] },
+          { name: "failExpertUp", value: item.member.find((m: any) => m["@name"] === "failExpertUp")["#text"] },
+          { name: "successExpertUp", value: item.member.find((m: any) => m["@name"] === "successExpertUp")["#text"] },
+          { name: "greatSuccessExpertUp", value: item.member.find((m: any) => m["@name"] === "greatSuccessExpertUp")["#text"] },
+          { name: "expertSuccessBoost", value: item.member.find((m: any) => m["@name"] === "expertSuccessBoost")["#text"] },
+          { name: "expertGreatSuccessBoost", value: item.member.find((m: any) => m["@name"] === "expertGreatSuccessBoost")["#text"] },
+          { name: "hidden", value: item.member.find((m: any) => m["@name"] === "hidden")["#text"] },
+          { name: "questID", value: item.member.find((m: any) => m["@name"] === "questID")["#text"] },
+          { name: "extensionGroupID", value: item.member.find((m: any) => m["@name"] === "extensionGroupID")["#text"] },
         ];
       }));
       return items;
@@ -186,31 +186,58 @@ export class BlendDataComponent {
     this.inEdition = true;
     if (id) {
       this.selectedItem = this.content.find((item: { value: any; }[]) => item[0].value === id);
-      let entries: { name: string; value: any; }[][] = [];
-
-      this.selectedItem[2].value.forEach((elt: any) => {
-        entries.push([{ name: 'barterID', value: elt[0].value },
-        { name: 'flags', value: elt[1].value }])
+      let inputList: any[][] = [];
+      let resultList: any[][] = [];
+      let prob: any[] = [];
+      this.selectedItem[1].value.forEach((elt: any) => {
+        inputList.push([elt[0], elt[1], elt[2]]);
       })
-
+      this.selectedItem[2].value.forEach((elt: any) => {
+        resultList.push([elt[0], elt[1], elt[2]]);
+      })
+      this.selectedItem[3].value.forEach((elt: any) => {
+        prob.push(elt);
+      })
 
       this.editingItem = [
         { name: 'ID', value: this.selectedItem[0].value },
-        { name: 'displayMode', value: this.selectedItem[1].value },
-        { name: 'groupEntryList', value: entries },
+        { name: 'inputItems', value: inputList },
+        { name: 'resultItems', value: resultList },
+        { name: 'probabilities', value: prob },
+        { name: 'materialLossRate', value: this.selectedItem[4].value },
+        { name: 'expertiseID', value: this.selectedItem[5].value },
+        { name: 'requiredClass', value: this.selectedItem[6].value },
+        { name: 'requiredRank', value: this.selectedItem[7].value },
+        { name: 'failExpertUp', value: this.selectedItem[8].value },
+        { name: 'successExpertUp', value: this.selectedItem[9].value },
+        { name: 'greatSuccessExpertUp', value: this.selectedItem[10].value },
+        { name: 'expertSuccessBoost', value: this.selectedItem[11].value },
+        { name: 'expertGreatSuccessBoost', value: this.selectedItem[12].value },
+        { name: 'hidden', value: this.selectedItem[13].value },
+        { name: 'questID', value: this.selectedItem[14].value },
+        { name: 'extensionGroupID', value: this.selectedItem[15].value },
       ];
     }
     else {
       this.editingItem = [
         { name: 'ID', value: null },
-        { name: 'displayMode', value: 0 },
-        {
-          name: 'groupEntryList', value: [[{ name: 'barterID', value: 0 },
-          { name: 'flags', value: 0 }]]
-        },
+        { name: 'inputItems', value: [[0, 0, 0], [0, 0, 0]] },
+        { name: 'resultItems', value: [[0, 0, 0], [0, 0, 0]] },
+        { name: 'probabilities', value: [0, 0] },
+        { name: 'materialLossRate', value: 0 },
+        { name: 'expertiseID', value: 0 },
+        { name: 'requiredClass', value: 0 },
+        { name: 'requiredRank', value: 0 },
+        { name: 'failExpertUp', value: 0 },
+        { name: 'successExpertUp', value: 0 },
+        { name: 'greatSuccessExpertUp', value: 0 },
+        { name: 'expertSuccessBoost', value: 0 },
+        { name: 'expertGreatSuccessBoost', value: 0 },
+        { name: 'hidden', value: 0 },
+        { name: 'questID', value: -1 },
+        { name: 'extensionGroupID', value: 0 },
       ];
     }
-    console.log(this.editingItem)
     this.cd.detectChanges();
   }
 
@@ -234,9 +261,7 @@ export class BlendDataComponent {
       }
       else {
         if (!this.content.some((item: { value: any; }[]) => item[0].value === this.editingItem[0].value)) {
-          console.log(this.editingItem);
           this.content.push(this.editingItem);
-          console.log(this.content)
           this.cancelEdit();
         }
         else {
@@ -263,18 +288,6 @@ export class BlendDataComponent {
     return -1;
   }
 
-  addEntry() {
-    this.editingItem[2].value.push([
-      { name: 'barterID', value: 0 },
-      { name: 'flags', value: 0 }]);
-    this.cd.detectChanges();
-  }
-
-  removeEntry(i: number) {
-    this.editingItem[2].value.splice(i, 1);
-    this.cd.detectChanges();
-  }
-
   changeTablePage(event: number) {
     if (!event) this.currentPage = 1;
     this.currentPage = event;
@@ -288,17 +301,47 @@ export class BlendDataComponent {
 
       this.content.forEach((item: npcBarterGroupDataStructure) => {
         // Write the opening tag for the item
-        xml += '	<object name="MiNPCBarterGroupData">\n';
+        xml += '	<object name="MiBlendData">\n';
         xml += `    	<member name="ID">${item[0].value}</member>\n`;
-        xml += `    	<member name="displayMode">${item[1].value}</member>\n`;
-        xml += `    	<member name="entries">\n`;
-        for (let i = 0; i < item[2].value.length; i++) {
+        xml += `    	<member name="inputItems">\n`;
+        for (let i = 0; i < item[1].value.length; i++) {
           xml += `    	<element>\n`;
-          xml += `        	<object name="MiNPCBarterGroupEntry">\n`;
+          xml += `        	<object name="MiBlendData_Item">\n`;
+          xml += `    	        <member name="itemID">${item[1].value[i][0]}</member>\n`;
+          xml += `    	        <member name="min">${item[1].value[i][1]}</member>\n`;
+          xml += `    	        <member name="max">${item[1].value[i][2]}</member>\n`;
           xml += `        	</object>\n`;
           xml += `       	</element>\n`;
         }
         xml += `    	</member>\n`;
+        xml += `    	<member name="resultItems">\n`;
+        for (let i = 0; i < item[2].value.length; i++) {
+          xml += `    	<element>\n`;
+          xml += `        	<object name="MiBlendData_Item">\n`;
+          xml += `    	        <member name="itemID">${item[2].value[i][0]}</member>\n`;
+          xml += `    	        <member name="min">${item[2].value[i][1]}</member>\n`;
+          xml += `    	        <member name="max">${item[2].value[i][2]}</member>\n`;
+          xml += `        	</object>\n`;
+          xml += `       	</element>\n`;
+        }
+        xml += `    	</member>\n`;
+        xml += `    	<member name="probabilities">\n`;
+        for (let i = 0; i < item[3].value.length; i++) {
+          xml += `    	<element>${item[3].value[i]}</element>\n`;
+        }
+        xml += `    	</member>\n`;
+        xml += `    	<member name="materialLossRate">${item[4].value}</member>\n`;
+        xml += `    	<member name="expertiseID">${item[5].value}</member>\n`;
+        xml += `    	<member name="requiredClass">${item[6].value}</member>\n`;
+        xml += `    	<member name="requiredRank">${item[7].value}</member>\n`;
+        xml += `    	<member name="failExpertUp">${item[8].value}</member>\n`;
+        xml += `    	<member name="successExpertUp">${item[9].value}</member>\n`;
+        xml += `    	<member name="greatSuccessExpertUp">${item[10].value}</member>\n`;
+        xml += `    	<member name="expertSuccessBoost">${item[11].value}</member>\n`;
+        xml += `    	<member name="expertGreatSuccessBoost">${item[12].value}</member>\n`;
+        xml += `    	<member name="hidden">${item[13].value}</member>\n`;
+        xml += `    	<member name="questID">${item[14].value}</member>\n`;
+        xml += `    	<member name="extensionGroupID">${item[15].value}</member>\n`;
         // Write the closing tag for the item
         xml += '	</object>\n';
       });

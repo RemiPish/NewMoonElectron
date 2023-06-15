@@ -62,6 +62,33 @@ import { CDevilBookBonusMitamaDataComponent } from './c-devil-book-bonus-mitama-
 import { CDevilBoostIconDataComponent } from './c-devil-boost-icon-data/c-devil-boost-icon-data.component';
 import { DevilFusionDataComponent } from './devil-fusion-data/devil-fusion-data.component';
 import { BlendDataComponent } from './blend-data/blend-data.component';
+import { BlendExtDataComponent } from './blend-ext-data/blend-ext-data.component';
+import { DevilBoostLotDataComponent } from './devil-boost-lot-data/devil-boost-lot-data.component';
+import { DisassemblyTriggerDataComponent } from './disassembly-trigger-data/disassembly-trigger-data.component';
+import { ModifiedEffectDataComponent } from './modified-effect-data/modified-effect-data.component';
+import { MitamaReunionSetBonusDataComponent } from './mitama-reunion-set-bonus-data/mitama-reunion-set-bonus-data.component';
+import { MissionDataComponent } from './mission-data/mission-data.component';
+import { CLoadingCommercialDataComponent } from './c-loading-commercial-data/c-loading-commercial-data.component';
+import { MitamaUnionBonusDataComponent } from './mitama-union-bonus-data/mitama-union-bonus-data.component';
+import { GuardianAssistDataComponent } from './guardian-assist-data/guardian-assist-data.component';
+import { CDevilDungeonDataComponent } from './c-devil-dungeon-data/c-devil-dungeon-data.component';
+import { ModificationExtRecipeDataComponent } from './modification-ext-recipe-data/modification-ext-recipe-data.component';
+import { CNakamaQuestRewardDataComponent } from './c-nakama-quest-reward-data/c-nakama-quest-reward-data.component';
+import { WarpPointDataComponent } from './warp-point-data/warp-point-data.component';
+import { GvgTrophyDataComponent } from './gvg-trophy-data/gvg-trophy-data.component';
+import { DevilBoostItemDataComponent } from './devil-boost-item-data/devil-boost-item-data.component';
+import { TriUnionSpecialDataComponent } from './tri-union-special-data/tri-union-special-data.component';
+import { TimeLimitDataComponent } from './time-limit-data/time-limit-data.component';
+import { CTitleDataComponent } from './c-title-data/c-title-data.component';
+import { DevilDataComponent } from './devil-data/devil-data.component';
+import { ShopMakerComponent } from './shop-maker/shop-maker.component';
+import { HNpcDataComponent } from './h-npc-data/h-npc-data.component';
+import { NpcBarterConditionDataComponent } from './npc-barter-condition-data/npc-barter-condition-data.component';
+import { CTransformedModelDataComponent } from './c-transformed-model-data/c-transformed-model-data.component';
+import { ZoneDataComponent } from './zone-data/zone-data.component';
+import { SkillDataComponent } from './skill-data/skill-data.component';
+import { CKeyItemDataComponent } from './c-key-item-data/c-key-item-data.component';
+import { ClickedOutsideDirective } from './clicked-outside.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,7 +141,34 @@ import { BlendDataComponent } from './blend-data/blend-data.component';
     CDevilBookBonusMitamaDataComponent,
     CDevilBoostIconDataComponent,
     DevilFusionDataComponent,
-    BlendDataComponent
+    BlendDataComponent,
+    BlendExtDataComponent,
+    DevilBoostLotDataComponent,
+    DisassemblyTriggerDataComponent,
+    ModifiedEffectDataComponent,
+    MitamaReunionSetBonusDataComponent,
+    MissionDataComponent,
+    CLoadingCommercialDataComponent,
+    MitamaUnionBonusDataComponent,
+    GuardianAssistDataComponent,
+    CDevilDungeonDataComponent,
+    ModificationExtRecipeDataComponent,
+    CNakamaQuestRewardDataComponent,
+    WarpPointDataComponent,
+    GvgTrophyDataComponent,
+    DevilBoostItemDataComponent,
+    TriUnionSpecialDataComponent,
+    TimeLimitDataComponent,
+    CTitleDataComponent,
+    DevilDataComponent,
+    ShopMakerComponent,
+    HNpcDataComponent,
+    NpcBarterConditionDataComponent,
+    CTransformedModelDataComponent,
+    ZoneDataComponent,
+    SkillDataComponent,
+    CKeyItemDataComponent,
+    ClickedOutsideDirective
   ],
   imports: [
     BrowserModule,

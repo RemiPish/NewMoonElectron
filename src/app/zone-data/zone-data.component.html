@@ -1,0 +1,385 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">ZoneData - ({{filteredContent.length}}
+            item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }}</td>
+                        <td>{{ item[2].value }}</td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <div>
+                    <h2 class="section-title">Basic </h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Name:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[1].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Type:</label>
+                        <select [(ngModel)]="editingItem[2].value">
+                            <option value="TOWN">TOWN</option>
+                            <option value="FIELD">FIELD</option>
+                            <option value="PUBLIC">PUBLIC</option>
+                            <option value="DUNGEON">DUNGEON</option>
+                            <option value="SHOP">SHOP</option>
+                            <option value="PVP">PVP</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Flags:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Parent ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Starting Spot:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <h2 class="section-title">File </h2>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Model File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[6].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Name File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[7].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">QMP File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[8].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Spot File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[9].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Enemy File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[10].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">NPC File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[11].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Event File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[12].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 1:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[13].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 2:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[14].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Group File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[15].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unit File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[16].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 3:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[17].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 4:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[18].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 5:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[19].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 6:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[20].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 7:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[21].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 8:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[22].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 9:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[23].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Unused 10:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[24].value"></textarea>
+                    </div>
+                    <h2 class="section-title">Fog </h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Enabled:</label>
+                        <select [(ngModel)]="editingItem[25].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Day Color</h2>
+                        </div>
+                        <div *ngFor="let elt of editingItem[26].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[26].value[i]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Day Distance Start:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[27].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Day Distance End:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[28].value">
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Night Color</h2>
+                        </div>
+                        <div *ngFor="let elt of editingItem[29].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[29].value[i]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Night Distance Start:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[30].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Night Distance End:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[31].value">
+                    </div>
+                    <h2 class="section-title">Camera</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Max Draw Distance:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[32].value">
+                    </div>
+                    <h2 class="section-title">Sky</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Enable Skybox:</label>
+                        <select [(ngModel)]="editingItem[33].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Enable Sun Moon:</label>
+                        <select [(ngModel)]="editingItem[34].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Sky Doom File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[35].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Star File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[36].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Sun File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[37].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Always File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[38].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Mist File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[39].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Cloud File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[40].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Always2 File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[41].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Light File:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[42].value"></textarea>
+                    </div>
+                    <h2 class="section-title">Gouraud</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Enabled:</label>
+                        <select [(ngModel)]="editingItem[43].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Bloom Scale:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[44].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Bloom Brightness:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[45].value">
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Shading</h2>
+                        </div>
+                        <div *ngFor="let elt of editingItem[46].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[46].value[i]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unused:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[47].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Blur:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[48].value">
+                    </div>
+                    <h2 class="section-title">Flare</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Enabled:</label>
+                        <select [(ngModel)]="editingItem[49].value">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Reduction:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[50].value">
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Layers</h2>
+                        </div>
+                        <div class="fileType-box" *ngFor="let elt of editingItem[51].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Enabled:</label>
+                                <select [(ngModel)]="editingItem[51].value[i][0]">
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Distance:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[51].value[i][1]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Outer Scale:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[51].value[i][2]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Inner Scale:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[51].value[i][3]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Opacity:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[51].value[i][4]">
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="section-title">BGM</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Zone Sound ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[52].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Battle Sound ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[53].value">
+                    </div>
+                    <h2 class="section-title">Other</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unused:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[54].value">
+                    </div>
+                    <div class="form-elt-container flex-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Character Lighting</h2>
+                        </div>
+                        <div *ngFor="let elt of editingItem[55].value; let i = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[55].value[i]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="formMsg">
+                <span class="error-txt">{{formMsg}}</span>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>

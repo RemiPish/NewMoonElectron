@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { IpcService } from '../ipc.service';
 import { ExchangeDataComponent } from '../exchange-data/exchange-data.component';
 import { CItemDataComponent } from '../c-item-data/c-item-data.component';
 import { ItemDataComponent } from '../item-data/item-data.component';
+import { DevilDataComponent } from '../devil-data/devil-data.component';
+
 const { XMLParser } = require("fast-xml-parser");
 
 export type pgMakerDataStructure = [
@@ -29,22 +31,36 @@ export class PgMakerComponent implements OnInit {
   exchangeDataComponent!: ExchangeDataComponent;
   @ViewChild('itemDataComponent', { static: false })
   itemDataComponent!: ItemDataComponent;
+  @ViewChild('devilDataComponent', { static: false })
+  devilDataComponent!: DevilDataComponent;
 
   exchangeList: any[] = [];
   citemList: any[] = [];
   itemList: any[] = [];
-
+  devilList: any[] = [];
   loadingSpinner: boolean = false;
   inEdition: boolean = false;
-
+  filteredContent: any[] = [];
+  filteredOptions: any[] = [];
   content: any[][] = [];
   selectedItem: any;
   editingItem: any;
+  currentPage = 1;
 
   itemIDMsg = "";
   demonIDMsg = "";
   itemNameMsg = "";
   itemDescriptionMsg = "";
+  searchTableText = "";
+
+  itemIDValid: boolean = false;
+  itemIDTested: boolean = false;
+
+  demonIDValid: boolean = false;
+  demonIDTested: boolean = false;
+
+  listFilter: string = "CItemData"
+  dropdownOptions: string[] = [];
 
   constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 
@@ -60,6 +76,18 @@ export class PgMakerComponent implements OnInit {
 
     const parser = new XMLParser(parseConfig);
 
+    this.ipc.on('file-saved', async (event: any, arg?: any) => {
+      console.log(arg["fileType"]);
+      if (arg["fileType"] === "CItemData") {
+        this.itemDataComponent.writeXmlFile("sbin", this.itemList);
+      }
+      else if (arg["fileType"] === "ItemData") {
+        this.exchangeDataComponent.writeXmlFile("sbin", this.exchangeList);
+      }
+      this.cd.detectChanges();
+    });
+
+
     this.ipc.on('files-selected-list', async (event: any, arg?: any) => {
 
       arg.forEach(async (item: any) => {
@@ -74,8 +102,10 @@ export class PgMakerComponent implements OnInit {
         else if (item.includes('MiItemData')) {
           await this.itemDataComponent.parseContent(JSON.stringify(contentA));
         }
+        else if (item.includes('MiDevilData')) {
+          await this.devilDataComponent.parseContent(JSON.stringify(contentA));
+        }
       })
-      this.loadingSpinner = false;
       this.cd.detectChanges();
     });
   }
@@ -83,7 +113,7 @@ export class PgMakerComponent implements OnInit {
   ngOnInit() {
     this.loadingSpinner = true;
     this.cd.detectChanges();
-    this.fileTypeList = ['CItemData', 'ItemData', 'ExchangeData']
+    this.fileTypeList = ['CItemData', 'ItemData', 'ExchangeData', 'DevilData']
     this.ipc.send('start-decrypt-list', { comphack: this.comphackPath, binary: this.binaryDataPath, fileNameList: this.fileTypeList });
   }
 
@@ -94,11 +124,54 @@ export class PgMakerComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  changeFileList(str: string) {
+    this.listFilter = str;
+    this.filteredContent = (str === 'CItemData') ? this.citemList : this.devilList;
+    this.currentPage = 1;
+    this.cd.detectChanges();
+  }
+
+  onSearch() {
+    if (this.listFilter === "CItemData") {
+      if (this.searchTableText === "" || !this.searchTableText) {
+        this.filteredContent = this.citemList;
+      }
+      const searchStr = this.searchTableText.toLowerCase();
+      this.filteredContent = this.citemList.filter((item: { value: string; }[]) => {
+        const idStr = String(item[0].value).toLowerCase();
+        const nameStr = String(item[1].value).toLowerCase();
+        return idStr.includes(searchStr) || nameStr.includes(searchStr);
+      });
+    }
+    else if (this.listFilter === "DevilData") {
+      if (this.searchTableText === "" || !this.searchTableText) {
+        this.filteredContent = this.devilList;
+      }
+      const searchStr = this.searchTableText.toLowerCase();
+      this.filteredContent = this.devilList.filter((item: { value: string; }[]) => {
+        const idStr = String(item[0].value).toLowerCase();
+        const nameStr = String(item[1].value).toLowerCase();
+        return idStr.includes(searchStr) || nameStr.includes(searchStr);
+      });
+    }
+
+    this.currentPage = 1;
+    this.cd.detectChanges();
+  }
+
+  changeTablePage(event: number) {
+    this.currentPage = event;
+    this.cd.detectChanges();
+  }
+
+
   setExchangeData(str: any) {
     str.forEach((item: any) => {
       this.exchangeList.push(item);
     })
-    console.log(this.exchangeList);
+    if (this.exchangeList.length && this.citemList.length && this.devilList.length) {
+      this.loadingSpinner = false;
+    }
     this.cd.detectChanges();
   }
 
@@ -106,6 +179,35 @@ export class PgMakerComponent implements OnInit {
     str.forEach((item: any) => {
       this.citemList.push(item);
     })
+    if (this.exchangeList.length && this.citemList.length && this.devilList.length) {
+      this.loadingSpinner = false;
+    }
+    this.cd.detectChanges();
+  }
+
+  setDevilData(str: any) {
+    str.forEach((item: any) => {
+      this.devilList.push(item);
+    })
+    if (this.exchangeList.length && this.citemList.length && this.devilList.length) {
+      this.loadingSpinner = false;
+      this.devilList.forEach((elt: any) => {
+
+        this.dropdownOptions.push("" + elt[0].value + "-" + elt[1].value);
+      })
+    }
+    this.cd.detectChanges();
+  }
+
+  filterOptions() {
+    if (!this.editingItem[1].value) this.filteredOptions = this.dropdownOptions;
+    else this.filteredOptions = this.dropdownOptions.filter(option => option.toLowerCase().includes(String(this.editingItem[1].value).toLowerCase()));
+    this.cd.detectChanges();
+  }
+
+  selectOption(option: string) {
+    this.editingItem[1].value = option.split("-")[0];
+    this.filteredOptions = [];
     this.cd.detectChanges();
   }
 
@@ -120,8 +222,15 @@ export class PgMakerComponent implements OnInit {
     }
   }
 
+  handleClickDropdown() {
+    this.filteredOptions = [];
+    this.cd.detectChanges();
+  }
+
   openEdition(id?: any) {
     this.inEdition = true;
+    this.listFilter = "CItemData";
+    this.filteredContent = this.citemList;
     if (id) {
       this.selectedItem = this.content.find((item: { value: any; }[]) => item[0].value === id);
       this.editingItem = [
@@ -156,18 +265,32 @@ export class PgMakerComponent implements OnInit {
   checkValidator() {
     if (this.itemList.find((item: { value: any; }[]) => item[0].value === this.editingItem[0].value)) {
       this.itemIDMsg = "ItemID already exists";
+      this.itemIDTested = true;
+      this.itemIDValid = false;
       return false;
     }
     if (this.editingItem[0].value == null) {
       this.itemIDMsg = "ItemID cannot be empty";
+      this.itemIDTested = true;
+      this.itemIDValid = false;
       return false;
     }
     if (this.editingItem[1].value == null) {
       this.demonIDMsg = "DemonID cannot be empty";
+      this.demonIDTested = true;
+      this.demonIDValid = false;
       return false;
     }
+    if (!this.devilList.find((item: { value: any; }[]) => item[0].value === this.editingItem[1].value)) {
+      this.demonIDMsg = "DemonID doesn't exist";
+      this.demonIDTested = true;
+      this.demonIDValid = false;
+      return false;
+    }
+
     if (this.editingItem[2].value == "") {
       this.itemNameMsg = "Item Name cannot be empty";
+
       return false;
     }
     if (this.editingItem[3].value == "") {
@@ -213,6 +336,47 @@ export class PgMakerComponent implements OnInit {
     else {
       this.cd.detectChanges();
     }
+  }
+
+  checkItemID() {
+    if (this.editingItem[0].value == null) {
+      this.itemIDMsg = "ItemID cannot be empty";
+      this.itemIDTested = true;
+      this.itemIDValid = false;
+    }
+    else if (this.itemList.find((item: { value: any; }[]) => item[0].value === this.editingItem[0].value)) {
+      this.itemIDMsg = "ItemID already exists";
+      this.itemIDValid = false;
+    }
+    else {
+      this.itemIDMsg = "You can use this ID!";
+      this.itemIDValid = true;
+    }
+    this.itemIDTested = true;
+    this.cd.detectChanges();
+  }
+
+  selectDevilID(id: number) {
+    this.editingItem[1].value = id;
+    this.cd.detectChanges();
+  }
+
+  checkDevilID() {
+    if (this.editingItem[1].value == null) {
+      this.demonIDMsg = "DemonID cannot be empty";
+      this.demonIDTested = true;
+      this.demonIDValid = false;
+    }
+    else if (!this.devilList.find((item: { value: any; }[]) => item[0].value === Number(this.editingItem[1].value))) {
+      this.demonIDMsg = "DevilID doesn't exist";
+      this.demonIDValid = false;
+    }
+    else {
+      this.demonIDMsg = "You can use this ID! Used Demon: " + (this.devilList.find(x => x[0].value === Number(this.editingItem[1].value)))[1].value;
+      this.demonIDValid = true;
+    }
+    this.demonIDTested = true;
+    this.cd.detectChanges();
   }
 
   encryptFile(xml: string, fileName: string) {
@@ -275,10 +439,7 @@ export class PgMakerComponent implements OnInit {
       { name: 'rental', value: 0 }]);
     });
 
-
-    this.exchangeDataComponent.writeXmlFile("sbin", this.exchangeList);
     this.cItemDataComponent.writeXmlFile("sbin", this.citemList);
-    this.itemDataComponent.writeXmlFile("sbin", this.itemList);
     this.cd.detectChanges();
   }
 }

@@ -40,41 +40,107 @@
             <button (click)="openEdition()" class="btn button-3 btn-primary">Add a new PG</button>
             <button *ngIf="content.length" (click)="saveChange()" class="btn button-3 btn-primary">Save</button>
         </div>
+        <div *ngIf="inEdition" class="page-flex">
+            <div class="form-container">
+                <div class="form-input form-input-textarea">
+                    <label class="form-label">Enter the PG's Item ID:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    <button (click)="checkItemID()" class="btn btn-blue button-3">CHECK</button>
+                </div>
+                <div *ngIf="itemIDMsg && itemIDTested">
+                    <span [ngClass]="itemIDValid === false ? 'error-txt' : 'success-txt'">{{itemIDMsg}}</span>
+                </div>
+                <div class="form-input form-input-textarea">
+                    <label class="form-label">Enter the demon's ID:</label>
+                    <div class="dropdown">
+                        <input appClickedOutside (clickedOutside)="handleClickDropdown()" type="number"
+                            [(ngModel)]="editingItem[1].value" (click)="filterOptions()" (input)="filterOptions()"
+                            placeholder="Search">
+                        <ul class="dropdown-list">
+                            <li *ngFor="let option of filteredOptions" (click)="selectOption(option)">{{ option }}</li>
+                        </ul>
+                    </div>
 
-        <div *ngIf="inEdition" class="form-container">
-            <div class="form-group form-input form-input-line">
-                <label class="form-label">Enter the PG's Item ID:</label>
-                <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    <button (click)="checkDevilID()" class="btn btn-blue button-3">CHECK</button>
+                </div>
+                <div *ngIf="demonIDMsg && demonIDTested">
+                    <span [ngClass]="demonIDValid === false ? 'error-txt' : 'success-txt'">{{demonIDMsg}}</span>
+                </div>
+                <div class="form-input form-input-textarea">
+                    <label class="form-label">Enter the PG's item name:</label>
+                    <textarea class="form-control" rows="2" cols="2" [(ngModel)]="editingItem[2].value"></textarea>
+                </div>
+                <div *ngIf="itemNameMsg">
+                    <span class="error-txt">{{itemNameMsg}}</span>
+                </div>
+                <div class="form-input form-input-textarea">
+                    <label class="form-label">Enter the PG's item description:</label>
+                    <textarea class="form-control" rows="3" cols="2" [(ngModel)]="editingItem[3].value"></textarea>
+                </div>
+                <div *ngIf="itemDescriptionMsg">
+                    <span class="error-txt">{{itemDescriptionMsg}}</span>
+                </div>
+                <div class="form-btn-flex">
+                    <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                    <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+                </div>
             </div>
-            <div *ngIf="itemIDMsg">
-                <span class="error-txt">{{itemIDMsg}}</span>
-            </div>
-            <div class="form-group form-input form-input-line">
-                <label class="form-label">Enter the demon's ID:</label>
-                <input class="form-control" type="number" [(ngModel)]="editingItem[1].value">
-            </div>
-            <div *ngIf="demonIDMsg">
-                <span class="error-txt">{{demonIDMsg}}</span>
-            </div>
-            <div class="form-group form-input form-input-textarea">
-                <label class="form-label">Enter the PG's item name:</label>
-                <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[2].value"></textarea>
-            </div>
-            <div *ngIf="itemNameMsg">
-                <span class="error-txt">{{itemNameMsg}}</span>
-            </div>
-            <div class="form-group form-input form-input-textarea">
-                <label class="form-label">Enter the PG's item description:</label>
-                <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[3].value"></textarea>
-            </div>
-            <div *ngIf="itemDescriptionMsg">
-                <span class="error-txt">{{itemDescriptionMsg}}</span>
-            </div>
-            <div class="form-btn-flex">
-                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
-                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            <div class="section-container">
+                <div class="mode-flex fileType-box">
+                    <div class="fileType-text" (click)="changeFileList('CItemData')">
+                        CItemData</div>
+                    <div class="fileType-text" (click)="changeFileList('DevilData')">
+                        DevilData</div>
+                </div>
+                <div class="content-text-subtitle file-title"> {{listFilter}}-
+                    ({{filteredContent.length}}
+                    item(s))
+                </div>
+
+                <div class="table-text">
+                    <div class="search-flex">
+                        <input class="input-full-width" type="text" placeholder="Search table"
+                            [(ngModel)]="searchTableText">
+                        <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+                    </div>
+                    <div class="line-flex pagination-flex">
+                        <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                        <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                            (ngModelChange)="changeTablePage($event)">
+                    </div>
+                    <table *ngIf="filteredContent" class="fileElt">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th *ngIf="listFilter === 'DevilData'">Select</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                                <td>{{ item[0].value }}</td>
+                                <td>{{ item[1].value }}</td>
+                                <td *ngIf="listFilter === 'DevilData'">
+                                    <div class="last">
+                                        <a (click)="selectDevilID(item[0].value)" class="action-link">Select</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="line-flex pagination-flex">
+                        <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                        <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                            (ngModelChange)="changeTablePage($event)">
+                    </div>
+                </div>
             </div>
         </div>
+
+
+
 
     </div>
 </div>
@@ -84,3 +150,5 @@
     (encryptFile)="encryptFile($event, 'CItemData')"></app-c-item-data>
 <app-item-data #itemDataComponent (contentParsed)="setItemData($event)"
     (encryptFile)="encryptFile($event, 'ItemData')"></app-item-data>
+<app-devil-data #devilDataComponent (contentParsed)="setDevilData($event)"
+    (encryptFile)="encryptFile($event, 'DevilData')"></app-devil-data>

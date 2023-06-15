@@ -45,6 +45,32 @@ import { CDevilBookBonusMitamaDataComponent } from '../c-devil-book-bonus-mitama
 import { CDevilBoostIconDataComponent } from '../c-devil-boost-icon-data/c-devil-boost-icon-data.component';
 import { DevilFusionDataComponent } from '../devil-fusion-data/devil-fusion-data.component';
 import { BlendDataComponent } from '../blend-data/blend-data.component';
+import { BlendExtDataComponent } from '../blend-ext-data/blend-ext-data.component';
+import { DevilBoostLotDataComponent } from '../devil-boost-lot-data/devil-boost-lot-data.component';
+import { DisassemblyTriggerDataComponent } from '../disassembly-trigger-data/disassembly-trigger-data.component';
+import { ModifiedEffectDataComponent } from '../modified-effect-data/modified-effect-data.component';
+import { MitamaReunionSetBonusDataComponent } from '../mitama-reunion-set-bonus-data/mitama-reunion-set-bonus-data.component';
+import { MissionDataComponent } from '../mission-data/mission-data.component';
+import { CLoadingCommercialDataComponent } from '../c-loading-commercial-data/c-loading-commercial-data.component';
+import { MitamaUnionBonusDataComponent } from '../mitama-union-bonus-data/mitama-union-bonus-data.component';
+import { GuardianAssistDataComponent } from '../guardian-assist-data/guardian-assist-data.component';
+import { CDevilDungeonDataComponent } from '../c-devil-dungeon-data/c-devil-dungeon-data.component';
+import { ModificationExtRecipeDataComponent } from '../modification-ext-recipe-data/modification-ext-recipe-data.component';
+import { CNakamaQuestRewardDataComponent } from '../c-nakama-quest-reward-data/c-nakama-quest-reward-data.component';
+import { WarpPointDataComponent } from '../warp-point-data/warp-point-data.component';
+import { GvgTrophyDataComponent } from '../gvg-trophy-data/gvg-trophy-data.component';
+import { DevilBoostItemDataComponent } from '../devil-boost-item-data/devil-boost-item-data.component';
+import { TriUnionSpecialDataComponent } from '../tri-union-special-data/tri-union-special-data.component';
+import { TimeLimitDataComponent } from '../time-limit-data/time-limit-data.component';
+import { CTitleDataComponent } from '../c-title-data/c-title-data.component';
+import { DevilDataComponent } from '../devil-data/devil-data.component';
+import { HNpcDataComponent } from '../h-npc-data/h-npc-data.component';
+import { NpcBarterConditionDataComponent } from '../npc-barter-condition-data/npc-barter-condition-data.component';
+import { CTransformedModelDataComponent } from '../c-transformed-model-data/c-transformed-model-data.component';
+import { ZoneDataComponent } from '../zone-data/zone-data.component';
+import { SkillDataComponent } from '../skill-data/skill-data.component';
+import { CKeyItemDataComponent } from '../c-key-item-data/c-key-item-data.component';
+
 const { XMLParser } = require("fast-xml-parser");
 
 @Component({
@@ -66,19 +92,27 @@ export class XmlEditorComponent {
 	fileTypeMode: string = "ALL";
 	fileTypeClientList = ['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
 		'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CSkillData'];
-	fileTypeShieldList = ['ActionLogicData', 'AIData', 'AutoLiveData', 'BazaarClerkNPCData', /*'BlenderData' ,*/'CChanceItemData', 'CCultureData', 'CDevilBookBonusData', 'CDevilBookBonusMitamaData', 'CDevilBoostIconData',
+	fileTypeShieldList = ['ActionLogicData', 'AIData', 'AutoLiveData', 'BazaarClerkNPCData', 'BlendData', 'BlendExtData',
+		'CChanceItemData', 'CCultureData', 'CDevilBookBonusData', 'CDevilBookBonusMitamaData', 'CDevilBoostIconData', 'CDevilDungeonData',
 		'CDevilEquipmentExclusiveData', 'CEquipFaceData', 'CEventMessageData', 'CEventMessageData2',
 		'CGuideData', 'ChanceItemData',
-		'CHouraiData', 'CIconData_COMPShopCategory', 'CItemData', 'CMessageData', 'CMessageData_klan-category', 'CMessageData_klan-playstyle', 'CMessageData_klan-series',
+		'CHouraiData', 'CIconData_COMPShopCategory', 'CItemData', 'CKeyItemData',
+		'CLoadingCommercialData', 'CMessageData', 'CMessageData_klan-category', 'CMessageData_klan-playstyle', 'CMessageData_klan-series',
 		"CMessageData_party-playstyle", "CMessageData_party-purpose", "CMessageData_reunion", "CMessageData_Shop", "CMessageData_SysHelp", 'CMessageData_System',
 		'CMessageData_yorosiku', "CMessageData_party-free", "CMessageData_omedeto", "CMessageData_NakamaQuest", "CMessageData_NakamaQuest",
 		"CMessageData_Expert", "CMessageData_DevilPresent", "CMessageData_DevilBook", "CMessageData_Charastic", "CMessageData_Bazaar",
-		'CModelData1', 'CModelData2', 'CModelData3', 'CSpecialSkillEffectData', 'CSynthesisCatalystData', 'CultureItemData', 'CUraFieldData', 'CValuable',
-		'DeunionItemCatalystData', 'DevilBookBonusData', 'DevilBookBonusMitamaData', 'DevilEquipmentItemData', 'DevilFusionData', 'EnchantInitializeData', 'EnchantPiercingData',
-		'ExchangeData', 'GuardianUnlockData', 'GuardianSpecialData', 'GvGData', 'ItemData',
-		'MitamaReunionBonusData', 'ModificationCatalystData', 'ModificationExtCatalystData', 'NPCBarterData',
-		'NPCBarterGroupData', 'PCData', 'QuestBonusData', 'QuestBonusCodeData', 'SlotInitializeData', 'SlotPiercingData', 'TankData', 'TriUnionKreuzItemData', 'UltimateBattleBaseData', 'UnionItemsHelperData',
-		'UraFieldTowerData', 'WorldData'];
+		'CModelData1', 'CModelData2', 'CModelData3', 'CNakamaQuestRewardData', 'CSpecialSkillEffectData', 'CSynthesisCatalystData', 'CTitleData', 'CTransformedModelData',
+		'CultureItemData', 'CUraFieldData', 'CValuable',
+		'DeunionItemCatalystData', 'DevilBookBonusData', 'DevilBookBonusMitamaData', 'DevilBoostItemData', 'DevilBoostLotData', 'DevilData',
+		'DevilEquipmentItemData', 'DevilFusionData',
+		'DisassemblyTriggerData', 'EnchantInitializeData', 'EnchantPiercingData',
+		'ExchangeData', 'GuardianUnlockData', 'GuardianAssistData', 'GuardianSpecialData', 'GvGData', 'GvGTrophyData',
+		'HNPCData', 'ItemData', 'MissionData', 'MitamaUnionBonusData',
+		'MitamaReunionBonusData', 'MitamaReunionSetBonusData', 'ModificationCatalystData', 'ModificationExtRecipeData', 'ModificationExtCatalystData', 'ModificationTriggerData', 'ModifiedEffectData', 'NPCBarterData',
+		'NPCBarterConditionData', 'NPCBarterGroupData', 'PCData', 'QuestBonusData', 'QuestBonusCodeData',
+		'SkillData', 'SlotInitializeData', 'SlotPiercingData', 'TankData', 'TimeLimitData',
+		'TriUnionSpecialData', 'TriUnionKreuzItemData', 'UltimateBattleBaseData', 'UnionItemsHelperData',
+		'UraFieldTowerData', 'WarpPointData', 'WorldData', 'ZoneData'];
 	selectedFileType = "None";
 	filetypeIsSelected = false;
 	testedFile = false;
@@ -179,11 +213,59 @@ export class XmlEditorComponent {
 	@ViewChild('cDevilBoostIconDataComponent', { static: false })
 	cDevilBoostIconDataComponent!: CDevilBoostIconDataComponent;
 	@ViewChild('devilFusionDataComponent', { static: false })
-    devilFusionDataComponent!: DevilFusionDataComponent;
+	devilFusionDataComponent!: DevilFusionDataComponent;
 	@ViewChild('blendDataComponent', { static: false })
-    blendDataComponent!: BlendDataComponent;
-
-
+	blendDataComponent!: BlendDataComponent;
+	@ViewChild('blendExtDataComponent', { static: false })
+	blendExtDataComponent!: BlendExtDataComponent;
+	@ViewChild('devilBoostLotDataComponent', { static: false })
+	devilBoostLotDataComponent!: DevilBoostLotDataComponent;
+	@ViewChild('disassemblyTriggerDataComponent', { static: false })
+	disassemblyTriggerDataComponent!: DisassemblyTriggerDataComponent;
+	@ViewChild('modifiedEffectDataComponent', { static: false })
+	modifiedEffectDataComponent!: ModifiedEffectDataComponent;
+	@ViewChild('mitamaReunionSetBonusDataComponent', { static: false })
+	mitamaReunionSetBonusDataComponent!: MitamaReunionSetBonusDataComponent;
+	@ViewChild('missionDataComponent', { static: false })
+	missionDataComponent!: MissionDataComponent;
+	@ViewChild('cLoadingCommercialDataComponent', { static: false })
+	cLoadingCommercialDataComponent!: CLoadingCommercialDataComponent;
+	@ViewChild('mitamaUnionBonusDataComponent', { static: false })
+	mitamaUnionBonusDataComponent!: MitamaUnionBonusDataComponent;
+	@ViewChild('guardianAssistDataComponent', { static: false })
+	guardianAssistDataComponent!: GuardianAssistDataComponent;
+	@ViewChild('cDevilDungeonDataComponent', { static: false })
+	cDevilDungeonDataComponent!: CDevilDungeonDataComponent;
+	@ViewChild('modificationExtRecipeDataComponent', { static: false })
+	modificationExtRecipeDataComponent!: ModificationExtRecipeDataComponent;
+	@ViewChild('cNakamaQuestRewardDataComponent', { static: false })
+	cNakamaQuestRewardDataComponent!: CNakamaQuestRewardDataComponent;
+	@ViewChild('warpPointDataComponent', { static: false })
+	warpPointDataComponent!: WarpPointDataComponent;
+	@ViewChild('gvgTrophyDataComponent', { static: false })
+	gvgTrophyDataComponent!: GvgTrophyDataComponent;
+	@ViewChild('devilBoostItemDataComponent', { static: false })
+	devilBoostItemDataComponent!: DevilBoostItemDataComponent;
+	@ViewChild('triUnionSpecialDataComponent', { static: false })
+	triUnionSpecialDataComponent!: TriUnionSpecialDataComponent;
+	@ViewChild('timeLimitDataComponent', { static: false })
+	timeLimitDataComponent!: TimeLimitDataComponent;
+	@ViewChild('cTitleDataComponent', { static: false })
+	cTitleDataComponent!: CTitleDataComponent;
+	@ViewChild('devilDataComponent', { static: false })
+	devilDataComponent!: DevilDataComponent;
+	@ViewChild('hNpcDataComponent', { static: false })
+	hNpcDataComponent!: HNpcDataComponent;
+	@ViewChild('npcBarterConditionDataComponent', { static: false })
+	npcBarterConditionDataComponent!: NpcBarterConditionDataComponent;
+	@ViewChild('cTransformedModelDataComponent', { static: false })
+	cTransformedModelDataComponent!: CTransformedModelDataComponent;
+	@ViewChild('zoneDataComponent', { static: false })
+	zoneDataComponent!: ZoneDataComponent;
+	@ViewChild('skillDataComponent', { static: false })
+	skillDataComponent!: SkillDataComponent;
+	@ViewChild('cKeyItemDataComponent', { static: false })
+	cKeyItemDataComponent!: CKeyItemDataComponent;
 
 	constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 		this.fileTypeClientList.forEach(elt => {
@@ -516,6 +598,86 @@ export class XmlEditorComponent {
 					case 'BlendData':
 						this.blendDataComponent.startParsing(this.contentJson);
 						break;
+					case 'BlendExtData':
+						this.blendExtDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilBoostLotData':
+						this.devilBoostLotDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DisassemblyTriggerData':
+						this.disassemblyTriggerDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ModificationTriggerData':
+						this.disassemblyTriggerDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ModifiedEffectData':
+						this.modifiedEffectDataComponent.startParsing(this.contentJson);
+						break;
+					case 'MitamaReunionSetBonusData':
+						this.mitamaReunionSetBonusDataComponent.startParsing(this.contentJson);
+						break;
+					case 'MissionData':
+						this.missionDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CLoadingCommercialData':
+						this.cLoadingCommercialDataComponent.startParsing(this.contentJson);
+						break;
+					case 'MitamaUnionBonusData':
+						this.mitamaUnionBonusDataComponent.startParsing(this.contentJson);
+						break;
+					case 'GuardianAssistData':
+						this.guardianAssistDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CDevilDungeonData':
+						this.cDevilDungeonDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ModificationExtRecipeData':
+						this.modificationExtRecipeDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CNakamaQuestRewardData':
+						this.cNakamaQuestRewardDataComponent.startParsing(this.contentJson);
+						break;
+					case 'WarpPointData':
+						this.warpPointDataComponent.startParsing(this.contentJson);
+						break;
+					case 'GvGTrophyData':
+						this.gvgTrophyDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilBoostItemData':
+						this.devilBoostItemDataComponent.startParsing(this.contentJson);
+						break;
+					case 'TriUnionSpecialData':
+						this.triUnionSpecialDataComponent.startParsing(this.contentJson);
+						break;
+					case 'TimeLimitData':
+						this.timeLimitDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CTitleData':
+						this.cTitleDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilData':
+						this.devilDataComponent.startParsing(this.contentJson);
+						break;
+					case 'HNPCData':
+						this.hNpcDataComponent.startParsing(this.contentJson);
+						break;
+					case 'NPCBarterConditionData':
+						this.npcBarterConditionDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CTransformedModelData':
+						this.cTransformedModelDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ZoneData':
+						this.zoneDataComponent.startParsing(this.contentJson);
+						break;
+					case 'SkillData':
+						this.skillDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CKeyItemData':
+						this.cKeyItemDataComponent.startParsing(this.contentJson);
+						break;
+
+
 				}
 
 				this.cd.detectChanges();

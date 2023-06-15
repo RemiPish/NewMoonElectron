@@ -1,0 +1,77 @@
+.fa-spin {
+    color: white;
+    font-size: 50px;
+    margin: auto;
+}
+
+.form-container {
+    width: 100%;
+    justify-content: center !important;
+}
+
+.section-container {
+    width: 100%;
+}
+
+.box-border {
+    border: solid 3px green;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.div-border {
+    border: solid 1px white;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.id-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.edit-id-flex{
+    display: flex;
+    gap:5px;
+    flex-direction: column;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: black;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.dropdown-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-list li:hover {
+    background-color: rgb(70, 70, 70);
+}

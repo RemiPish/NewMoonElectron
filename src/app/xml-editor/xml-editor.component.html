@@ -43,8 +43,8 @@
                     <div class="fileType-text" (click)="changeFileTypeMode('SHIELD')">SHIELD</div>
                 </div>
                 <div class="mode-flex fileType-box">
-                    <div *ngFor="let fileType of filteredFileTypeList" class="fileType-text"
-                        (click)="changeFileType(fileType)">
+                    <div [ngClass]="selectedFileType === fileType ? 'fileType-textSelected' : 'fileType-text'"
+                        *ngFor="let fileType of filteredFileTypeList" (click)="changeFileType(fileType)">
                         {{fileType}}</div>
                 </div>
 
@@ -78,7 +78,8 @@
                 <div class="fileType-text" (click)="changeFileTypeMode('SHIELD')">SHIELD</div>
             </div>
             <div class="mode-flex fileType-box">
-                <div *ngFor="let fileType of filteredFileTypeList" class="fileType-text"
+                <div *ngFor="let fileType of filteredFileTypeList"
+                    [ngClass]="selectedFileType === fileType ? 'fileType-textSelected' : 'fileType-text'"
                     (click)="changeFileType(fileType)">
                     {{fileType}}</div>
             </div>
@@ -160,8 +161,12 @@
         *ngIf="selectedFileType=== 'ModificationExtCatalystData' || selectedFileType=== 'ModificationCatalystData'"
         (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
         [fileMode]="fileMode" [type]="selectedFileType">
-
     </app-modification-ext-catalyst-data>
+
+    <app-modification-ext-recipe-data #modificationExtRecipeDataComponent
+        *ngIf="selectedFileType=== 'ModificationExtRecipeData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode">
+    </app-modification-ext-recipe-data>
 
     <app-pc-data #pcDataComponent *ngIf="selectedFileType=== 'PCData'" (fileIsValid)="fileValidate($event)"
         (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode">
@@ -268,4 +273,88 @@
         [fileMode]="fileMode"></app-devil-fusion-data>
     <app-blend-data #blendDataComponent *ngIf="selectedFileType=== 'BlendData'" (fileIsValid)="fileValidate($event)"
         (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode"></app-blend-data>
+    <app-blend-ext-data #blendExtDataComponent *ngIf="selectedFileType=== 'BlendExtData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-blend-ext-data>
+    <app-devil-boost-lot-data #devilBoostLotDataComponent *ngIf="selectedFileType=== 'DevilBoostLotData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-devil-boost-lot-data>
+    <app-disassembly-trigger-data #disassemblyTriggerDataComponent
+        *ngIf="selectedFileType=== 'DisassemblyTriggerData' || selectedFileType=== 'ModificationTriggerData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode" [type]="selectedFileType"></app-disassembly-trigger-data>
+    <app-modified-effect-data #modifiedEffectDataComponent *ngIf="selectedFileType=== 'ModifiedEffectData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-modified-effect-data>
+    <app-mitama-reunion-set-bonus-data #mitamaReunionSetBonusDataComponent
+        *ngIf="selectedFileType=== 'MitamaReunionSetBonusData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-mitama-reunion-set-bonus-data>
+    <app-mission-data #missionDataComponent *ngIf="selectedFileType=== 'MissionData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-mission-data>
+    <app-c-loading-commercial-data #cLoadingCommercialDataComponent *ngIf="selectedFileType=== 'CLoadingCommercialData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-c-loading-commercial-data>
+    <app-mitama-union-bonus-data #mitamaUnionBonusDataComponent *ngIf="selectedFileType=== 'MitamaUnionBonusData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-mitama-union-bonus-data>
+
+    <app-guardian-assist-data #guardianAssistDataComponent *ngIf="selectedFileType=== 'GuardianAssistData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-guardian-assist-data>
+
+    <app-c-devil-dungeon-data #cDevilDungeonDataComponent *ngIf="selectedFileType=== 'CDevilDungeonData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-c-devil-dungeon-data>
+    <app-c-nakama-quest-reward-data #cNakamaQuestRewardDataComponent
+        *ngIf="selectedFileType=== 'CNakamaQuestRewardData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode">
+    </app-c-nakama-quest-reward-data>
+    <app-warp-point-data #warpPointDataComponent *ngIf="selectedFileType=== 'WarpPointData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"> </app-warp-point-data>
+
+    <app-gvg-trophy-data #gvgTrophyDataComponent *ngIf="selectedFileType=== 'GvGTrophyData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"> </app-gvg-trophy-data>
+
+    <app-devil-boost-item-data #devilBoostItemDataComponent *ngIf="selectedFileType=== 'DevilBoostItemData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"> </app-devil-boost-item-data>
+    <app-tri-union-special-data #triUnionSpecialDataComponent *ngIf="selectedFileType=== 'TriUnionSpecialData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-tri-union-special-data>
+
+    <app-time-limit-data #timeLimitDataComponent *ngIf="selectedFileType=== 'TimeLimitData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-time-limit-data>
+
+    <app-c-title-data #cTitleDataComponent *ngIf="selectedFileType=== 'CTitleData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode"> </app-c-title-data>
+
+    <app-devil-data #devilDataComponent *ngIf="selectedFileType === 'DevilData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode"></app-devil-data>
+    <app-h-npc-data #hNpcDataComponent *ngIf="selectedFileType === 'HNPCData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode"></app-h-npc-data>
+
+    <app-npc-barter-condition-data #npcBarterConditionDataComponent
+        *ngIf="selectedFileType === 'NPCBarterConditionData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-npc-barter-condition-data>
+
+    <app-c-transformed-model-data #cTransformedModelDataComponent *ngIf="selectedFileType === 'CTransformedModelData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-c-transformed-model-data>*
+    <app-zone-data #zoneDataComponent *ngIf="selectedFileType === 'ZoneData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode"></app-zone-data>
+    <app-skill-data #skillDataComponent *ngIf="selectedFileType === 'SkillData'" (fileIsValid)="fileValidate($event)"
+        (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)" [fileMode]="fileMode">
+    </app-skill-data>
+    <app-c-key-item-data #cKeyItemDataComponent *ngIf="selectedFileType === 'CKeyItemData'"
+        (fileIsValid)="fileValidate($event)" (encryptFile)="encryptFile($event)" (saveXmlFile)="saveFile($event)"
+        [fileMode]="fileMode"></app-c-key-item-data>
+
+
+
 </div>

@@ -1,0 +1,414 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">DevilData - ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml', content)" class="btn btn-primary button-3">SAVE XML</button>
+            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin', content)"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Family</th>
+                        <th>Race</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }}</td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Basic</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-textarea">
+                        <label class="form-label">Name:</label>
+                        <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[1].value"></textarea>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Title:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Gender:</label>
+                        <select [(ngModel)]="editingItem[3].value">
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                            <option value="NONE">NONE</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">FusionModifier:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">LNC:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Unused:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[6].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">modelID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                    <div>
+                        <div class="line-flex">
+                            <h2 class="section-title">Category</h2>
+                        </div>
+                        <div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Family:</label>
+                                <select [(ngModel)]="editingItem[8].value">
+                                    <option value="NONE">NONE</option>
+                                    <option value="HUMAN">HUMAN</option>
+                                    <option value="GOD">GOD</option>
+                                    <option value="AERIAL">AERIAL</option>
+                                    <option value="GUARDIAN">GUARDIAN</option>
+                                    <option value="DEMONIAC">DEMONIAC</option>
+                                    <option value="DRAGON">DRAGON</option>
+                                    <option value="MAGICA">MAGICA</option>
+                                    <option value="BIRD">BIRD</option>
+                                    <option value="BEAST">BEAST</option>
+                                    <option value="EVIL_SPIRIT">EVIL_SPIRIT</option>
+                                    <option value="FOUL">FOUL</option>
+                                    <option value="ELEMENTAL">ELEMENTAL</option>
+                                    <option value="MACHINE">MACHINE</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Race:</label>
+                                <select [(ngModel)]="editingItem[9].value">
+                                    <option value="NONE">NONE</option>
+                                    <option value="SERAPHIM">SERAPHIM</option>
+                                    <option value="ENTITY">ENTITY</option>
+                                    <option value="DEMON_GOD">DEMON_GOD</option>
+                                    <option value="VILE">VILE</option>
+                                    <option value="AVIAN">AVIAN</option>
+                                    <option value="GODDESS">GODDESS</option>
+                                    <option value="HEAVENLY_GOD">HEAVENLY_GOD</option>
+                                    <option value="RAPTOR">RAPTOR</option>
+                                    <option value="DIVINE">DIVINE</option>
+                                    <option value="EVIL_DEMON">EVIL_DEMON</option>
+                                    <option value="WILD_BIRD">WILD_BIRD</option>
+                                    <option value="YOMA">YOMA</option>
+                                    <option value="EARTH_ELEMENT">EARTH_ELEMENT</option>
+                                    <option value="GOD_SPIRIT">GOD_SPIRIT</option>
+                                    <option value="OTHER">OTHER</option>
+                                    <option value="REAPER">REAPER</option>
+                                    <option value="HOLY_BEAST">HOLY_BEAST</option>
+                                    <option value="BEAST">BEAST</option>
+                                    <option value="FAIRY">FAIRY</option>
+                                    <option value="ELEMENTAL">ELEMENTAL</option>
+                                    <option value="MAJIN">MAJIN</option>
+                                    <option value="MITAMA">MITAMA</option>
+                                    <option value="DEMIGOD">DEMIGOD</option>
+                                    <option value="WILDER">WILDER</option>
+                                    <option value="DRAGON_KING">DRAGON_KING</option>
+                                    <option value="NOCTURNE">NOCTURNE</option>
+                                    <option value="GODLY_BEAST">GODLY_BEAST</option>
+                                    <option value="INNOCENT">INNOCENT</option>
+                                    <option value="HUMAN">HUMAN</option>
+                                    <option value="FOUL">FOUL</option>
+                                    <option value="BRUTE">BRUTE</option>
+                                    <option value="HAUNT">HAUNT</option>
+                                    <option value="DRAGON">DRAGON</option>
+                                    <option value="FALLEN_ANGEL">FALLEN_ANGEL</option>
+                                    <option value="FEMME">FEMME</option>
+                                    <option value="NATION_RULER">NATION_RULER</option>
+                                    <option value="EARTH_MOTHER">EARTH_MOTHER</option>
+                                    <option value="EVIL_DRAGON">EVIL_DRAGON</option>
+                                    <option value="GUARDIAN">GUARDIAN</option>
+                                    <option value="DESTROYER">DESTROYER</option>
+                                    <option value="TYRANT">TYRANT</option>
+                                    <option value="GAIAN">GAIAN</option>
+                                </select>
+                            </div>
+
+                            <div class="line-flex">
+                                <h2 class="section-title">AI</h2>
+                            </div>
+                            <div>
+
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Type</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[10].value">
+                                </div>
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">LogicGroupIDs </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[11].value; let i = index">
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[11].value[i]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line-flex">
+                                <h2 class="section-title">Negotiation</h2>
+                            </div>
+
+                            <div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Affability Threshold:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[12].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Fear Threshold:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[13].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Personality Type:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[14].value">
+                                </div>
+                            </div>
+
+                            <div class="line-flex">
+                                <h2 class="section-title">Summon Data</h2>
+                            </div>
+
+                            <div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Summon Speed:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[15].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">MagModifier:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[16].value">
+                                </div>
+                            </div>
+
+
+                            <div class="line-flex">
+                                <h2 class="section-title">Union Data</h2>
+                            </div>
+
+                            <div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Fusion Difficulty:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[17].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Fusion Options:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[18].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Base Demon ID:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[19].value">
+                                </div>
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Union Rates </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[20].value; let i = index">
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[20].value[i]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Mitama Fusion ID:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[21].value">
+                                </div>
+                            </div>
+                            <div class="line-flex">
+                                <h2 class="section-title">Growth</h2>
+                            </div>
+                            <div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Growth Type:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[22].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Base Level:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[23].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Inheritance Type:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[24].value">
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Inheritance Restrictions:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[25].value">
+                                </div>
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Skills </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[26].value; let i = index">
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[26].value[i]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Enemy Only Skills </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[27].value; let i = index">
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[27].value[i]">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Traits </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[28].value; let i = index">
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[28].value[i]">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Acquisition Skills </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[29].value; let i = index">
+                                        <label class="form-label">Element 1 {{i+1}}:</label>
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">ID:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[29].value[i][0]">
+                                        </div>
+                                        <div class="form-group form-input form-input-line">
+                                            <label class="form-label">Level:</label>
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[29].value[i][1]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Force Stack:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[30].value">
+                                </div>
+                                <div class="form-elt-container flex-box">
+                                    <div class="line-flex">
+                                        <h2 class="section-title">Sales Dialogue </h2>
+                                    </div>
+                                    <div *ngFor="let elt of editingItem[31].value; let i = index">
+                                        <div class="form-group form-input form-input-textarea">
+                                            <label class="form-label">Element {{i+1}}:</label>
+                                            <textarea class="form-control" rows="5" cols="2"
+                                                [(ngModel)]="editingItem[31].value[i]"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="line-flex">
+                                    <h2 class="section-title">Battle Data</h2>
+                                </div>
+
+                                <div>
+                                    <div class="form-group form-input form-input-line">
+                                        <label class="form-label">HitBox Size:</label>
+                                        <input class="form-control" type="number" [(ngModel)]="editingItem[32].value">
+                                    </div>
+                                    <div class="form-group form-input form-input-line">
+                                        <label class="form-label">DigitalizeXP:</label>
+                                        <input class="form-control" type="number" [(ngModel)]="editingItem[33].value">
+                                    </div>
+                                    <div class="form-group form-input form-input-line">
+                                        <label class="form-label">Enemy Level:</label>
+                                        <input class="form-control" type="number" [(ngModel)]="editingItem[34].value">
+                                    </div>
+                                    <div class="form-group form-input form-input-line">
+                                        <label class="form-label">Is Floating:</label>
+                                        <select [(ngModel)]="editingItem[35].value">
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line-flex">
+                                    <h2 class="section-title">Correct</h2>
+                                    <button (click)="changeShow()" class="btn button-3 btn-blue">SHOW/HIDE</button>
+                                </div>
+                                <div *ngIf="showCorrect">
+                                    <div class="form-group form-input form-input-textarea"
+                                        *ngFor="let elt of editingItem[36].value; let i = index">
+                                        <label class="form-label">Element {{i+1}}:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[i]">
+                                    </div>
+                                </div>
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Enemy HP:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[37].value">
+                                </div>
+
+                                <div class="form-group form-input form-input-line">
+                                    <label class="form-label">Familiarity Type:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[38].value">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div *ngIf="formMsg">
+                            <span class="error-txt">{{formMsg}}</span>
+                        </div>
+                    </div>
+                    <div class="form-btn-flex">
+                        <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                        <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+                    </div>
+                </div>
+            </div>

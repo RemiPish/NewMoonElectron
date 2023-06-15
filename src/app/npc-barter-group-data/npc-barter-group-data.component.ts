@@ -23,6 +23,7 @@ export class NpcBarterGroupDataComponent {
 	@Output() fileIsValid = new EventEmitter<boolean>();
 	@Output() saveXmlFile = new EventEmitter<string>();
 	@Output() encryptFile = new EventEmitter<string>();
+	@Output() contentParsed = new EventEmitter<any>();
 	inEdition: boolean = false;
 	searchTableText = "";
 	content: any[] = [];
@@ -57,6 +58,11 @@ export class NpcBarterGroupDataComponent {
 		}
 		this.loadingTable = false;
 		this.cd.detectChanges();
+	}
+
+	async parseContent(json: string) {
+		let res = await this.parseNpcBarterGroupData(json);
+		this.contentParsed.emit(res);
 	}
 
 	onSearch() {
@@ -227,12 +233,12 @@ export class NpcBarterGroupDataComponent {
 		this.cd.detectChanges();
 	}
 
-	writeXmlFile(saveMode: string) {
+	writeXmlFile(saveMode: string, content: any) {
 		const confirmation = confirm('Are you sure you want to save this file? (The file will be overwritten by this change)');
 		if (confirmation) {
 			let xml = '<objects>\n';
 
-			this.content.forEach((item: npcBarterGroupDataStructure) => {
+			content.forEach((item: npcBarterGroupDataStructure) => {
 				// Write the opening tag for the item
 				xml += '	<object name="MiNPCBarterGroupData">\n';
 				xml += `    	<member name="ID">${item[0].value}</member>\n`;
