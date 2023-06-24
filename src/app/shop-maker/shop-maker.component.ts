@@ -319,8 +319,6 @@ export class ShopMakerComponent implements OnInit {
       })
       b[2].value = [...new Set(b[2].value)];
     })
-
-    //console.log(this.finalBarterList)
   }
 
 

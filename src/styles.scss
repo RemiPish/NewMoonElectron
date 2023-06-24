@@ -101,6 +101,7 @@ body {
 }
 
 .form-label {
+    margin-top: 10px !important;
     font-size: 19px;
 }
 
@@ -372,9 +373,9 @@ body {
 }
 
 .fileType-box {
-    max-height: 250px;
     overflow-y: auto;
     border: solid 5px green;
+    padding: 10px;
 }
 
 .logo-container {

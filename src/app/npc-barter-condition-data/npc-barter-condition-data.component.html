@@ -5,7 +5,7 @@
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
             <button (click)="writeXmlFile('xml', content)" class="btn btn-primary button-3">SAVE XML</button>
-            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin', content)"
+            <button  (click)="writeXmlFile('sbin', content)"
                 class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>

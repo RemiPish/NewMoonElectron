@@ -1,4 +1,4 @@
-import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
+import { Component, Output, OnChanges, SimpleChanges, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
 export type cTitleDataStructure = [
   { name: 'ID', value: number },
@@ -10,9 +10,10 @@ export type cTitleDataStructure = [
   templateUrl: './c-title-data.component.html',
   styleUrls: ['./c-title-data.component.scss']
 })
-export class CTitleDataComponent {
+export class CTitleDataComponent implements OnChanges {
   contentJson: string = "";
   @Input() fileMode: string = "";
+  @Input() type: string = "";
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
@@ -32,6 +33,24 @@ export class CTitleDataComponent {
 
   constructor(private cd: ChangeDetectorRef) {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['type']) {
+
+      this.inEdition = false;
+      this.searchTableText = "";
+      this.content = [];
+      this.filteredContent = [];
+
+      this.currentPage = 1;
+      this.formMsg = "";
+
+      this.selectedItem = null;
+      this.editingItem = null;
+      this.loadingTable = false;
+      this.isValidFile = false;
+    }
   }
 
   async startParsing(json: string) {
@@ -184,8 +203,14 @@ export class CTitleDataComponent {
       // Loop through each item in this.content array
       this.content.forEach((item: cTitleDataStructure) => {
         // Write the opening tag for the item
-        xml += '	<object name="MiCTitleData">\n';
-
+        switch (this.type) {
+          case 'CTitleData':
+            xml += '	<object name="MiCTitleData">\n';
+            break;
+          case 'CodeNameData':
+            xml += '	<object name="MiTitleData">\n';
+            break;
+        }
         // Write the baseData element
         xml += `		<member name="ID">${item[0].value || ''}</member>\n`;
         xml += `		<member name="title"><![CDATA[${item[1].value || ''}]]></member>\n`;

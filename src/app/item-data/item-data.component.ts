@@ -115,7 +115,7 @@ export class ItemDataComponent {
   async parseItemData(json: string) {
     try {
       const parsed = JSON.parse(json);
-      console.log(parsed);
+      //console.log(parsed);
       const items = await Promise.all(parsed.map(async (item: any) => {
         let skillTable: any[] = [];
         if (item.member.find((m: any) => m["@name"] === "restriction").object.member.find((m: any) => m["@name"] === "skillTbl").element.object.member.length) {
@@ -252,12 +252,12 @@ export class ItemDataComponent {
         { name: "equipType", value: "EQUIP_TYPE_NONE" },
         { name: "flags", value: 0 },
 
-        { name: "possessionType", value: 0 },
+        { name: "possessionType", value: 1 },
         { name: "durability", value: 0 },
         { name: "stackSize", value: 0 },
         { name: "useSkill", value: 0 },
 
-        { name: "gender", value: 0 },
+        { name: "gender", value: 2 },
         { name: "level", value: 0 },
         { name: "alignment", value: "ALL" },
         { name: "skillTable", value: [0] },
@@ -365,7 +365,7 @@ export class ItemDataComponent {
         // Write the baseData element
         xml += '		<member name="common">\n';
         xml += `			<object name="MiSkillItemStatusCommonData">\n`;
-        xml += `				<member name="ID">${item[0].value}</member>\n`;
+        xml += `				<member name="id">${item[0].value}</member>\n`;
         xml += `				<member name="category">\n`;
         xml += `				  <object name="MiCategoryData">\n`;
         xml += `            <member name="mainCategory">${item[1].value}</member>\n`;
@@ -390,7 +390,7 @@ export class ItemDataComponent {
 
         xml += `			</object>\n`;
         xml += '		</member>\n';
-        xml += '		<member name="base">\n';
+        xml += '		<member name="basic">\n';
         xml += `			<object name="MiItemBasicData">\n`;
         xml += `				<member name="baseID">${item[5].value}</member>\n`;
         xml += `        <member name="buyPrice">${item[6].value}</member>\n`;

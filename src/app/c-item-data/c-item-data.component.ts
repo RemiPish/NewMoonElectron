@@ -169,7 +169,7 @@ export class CItemDataComponent {
         { name: 'element2', value: this.selectedItem[15].value },
         { name: 'element3', value: this.selectedItem[16].value }
       ];
-      console.log(this.editingItem)
+      //console.log(this.editingItem)
     }
     else {
       this.editingItem = [

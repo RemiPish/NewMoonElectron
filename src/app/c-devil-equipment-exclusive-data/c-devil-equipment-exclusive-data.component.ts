@@ -1,4 +1,4 @@
-import { Component, Output, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
+import { Component, Output, OnChanges, SimpleChanges, ChangeDetectorRef, EventEmitter, Input } from '@angular/core';
 
 export type cDevilEquipmentExclusiveDataStructure = [
   { name: 'ID', value: number },
@@ -10,9 +10,10 @@ export type cDevilEquipmentExclusiveDataStructure = [
   templateUrl: './c-devil-equipment-exclusive-data.component.html',
   styleUrls: ['./c-devil-equipment-exclusive-data.component.scss']
 })
-export class CDevilEquipmentExclusiveDataComponent {
+export class CDevilEquipmentExclusiveDataComponent implements OnChanges {
   contentJson: string = "";
   @Input() fileMode: string = "";
+  @Input() type: string = "";
   @Output() fileIsValid = new EventEmitter<boolean>();
   @Output() saveXmlFile = new EventEmitter<string>();
   @Output() encryptFile = new EventEmitter<string>();
@@ -32,6 +33,24 @@ export class CDevilEquipmentExclusiveDataComponent {
 
   constructor(private cd: ChangeDetectorRef) {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['type']) {
+
+      this.inEdition = false;
+      this.searchTableText = "";
+      this.content = [];
+      this.filteredContent = [];
+
+      this.currentPage = 1;
+      this.formMsg = "";
+
+      this.selectedItem = null;
+      this.editingItem = null;
+      this.loadingTable = false;
+      this.isValidFile = false;
+    }
   }
 
   async startParsing(json: string) {
@@ -190,7 +209,15 @@ export class CDevilEquipmentExclusiveDataComponent {
       // Loop through each item in this.content array
       this.content.forEach((item: cDevilEquipmentExclusiveDataStructure) => {
         // Write the opening tag for the item
-        xml += '	<object name="MiCValuableData">\n';
+        switch (this.type) {
+          case 'CDevilEquipmentExclusiveData':
+            xml += '	<object name="MiCDevilEquipmentExclusiveData">\n';
+            break;
+          case 'CGuardianAssistData':
+            xml += '  <object name="MiCGuardianAssistData">\n';
+            break;
+        }
+
         xml += `    <member name="ID">${item[0].value}</member>\n`;
         xml += `    <member name="desc"><![CDATA[${item[1].value || ''}]]></member>\n`;
 

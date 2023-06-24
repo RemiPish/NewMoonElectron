@@ -560,7 +560,7 @@ export class SkillDataComponent {
 
 	findIndex(editId: any) {
 		for (let i = 0; i < this.content.length; i++) {
-			if (this.content[i].find((item: { name: string; }) => item.name === 'itemID').value === editId) {
+			if (this.content[i].find((item: { name: string; }) => item.name === 'id').value === editId) {
 				return i;
 			}
 		}

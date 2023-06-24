@@ -1,11 +1,11 @@
 <div class="page-flex">
     <div *ngIf="isValidFile && !loadingTable" class="section-container">
-        <div class="content-text-subtitle file-title">ModifiedEffectData - ({{filteredContent.length}}
+        <div class="content-text-subtitle file-title">CLoadingCommercialData- ({{filteredContent.length}}
             item(s))
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
             <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
-            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+            <button  (click)="writeXmlFile('sbin')"
                 class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
@@ -84,7 +84,7 @@
                             <label class="form-label">File:</label>
                             <button (click)="selectFile()" class="btn btn-blue button-3">+</button>
                         </div>
-                        
+
                         <textarea class="form-control" rows="5" cols="2" [(ngModel)]="editingItem[4].value"></textarea>
                     </div>
                 </div>

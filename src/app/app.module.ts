@@ -89,6 +89,39 @@ import { ZoneDataComponent } from './zone-data/zone-data.component';
 import { SkillDataComponent } from './skill-data/skill-data.component';
 import { CKeyItemDataComponent } from './c-key-item-data/c-key-item-data.component';
 import { ClickedOutsideDirective } from './clicked-outside.directive';
+import { DemonMakerComponent } from './demon-maker/demon-maker.component';
+import { DevilEquipmentDataComponent } from './devil-equipment-data/devil-equipment-data.component';
+import { ModificationDataComponent } from './modification-data/modification-data.component';
+import { CEquipModelDataComponent } from './c-equip-model-data/c-equip-model-data.component';
+import { DevilLvupRateDataComponent } from './devil-lvup-rate-data/devil-lvup-rate-data.component';
+import { CHouraiMessageDataComponent } from './c-hourai-message-data/c-hourai-message-data.component';
+import { GuardianLevelDataComponent } from './guardian-level-data/guardian-level-data.component';
+import { EnchantDataComponent } from './enchant-data/enchant-data.component';
+import { ExpertTitleDataComponent } from './expert-title-data/expert-title-data.component';
+import { QuestDataComponent } from './quest-data/quest-data.component';
+import { SynthesisDataComponent } from './synthesis-data/synthesis-data.component';
+import { CStatusDataComponent } from './c-status-data/c-status-data.component';
+import { NpcBarterTextDataComponent } from './npc-barter-text-data/npc-barter-text-data.component';
+import { CBattleTalkDataComponent } from './c-battle-talk-data/c-battle-talk-data.component';
+import { CFortuneDataComponent } from './c-fortune-data/c-fortune-data.component';
+import { CHelpDataComponent } from './c-help-data/c-help-data.component';
+import { CModifiedEffectDataComponent } from './c-modified-effect-data/c-modified-effect-data.component';
+import { CQuestDataComponent } from './c-quest-data/c-quest-data.component';
+import { CTimeAttackDataComponent } from './c-time-attack-data/c-time-attack-data.component';
+import { CValuablesDataComponent } from './c-valuables-data/c-valuables-data.component';
+import { CZoneRelationDataComponent } from './c-zone-relation-data/c-zone-relation-data.component';
+import { DevilBookDataComponent } from './devil-book-data/devil-book-data.component';
+import { DevilBoostDataComponent } from './devil-boost-data/devil-boost-data.component';
+import { DevilBoostExtraDataComponent } from './devil-boost-extra-data/devil-boost-extra-data.component';
+import { DisassemblyDataComponent } from './disassembly-data/disassembly-data.component';
+import { EquipmentSetDataComponent } from './equipment-set-data/equipment-set-data.component';
+import { ModificationExtEffectDataComponent } from './modification-ext-effect-data/modification-ext-effect-data.component';
+import { ONpcDataComponent } from './o-npc-data/o-npc-data.component';
+import { SItemDataComponent } from './s-item-data/s-item-data.component';
+import { ShopProductDataComponent } from './shop-product-data/shop-product-data.component';
+import { StatusDataComponent } from './status-data/status-data.component';
+import { NPCInvisibleDataComponent } from './npc-invisible-data/npc-invisible-data.component';
+import { ExpertClassDataComponent } from './expert-class-data/expert-class-data.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -168,7 +201,40 @@ import { ClickedOutsideDirective } from './clicked-outside.directive';
     ZoneDataComponent,
     SkillDataComponent,
     CKeyItemDataComponent,
-    ClickedOutsideDirective
+    ClickedOutsideDirective,
+    DemonMakerComponent,
+    DevilEquipmentDataComponent,
+    ModificationDataComponent,
+    CEquipModelDataComponent,
+    DevilLvupRateDataComponent,
+    CHouraiMessageDataComponent,
+    GuardianLevelDataComponent,
+    EnchantDataComponent,
+    ExpertTitleDataComponent,
+    QuestDataComponent,
+    SynthesisDataComponent,
+    CStatusDataComponent,
+    NpcBarterTextDataComponent,
+    CBattleTalkDataComponent,
+    CFortuneDataComponent,
+    CHelpDataComponent,
+    CModifiedEffectDataComponent,
+    CQuestDataComponent,
+    CTimeAttackDataComponent,
+    CValuablesDataComponent,
+    CZoneRelationDataComponent,
+    DevilBookDataComponent,
+    DevilBoostDataComponent,
+    DevilBoostExtraDataComponent,
+    DisassemblyDataComponent,
+    EquipmentSetDataComponent,
+    ModificationExtEffectDataComponent,
+    ONpcDataComponent,
+    SItemDataComponent,
+    ShopProductDataComponent,
+    StatusDataComponent,
+    NPCInvisibleDataComponent,
+    ExpertClassDataComponent
   ],
   imports: [
     BrowserModule,

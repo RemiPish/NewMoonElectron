@@ -62,6 +62,10 @@ export class PgMakerComponent implements OnInit {
   listFilter: string = "CItemData"
   dropdownOptions: string[] = [];
 
+  res1: any[] = [];
+  res2: any[] = [];
+  res3: any[] = [];
+
   constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 
     const parseConfig = {
@@ -77,12 +81,16 @@ export class PgMakerComponent implements OnInit {
     const parser = new XMLParser(parseConfig);
 
     this.ipc.on('file-saved', async (event: any, arg?: any) => {
-      console.log(arg["fileType"]);
       if (arg["fileType"] === "CItemData") {
+        this.res1 = [];
         this.itemDataComponent.writeXmlFile("sbin", this.itemList);
       }
       else if (arg["fileType"] === "ItemData") {
+        this.res2 = [];
         this.exchangeDataComponent.writeXmlFile("sbin", this.exchangeList);
+      }
+      else if (arg["fileType"] === "ExchangeData") {
+        this.res3 = [];
       }
       this.cd.detectChanges();
     });
@@ -116,6 +124,7 @@ export class PgMakerComponent implements OnInit {
     this.fileTypeList = ['CItemData', 'ItemData', 'ExchangeData', 'DevilData']
     this.ipc.send('start-decrypt-list', { comphack: this.comphackPath, binary: this.binaryDataPath, fileNameList: this.fileTypeList });
   }
+
 
   setItemData(str: any) {
     str.forEach((item: any) => {
@@ -206,7 +215,7 @@ export class PgMakerComponent implements OnInit {
   }
 
   selectOption(option: string) {
-    this.editingItem[1].value = option.split("-")[0];
+    this.editingItem[1].value = Number(option.split("-")[0]);
     this.filteredOptions = [];
     this.cd.detectChanges();
   }
@@ -384,15 +393,105 @@ export class PgMakerComponent implements OnInit {
   }
 
   saveChange() {
+
+    this.res1 = [];
+    this.res2 = [];
+    this.res3 = [];
+    this.citemList.forEach((item: any) => {
+      this.res1.push([{ name: 'ID', value: item[0].value },
+      { name: 'name', value: item[1].value },
+      { name: 'name2', value: item[2].value },
+      { name: 'desc', value: item[3].value },
+      { name: 'icon', value: item[4].value },
+      { name: 'category', value: item[5].value },
+      { name: 'tradeList', value: item[6].value },
+      { name: 'modelID', value: item[7].value },
+
+      { name: 'idle', value: item[8].value },
+      { name: 'combatIdle', value: item[9].value },
+      { name: 'walk', value: item[10].value },
+      { name: 'run', value: item[11].value },
+
+      { name: 'shotEffectFile', value: item[12].value },
+      { name: 'swingEffectFile', value: item[13].value },
+      { name: 'element1', value: item[14].value },
+      { name: 'element2', value: item[15].value },
+      { name: 'element3', value: item[16].value }])
+    });
+
+    this.itemList.forEach((item: any) => {
+      let skillTable: any[] = [];
+      let correctTable: any[] = [];
+      for (let i = 0; i < item[20].value.length; i++) {
+        skillTable.push(item[20].value[i]);
+      }
+
+      for (let i = 0; i < item[4].value.length; i++) {
+        correctTable.push([{ name: 'ID', value: item[4].value[i][0].value },
+        { name: 'type', value: item[4].value[i][1].value },
+        { name: 'value', value: item[4].value[i][2].value }]);
+      }
+      this.res2.push([
+        { name: "ID", value: item[0].value },
+        { name: "mainCategory", value: item[1].value },
+        { name: "subCategory", value: item[2].value },
+        { name: "affinity", value: item[3].value },
+        { name: 'correctTbl', value: correctTable },
+        { name: "baseID", value: item[5].value },
+        { name: "buyPrice", value: item[6].value },
+        { name: "sellPrice", value: item[7].value },
+        { name: "repairPrice", value: item[8].value },
+        { name: "appearanceID", value: item[9].value },
+        { name: "weaponType", value: item[10].value },
+        { name: "equipType", value: item[11].value },
+        { name: "flags", value: item[12].value },
+
+        { name: "possessionType", value: item[13].value },
+        { name: "durability", value: item[14].value },
+        { name: "stackSize", value: item[15].value },
+        { name: "useSkill", value: item[16].value },
+
+        { name: "gender", value: item[17].value },
+        { name: "level", value: item[18].value },
+        { name: "alignment", value: item[19].value },
+        { name: "skillTable", value: skillTable },
+        { name: "modSlots", value: item[21].value },
+        { name: "stock", value: item[22].value },
+        { name: "GPRequirement", value: item[23].value },
+        { name: "rental", value: item[24].value }
+      ]);
+
+    });
+
+    this.exchangeList.forEach((item: any) => {
+      let datas = [];
+
+      for (let i = 0; i < item[1].value.length; i++) {
+        let itemList: any[] = [];
+        let name = item[1].value[i][0].value;
+        for (let j = 0; j < item[1].value[i][1].value.length; j++) {
+          itemList.push([{ name: "ID", value: item[1].value[i][1].value[j][0].value || 0 },
+          { name: "stackSize", value: item[1].value[i][1].value[j][1].value || 0 }])
+        }
+        datas.push([{ name: 'optionDataName', value: name },
+        { name: 'items', value: itemList }])
+      }
+      this.editingItem = [
+        { name: 'ID', value: item[0].value },
+        { name: 'datas', value: datas }
+      ];
+    })
+
+
     this.content.forEach((item: { value: any; }[]) => {
-      this.exchangeList.push([{ name: 'ID', value: item[0].value },
+      this.res3.push([{ name: 'ID', value: item[0].value },
       {
         name: 'datas',
         value: [[{ name: 'optionDataName', value: item[2].value },
         { name: 'items', value: [[{ name: 'ID', value: item[1].value }, { name: 'stackSize', value: 1 }]] }]]
       }]);
 
-      this.citemList.push([{ name: 'ID', value: item[0].value },
+      this.res1.push([{ name: 'ID', value: item[0].value },
       { name: 'name', value: item[2].value },
       { name: 'name2', value: item[2].value },
       { name: 'desc', value: item[3].value },
@@ -412,7 +511,7 @@ export class PgMakerComponent implements OnInit {
       { name: 'element2', value: 0 },
       { name: 'element3', value: 0 }]);
 
-      this.itemList.push([{ name: 'ID', value: item[0].value },
+      this.res2.push([{ name: 'ID', value: item[0].value },
       { name: 'mainCategory', value: 1 },
       { name: 'subCategory', value: 68 },
       { name: 'affinity', value: 0 },
@@ -439,7 +538,7 @@ export class PgMakerComponent implements OnInit {
       { name: 'rental', value: 0 }]);
     });
 
-    this.cItemDataComponent.writeXmlFile("sbin", this.citemList);
+    this.cItemDataComponent.writeXmlFile("sbin", this.res1);
     this.cd.detectChanges();
   }
 }

@@ -1,0 +1,168 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">SynthesisData - ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button  (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>BaseSkillID</th>
+                        <th>SkillID</th>
+                        <th>ItemID</th>
+                        <th>Count</th>
+                        <th>Difficulty</th>
+                        <th>ExpertBoosts</th>
+                        <th>Materials</th>
+                        <th>Rate Scaling</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }} </td>
+                        <td>{{ item[2].value }}</td>
+                        <td>{{ item[3].value }}</td>
+                        <td>{{ item[4].value }}</td>
+                        <td>{{ item[5].value }}</td>
+                        <td><span *ngFor="let elt of item[10].value">{{elt}} </span></td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <th>ItemID</th>
+                                    <th>Amount</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of item[11].value">
+                                        <td>{{data[0]}}</td>
+                                        <td>{{data[1]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <div *ngFor="let elt of item[12].value">{{elt}}</div>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Base Skill ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Skill ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Item ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Count:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[4].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Difficulty:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Type:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[6].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Order:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Slot Min:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[8].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Slot Max:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[9].value">
+                    </div>
+                    <label class="form-label">Expert Boosts</label>
+                    <div class="fileType-box" *ngFor="let a of editingItem[10].value; let j = index">
+                        <div class="form-group form-input form-input-line">
+                            <label class="form-label">Element {{j+1}}:</label>
+                            <input class="form-control" type="number" [(ngModel)]="editingItem[10].value[j]">
+                        </div>
+                    </div>
+                    <label class="form-label">Materials</label>
+                    <div class="fileType-box" *ngFor="let a of editingItem[11].value; let k = index">
+                        <label class="form-label">Element {{k+1}}:</label>
+                        <div class="fileType-box">
+                            <div class="form-group form-input form-input-line ">
+                                <label class="form-label">ItemID:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[11].value[k][0]">
+                            </div>
+                            <div class="form-group form-input form-input-line ">
+                                <label class="form-label">Amount:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[11].value[k][1]">
+                            </div>
+                        </div>
+                    </div>
+                    <label class="form-label">Rate Scaling</label>
+                    <div class="fileType-box" *ngFor="let a of editingItem[12].value; let i = index">
+                        <div class="form-group form-input form-input-line">
+                            <label class="form-label">Element {{i+1}}:</label>
+                            <input class="form-control" type="number" [(ngModel)]="editingItem[12].value[i]">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="formMsg">
+                <span class="error-txt">{{formMsg}}</span>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>

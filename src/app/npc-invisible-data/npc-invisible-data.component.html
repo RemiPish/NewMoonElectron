@@ -1,0 +1,153 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">NPCInvisibleData -
+            ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml',content)" class="btn btn-primary button-3">SAVE XML</button>
+            <button  (click)="writeXmlFile('sbin',content)"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn btn-blue button-3">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Show</th>
+                        <th>Entries</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }}</td>
+                        <td class="data-table">
+                            <table>
+                                <thead>
+                                    <th>Logic Group</th>
+                                    <th>Type</th>
+                                    <th>Main Params</th>
+                                    <th>Sub Params</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of item[2].value">
+                                        <td>{{data[0].value}}</td>
+                                        <td>{{data[1].value}}</td>
+                                        <td>
+                                            <div *ngFor="let it of data[2].value">. {{it}}</div>
+                                        </td>
+                                        <td>
+                                            <div *ngFor="let it2 of data[3].value">. {{it2}}</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf=" inEdition" class="page-container edit-page">
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+            <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
+        </div>
+        <div class="form-container">
+            <div class="form-elt-container">
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">ID:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                </div>
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Show:</label>
+                    <select [(ngModel)]="editingItem[1].value">
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+                </div>
+                <div class="line-flex">
+                    <h2 class="section-title">Entries ({{ editingItem[2].value.length}}):</h2>
+                </div>
+                <div class="dt-content" *ngFor="let cnt of editingItem[2].value; let i = index">
+
+                    <div class="line-flex">
+                        <label class="form-label">Entry {{i+1}}:</label>
+                    </div>
+
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Logic Group:</label>
+                        <input class="form-control" type="number" [(ngModel)]="cnt[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Show:</label>
+                        <select [(ngModel)]="cnt[1].value">
+                            <option value="NONE">NONE</option>
+                            <option value="QUEST_PHASE">QUEST_PHASE</option>
+                            <option value="QUEST_STATE">QUEST_STATE</option>
+                            <option value="QUEST_DATA">QUEST_DATA</option>
+                            <option value="VALUABLE">VALUABLE</option>
+                            <option value="GAMETIME">GAMETIME</option>
+                            <option value="DATETIME">DATETIME</option>
+                            <option value="STATUS">STATUS</option>
+                            <option value="ITIME">ITIME</option>
+                            <option value="SYSTIME">SYSTIME</option>
+                        </select>
+                    </div>
+                    <div class="form-elt-container flex-box fileType-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Main Params </h2>
+                        </div>
+                        <div *ngFor="let elt of cnt[2].value; let a = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="cnt[2].value[a]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-elt-container flex-box fileType-box">
+                        <div class="line-flex">
+                            <h2 class="section-title">Sub Params </h2>
+                        </div>
+                        <div *ngFor="let elt of cnt[3].value; let b = index">
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Element {{i+1}}:</label>
+                                <input class="form-control" type="number" [(ngModel)]="cnt[3].value[b]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="formMsg">
+                    <span class="error-txt">{{formMsg}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
+            <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
+        </div>
+    </div>

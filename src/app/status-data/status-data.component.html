@@ -1,0 +1,329 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">StatusData - ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button  (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Affinity</th>
+                        <th>CorrectTbl</th>
+                        <th>Duration</th>
+                        <th>Duration Type</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[3].value }}</td>
+                        <td class="data-table">
+                            <table *ngFor="let data of item[4].value">
+                                <thead>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Value</th>
+                                </thead>
+                                <tbody>
+                                    <td>{{data[0]}}</td>
+                                    <td>{{data[1]}}</td>
+                                    <td>{{data[2]}}</td>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>{{ item[15].value }}</td>
+                        <td>{{ item[16].value }}</td>
+
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Common</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Main Category:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[1].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Sub Category:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Affinity:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                    </div>
+                    <div class="form-elt-container">
+                        <div class="line-flex">
+                            <label class="form-label">Correct Table ({{ editingItem[4].value.length}})</label>
+                            <button (click)="addCorrect()" class="btn btn-blue button-3">+</button>
+                        </div>
+
+                        <div *ngFor="let motion of editingItem[4].value; let i = index">
+                            <div class="line-flex">
+                                <label class="form-label">Correct {{i+1}}:</label>
+                                <button *ngIf="i>0" (click)="removeCorrect(i || 0)"
+                                    class="btn btn-error button-3">-</button>
+                            </div>
+
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Equip Type:</label>
+                                <select [(ngModel)]="motion[0]">
+                                    <option value="STR">Strength</option>
+                                    <option value="MAGIC">Magic Power</option>
+                                    <option value="VIT">Vitality</option>
+                                    <option value="INT">Intelligence</option>
+                                    <option value="SPEED">Speed</option>
+                                    <option value="LUCK">Luck</option>
+                                    <option value="HP_MAX">Max HP</option>
+                                    <option value="MP_MAX">Max MP</option>
+                                    <option value="HP_REGEN">HP Regen</option>
+                                    <option value="MP_REGEN">MP Regen</option>
+                                    <option value="MOVE1">Movement Speed 1</option>
+                                    <option value="MOVE2">Movement Speed 2</option>
+                                    <option value="CLSR">CLSR</option>
+                                    <option value="LNGR">LNGR</option>
+                                    <option value="SPELL">SPELL</option>
+                                    <option value="SUPPORT">SUPPORT</option>
+                                    <option value="CRITICAL">Crit Chance</option>
+                                    <option value="SUMMON_SPEED">Summoning Speed</option>
+                                    <option value="KNOCKBACK_RESIST">Knockback Resist</option>
+                                    <option value="PDEF">Physical Defense</option>
+                                    <option value="MDEF">Magic Defense</option>
+                                    <option value="CRIT_DEF">Critical Defense</option>
+                                    <option value="RES_DEFAULT">Default Affinity Resistance</option>
+                                    <option value="RES_WEAPON">Weapon Resistance</option>
+                                    <option value="RES_SLASH">Slash Resistance</option>
+                                    <option value="RES_THRUST">Thrust Resistance</option>
+                                    <option value="RES_STRIKE">Strike Resistance</option>
+                                    <option value="RES_LNGR">Handgun Resistance</option>
+                                    <option value="RES_PIERCE">Rifle Resistance</option>
+                                    <option value="RES_SPREAD">Spread Resistance</option>
+                                    <option value="RES_FIRE">Fire Resistance</option>
+                                    <option value="RES_ICE">Ice Resistance</option>
+                                    <option value="RES_ELEC">Elec Resistance</option>
+                                    <option value="RES_ALMIGHTY">Almighy Resistance</option>
+                                    <option value="RES_FORCE">Force Resistance</option>
+                                    <option value="RES_EXPEL">Expel Resistance</option>
+                                    <option value="RES_CURSE">Curse Resistance</option>
+                                    <option value="RES_HEAL">Healing Resistance</option>
+                                    <option value="RES_SUPPORT">Support Resistance</option>
+                                    <option value="RES_MAGICFORCE">Sorcery Resistance</option>
+                                    <option value="RES_NERVE">Nerve Resistance</option>
+                                    <option value="RES_MIND">Mind Resistance</option>
+                                    <option value="RES_WORD">Word Resistance</option>
+                                    <option value="RES_SPECIAL">Special Resistance</option>
+                                    <option value="RES_SUICIDE">Self-Destruct Resistance</option>
+                                    <option value="NRA_DEFAULT">Null/Reflect/Absorb Default</option>
+                                    <option value="NRA_WEAPON">Null/Reflect/Absorb Weapon</option>
+                                    <option value="NRA_SLASH">Null/Reflect/Absorb Slash</option>
+                                    <option value="NRA_THRUST">Null/Reflect/Absorb Thrust</option>
+                                    <option value="NRA_STRIKE">Null/Reflect/Absorb Strike</option>
+                                    <option value="NRA_LNGR">Null/Reflect/Absorb Handgun</option>
+                                    <option value="NRA_PIERCE">Null/Reflect/Absorb Rifle</option>
+                                    <option value="NRA_FIRE">Null/Reflect/Absorb Fire</option>
+                                    <option value="NRA_ICE">Null/Reflect/Absorb Ice</option>
+                                    <option value="NRA_ELEC">Null/Reflect/Absorb Elec</option>
+                                    <option value="NRA_ALMIGHTY">Null/Reflect/Absorb Almighty</option>
+                                    <option value="NRA_FORCE">Null/Reflect/Absorb Force</option>
+                                    <option value="NRA_EXPEL">Null/Reflect/Absorb Expel</option>
+                                    <option value="NRA_CURSE">Null/Reflect/Absorb Curse</option>
+                                    <option value="NRA_HEAL">Null/Reflect/Absorb Healing</option>
+                                    <option value="NRA_SUPPORT">Null/Reflect/Absorb Support</option>
+                                    <option value="NRA_MAGICFORCE">Null/Reflect/Absorb Sorcery</option>
+                                    <option value="NRA_NERVE">Null/Reflect/Absorb Nerve</option>
+                                    <option value="NRA_MIND">Null/Reflect/Absorb Mind</option>
+                                    <option value="NRA_WORD">Null/Reflect/Absorb Word</option>
+                                    <option value="NRA_SPECIAL">Null/Reflect/Absorb Special</option>
+                                    <option value="NRA_SUICIDE">Null/Reflect/Absorb Self-Destruct</option>
+                                    <option value="NRA_PHYS">Null/Reflect/Absorb Physical</option>
+                                    <option value="NRA_MAGIC">Null/Reflect/Absorb Magic</option>
+                                    <option value="COOLDOWN_TIME">Cooldown time</option>
+                                    <option value="RES_STATUS">Resistance to Status Effects</option>
+                                    <option value="RATE_XP">Experience Acquisition Rate</option>
+                                    <option value="RATE_MAG">Magnetite Acquisition Rate</option>
+                                    <option value="RATE_MACCA">Makka Acquisition Rate</option>
+                                    <option value="RATE_EXPERTISE">Expertise Acquisition Rate</option>
+                                    <option value="RATE_CLSR">Physical Damage Dealt</option>
+                                    <option value="RATE_LNGR">Gun Damage Dealt</option>
+                                    <option value="RATE_SPELL">Spell Damage Dealt</option>
+                                    <option value="RATE_SUPPORT">Support "Damage" Dealt</option>
+                                    <option value="RATE_HEAL">Healing Effect Up</option>
+                                    <option value="RATE_CLSR_TAKEN">Physical Damage Received</option>
+                                    <option value="RATE_LNGR_TAKEN">Gun Damage Received</option>
+                                    <option value="RATE_SPELL_TAKEN">Spell Damage Received</option>
+                                    <option value="RATE_SUPPORT_TAKEN">Support Damage Received</option>
+                                    <option value="RATE_HEAL_TAKEN">Healing Received</option>
+                                    <option value="BOOST_DEFAULT">Default Boost</option>
+                                    <option value="BOOST_WEAPON">Weapon Boost</option>
+                                    <option value="BOOST_SLASH">Slash Boost</option>
+                                    <option value="BOOST_THRUST">Thrust Boost</option>
+                                    <option value="BOOST_STRIKE">Strike Boost</option>
+                                    <option value="BOOST_LNGR">Handgun Boost</option>
+                                    <option value="BOOST_PIERCE">Rifle Boost</option>
+                                    <option value="BOOST_SPREAD">Shotgun Boost</option>
+                                    <option value="BOOST_FIRE">Fire Boost</option>
+                                    <option value="BOOST_ICE">Ice Boost</option>
+                                    <option value="BOOST_ELEC">Elec Boost</option>
+                                    <option value="BOOST_ALMIGHTY">Almighty Boost</option>
+                                    <option value="BOOST_FORCE">Force Boost</option>
+                                    <option value="BOOST_EXPEL">Expel Boost</option>
+                                    <option value="BOOST_CURSE">Curse Boost</option>
+                                    <option value="BOOST_HEAL">Healing Boost</option>
+                                    <option value="BOOST_SUPPORT">Support Boost</option>
+                                    <option value="BOOST_MAGICFORCE">Sorcery Boost</option>
+                                    <option value="BOOST_NERVE">Nerve Boost</option>
+                                    <option value="BOOST_MIND">Mind Boost</option>
+                                    <option value="BOOST_WORD">Word Boost</option>
+                                    <option value="BOOST_SPECIAL">Special Boost</option>
+                                    <option value="BOOST_SUICIDE">Self-Destruct Boost</option>
+                                    <option value="LB_CHANCE">Limit Break Chance</option>
+                                    <option value="LB_DAMAGE">Limit Break Damage</option>
+                                    <option value="FINAL_CRIT_CHANCE">Final Crit Chance</option>
+                                    <option value="DEFENSE_EXPAND_2">Defense Expansion 2</option>
+                                    <option value="RATE_PC">Character Damage Dealt</option>
+                                    <option value="RATE_DEMON">Demon Damage Dealt</option>
+                                    <option value="RATE_PC_TAKEN">Character Damage Received</option>
+                                    <option value="RATE_DEMON_TAKEN">Demon Damage Received</option>
+                                    <option value="CHANT_TIME">Skill Chant Time</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Type:</label>
+                                <input class="form-control" type="number" [(ngModel)]="motion[1]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Value:</label>
+                                <input class="form-control" type="number" [(ngModel)]="motion[2]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Basic</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Max Stack:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                    </div>
+
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Stack Type:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[6].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Application Logic:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[7].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Primary Group ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[8].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Group ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[9].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Group Rank:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[10].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Function ID:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[11].value">
+                    </div>
+                </div>
+            </div>
+            <div class="form-elt-container">
+                <h2 class="section-title">Effect</h2>
+                <div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Restrictions:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[12].value">
+                    </div>
+
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">DOT HP Damage:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[13].value">
+                    </div>
+
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">DOT MP Damage:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[14].value">
+                    </div>
+                </div>
+                <div class="form-elt-container">
+                    <h2 class="section-title">Cancel</h2>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Duration:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[15].value">
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Duration Type:</label>
+                        <select [(ngModel)]="editingItem[16].value">
+                            <option value="MS">MS</option>
+                            <option value="DAY">DAY</option>
+                            <option value="NONE">NONE</option>
+                            <option value="HOUR">HOUR</option>
+                            <option value="DAY_SET">DAY_SET</option>
+                            <option value="MS_SET">MS_SET</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-input form-input-line">
+                        <label class="form-label">Cancel Types:</label>
+                        <input class="form-control" type="number" [(ngModel)]="editingItem[17].value">
+                    </div>
+
+                </div>
+
+                <div *ngIf="formMsg">
+                    <span class="error-txt">{{formMsg}}</span>
+                </div>
+            </div>
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+        </div>
+    </div>

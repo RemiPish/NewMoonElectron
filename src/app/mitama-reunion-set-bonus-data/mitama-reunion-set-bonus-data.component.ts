@@ -137,8 +137,10 @@ export class MitamaReunionSetBonusDataComponent {
     this.inEdition = true;
 
     if (id) {
-
-      this.selectedItem = this.content.find((item: { value: any; }[]) => item[0].value === id);
+      if (id === 'zero') {
+        this.selectedItem = this.content.find((item: { value: any; }[]) => item[0].value === 0);
+      }
+      else this.selectedItem = this.content.find((item: { value: any; }[]) => item[0].value === id);
 
       this.editingItem = [
         { name: 'ID', value: this.selectedItem[0].value },

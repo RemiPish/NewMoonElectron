@@ -177,7 +177,7 @@ export class DevilBoostItemDataComponent {
 
   findIndex(editId: any) {
     for (let i = 0; i < this.content.length; i++) {
-      if (this.content[i].find((item: { name: string; }) => item.name === 'ID').value === editId) {
+      if (this.content[i].find((item: { name: string; }) => item.name === 'itemID').value === editId) {
         return i;
       }
     }

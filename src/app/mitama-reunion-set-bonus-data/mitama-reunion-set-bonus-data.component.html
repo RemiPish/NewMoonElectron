@@ -5,7 +5,7 @@
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
             <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
-            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin')"
+            <button  (click)="writeXmlFile('sbin')"
                 class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
@@ -57,7 +57,8 @@
                         </td>
                         <td>{{ item[5].value }}</td>
                         <td *ngIf="!inEdition">
-                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                            <div class="last"><a (click)="openEdition(item[0].value || 'zero')"
+                                    class="action-link">Edit</a>
                                 <a (click)="deleteItem(item)" class="action-link">Delete</a>
                             </div>
 

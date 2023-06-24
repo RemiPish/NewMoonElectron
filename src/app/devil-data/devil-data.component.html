@@ -4,7 +4,7 @@
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
             <button (click)="writeXmlFile('xml', content)" class="btn btn-primary button-3">SAVE XML</button>
-            <button *ngIf="fileMode===('decrypt')" (click)="writeXmlFile('sbin', content)"
+            <button  (click)="writeXmlFile('sbin', content)"
                 class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
@@ -34,6 +34,8 @@
                         *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
                         <td>{{ item[0].value }}</td>
                         <td>{{ item[1].value }}</td>
+                        <td>{{ item[8].value}}</td>
+                        <td>{{ item[9].value }}</td>
                         <td *ngIf="!inEdition">
                             <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
                                 <a (click)="deleteItem(item)" class="action-link">Delete</a>
@@ -307,7 +309,7 @@
 
                                 <div class="form-elt-container flex-box">
                                     <div class="line-flex">
-                                        <h2 class="section-title">Traits </h2>
+                                        <h2 class="section-title">Traits (Features)</h2>
                                     </div>
                                     <div *ngFor="let elt of editingItem[28].value; let i = index">
                                         <div class="form-group form-input form-input-line">

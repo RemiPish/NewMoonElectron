@@ -1,0 +1,245 @@
+<div class="page-flex">
+    <div *ngIf="isValidFile && !loadingTable" class="section-container">
+        <div class="content-text-subtitle file-title">QuestData - ({{filteredContent.length}} item(s))
+        </div>
+        <div *ngIf="!inEdition" class="form-btn-flex">
+            <button (click)="writeXmlFile('xml')" class="btn btn-primary button-3">SAVE XML</button>
+            <button  (click)="writeXmlFile('sbin')"
+                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
+        </div>
+
+        <div class="table-text">
+            <div class="search-flex">
+                <input class="input-full-width" type="text" placeholder="Search table" [(ngModel)]="searchTableText">
+                <button (click)="onSearch()" class="upload-btn button-3">Search</button>
+            </div>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+            <table *ngIf="filteredContent" class="fileElt">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>EpisodeType</th>
+                        <th>Conditions</th>
+                        <th>Restriction Text</th>
+                        <th>Phases</th>
+                        <th *ngIf="!inEdition">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of filteredContent | paginate: { itemsPerPage: 5, currentPage: currentPage, totalItems: filteredContent.length }">
+                        <td>{{ item[0].value }}</td>
+                        <td>{{ item[1].value }} </td>
+                        <td>{{ item[3].value }}</td>
+                        <td>
+                            <table *ngFor="let data of item[6].value">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>Value1</th>
+                                    <th>Value2</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cl of data[1]">
+                                        <td>{{cl[0]}}</td>
+                                        <td>{{cl[1]}}</td>
+                                        <td>{{cl[2]}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>{{ item[7].value }}</td>
+                        <td>
+                            <table *ngFor="let data of item[9].value">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>Object ID</th>
+                                    <th>Object Count</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cl of data[2]">
+                                        <td>{{cl[0]}}</td>
+                                        <td>{{cl[1]}}</td>
+                                        <td>{{cl[2]}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="!inEdition">
+                            <div class="last"><a (click)="openEdition(item[0].value)" class="action-link">Edit</a>
+                                <a (click)="deleteItem(item)" class="action-link">Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line-flex pagination-flex">
+                <pagination-controls (pageChange)="changeTablePage($event)"></pagination-controls>
+                <input class="form-control pagination-input" type="number" [(ngModel)]="currentPage"
+                    (ngModelChange)="changeTablePage($event)">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="inEdition" class="page-container edit-page">
+        <div class="form-container">
+            <div class="form-btn-flex">
+                <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+            </div>
+            <div class="form-elt-container">
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">ID: {{editingItem[0].value}}</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[0].value">
+                </div>
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Type:</label>
+                    <select [(ngModel)]="editingItem[1].value">
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="REPEATABLE">REPEATABLE</option>
+                        <option value="EPISODE">EPISODE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                        <option value="EVENT">EVENT</option>
+                        <option value="ITIME">ITIME</option>
+                    </select>
+                </div>
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Group ID:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[2].value">
+                </div>
+
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Episode Type:</label>
+                    <select [(ngModel)]="editingItem[3].value">
+                        <option value="NONE">NONE</option>
+                        <option value="MAIN">MAIN</option>
+                        <option value="COC">COC</option>
+                    </select>
+                </div>
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Bonus Enabled:</label>
+                    <select [(ngModel)]="editingItem[4].value">
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+                </div>
+
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Conditions Exist:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[5].value">
+                </div>
+
+
+                <div class="form-elt-container flex-box fileType-box">
+                    <div class="line-flex">
+                        <h2 class="section-title">Conditions</h2>
+                    </div>
+                    <div class='fileType-box' *ngFor="let edt of editingItem[6].value; let b = index">
+                        <label class="form-label">QuestUpperCondition {{b+1}}:</label>
+                        <div class="form-group form-input form-input-line">
+                            <label class="form-label">Clause Count:</label>
+                            <input class="form-control" type="number" [(ngModel)]="edt[0]">
+                        </div>
+                        <div class='fileType-box' *ngFor="let rnk of edt[1]; let c = index">
+                            <label class="form-label">Clauses {{c+1}}:</label>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Type:</label>
+                                <select [(ngModel)]="rnk[0]">
+                                    <option value="NONE">NONE</option>
+                                    <option value="LEVEL">LEVEL</option>
+                                    <option value="LNC_TYPE">LNC_TYPE</option>
+                                    <option value="ITEM">ITEM</option>
+                                    <option value="VALUABLE">VALUABLE</option>
+                                    <option value="QUEST_COMPLETE">QUEST_COMPLETE</option>
+                                    <option value="TIMESPAN">TIMESPAN</option>
+                                    <option value="TIMESPAN_WEEK">TIMESPAN_WEEK</option>
+                                    <option value="MOON_PHASE">MOON_PHASE</option>
+                                    <option value="MAP">MAP</option>
+                                    <option value="QUEST_ACTIVE">QUEST_ACTIVE</option>
+                                    <option value="QUEST_SEQUENCE">QUEST_SEQUENCE</option>
+                                    <option value="EXPERTISE_POINTS_REMAINING">EXPERTISE_POINTS_REMAINING</option>
+                                    <option value="EXPERTISE_POINTS_OBTAINABLE">EXPERTISE_POINTS_OBTAINABLE</option>
+                                    <option value="EXPERTISE_CLASS_OBTAINABLE">EXPERTISE_CLASS_OBTAINABLE</option>
+                                    <option value="EXPERTISE">EXPERTISE</option>
+                                    <option value="SI_EQUIPPED">SI_EQUIPPED</option>
+                                    <option value="SUMMONED">SUMMONED</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Value1:</label>
+                                <input class="form-control" type="number" [(ngModel)]="rnk[1]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Value2:</label>
+                                <input class="form-control" type="number" [(ngModel)]="rnk[2]">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-input form-input-textarea">
+                    <label class="form-label">Restriction Text:</label>
+                    <textarea class="form-control" rows="2" cols="2" [(ngModel)]="editingItem[7].value"></textarea>
+                </div>
+
+                <div class="form-group form-input form-input-line">
+                    <label class="form-label">Phase Count:</label>
+                    <input class="form-control" type="number" [(ngModel)]="editingItem[8].value">
+                </div>
+
+                <div class="form-elt-container flex-box fileType-box">
+                    <div class="line-flex">
+                        <h2 class="section-title">Phases</h2>
+                    </div>
+                    <div class='fileType-box' *ngFor="let edtp of editingItem[9].value; let z = index">
+                        <label class="form-label">QuestPhase {{z+1}}:</label>
+                        <div class="form-group form-input form-input-line">
+                            <label class="form-label">Phase Number:</label>
+                            <input class="form-control" type="number" [(ngModel)]="edtp[0]">
+                        </div>
+                        <div class="form-group form-input form-input-line">
+                            <label class="form-label">Requirement Count:</label>
+                            <input class="form-control" type="number" [(ngModel)]="edtp[1]">
+                        </div>
+                        <div class='fileType-box' *ngFor="let rnkp of edtp[2]; let y = index">
+                            <label class="form-label">Requirements {{y+1}}:</label>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Type:</label>
+                                <select [(ngModel)]="rnkp[0]">
+                                    <option value="NONE">NONE</option>
+                                    <option value="ITEM">ITEM</option>
+                                    <option value="SUMMON">SUMMON</option>
+                                    <option value="KILL">KILL</option>
+                                    <option value="KILL_HIDDEN">KILL_HIDDEN</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Object ID:</label>
+                                <input class="form-control" type="number" [(ngModel)]="rnkp[1]">
+                            </div>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Object Count:</label>
+                                <input class="form-control" type="number" [(ngModel)]="rnkp[2]">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="formMsg">
+                    <span class="error-txt">{{formMsg}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-btn-flex">
+            <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+            <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+        </div>
+    </div>
+</div>

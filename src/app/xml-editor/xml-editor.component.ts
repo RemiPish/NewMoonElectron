@@ -70,6 +70,39 @@ import { CTransformedModelDataComponent } from '../c-transformed-model-data/c-tr
 import { ZoneDataComponent } from '../zone-data/zone-data.component';
 import { SkillDataComponent } from '../skill-data/skill-data.component';
 import { CKeyItemDataComponent } from '../c-key-item-data/c-key-item-data.component';
+import { DevilEquipmentDataComponent } from '../devil-equipment-data/devil-equipment-data.component';
+import { ModificationDataComponent } from '../modification-data/modification-data.component';
+import { CEquipModelDataComponent } from '../c-equip-model-data/c-equip-model-data.component';
+import { DevilLvupRateDataComponent } from '../devil-lvup-rate-data/devil-lvup-rate-data.component';
+import { CHouraiMessageDataComponent } from '../c-hourai-message-data/c-hourai-message-data.component';
+import { GuardianLevelDataComponent } from '../guardian-level-data/guardian-level-data.component';
+import { EnchantDataComponent } from '../enchant-data/enchant-data.component';
+import { ExpertTitleDataComponent } from '../expert-title-data/expert-title-data.component';
+import { QuestDataComponent } from '../quest-data/quest-data.component';
+import { SynthesisDataComponent } from '../synthesis-data/synthesis-data.component';
+import { CStatusDataComponent } from '../c-status-data/c-status-data.component';
+import { NpcBarterTextDataComponent } from '../npc-barter-text-data/npc-barter-text-data.component';
+import { CBattleTalkDataComponent } from '../c-battle-talk-data/c-battle-talk-data.component';
+import { CFortuneDataComponent } from '../c-fortune-data/c-fortune-data.component';
+import { CHelpDataComponent } from '../c-help-data/c-help-data.component';
+import { CModifiedEffectDataComponent } from '../c-modified-effect-data/c-modified-effect-data.component';
+import { CQuestDataComponent } from '../c-quest-data/c-quest-data.component';
+import { CTimeAttackDataComponent } from '../c-time-attack-data/c-time-attack-data.component';
+import { CValuablesDataComponent } from '../c-valuables-data/c-valuables-data.component';
+import { CZoneRelationDataComponent } from '../c-zone-relation-data/c-zone-relation-data.component';
+import { DevilBookDataComponent } from '../devil-book-data/devil-book-data.component';
+import { DevilBoostDataComponent } from '../devil-boost-data/devil-boost-data.component';
+import { DevilBoostExtraDataComponent } from '../devil-boost-extra-data/devil-boost-extra-data.component';
+import { DisassemblyDataComponent } from '../disassembly-data/disassembly-data.component';
+import { EquipmentSetDataComponent } from '../equipment-set-data/equipment-set-data.component';
+import { ModificationExtEffectDataComponent } from '../modification-ext-effect-data/modification-ext-effect-data.component';
+import { ONpcDataComponent } from '../o-npc-data/o-npc-data.component';
+import { SItemDataComponent } from '../s-item-data/s-item-data.component';
+import { ShopProductDataComponent } from '../shop-product-data/shop-product-data.component';
+import { StatusDataComponent } from '../status-data/status-data.component';
+import { NPCInvisibleDataComponent } from '../npc-invisible-data/npc-invisible-data.component';
+import { ExpertClassDataComponent } from '../expert-class-data/expert-class-data.component';
+
 
 const { XMLParser } = require("fast-xml-parser");
 
@@ -81,7 +114,6 @@ const { XMLParser } = require("fast-xml-parser");
 export class XmlEditorComponent {
 
 	comphackPath: string = "";
-	binaryDataPath: string = "";
 	fileMode: string = "";
 	decryptedFileName: string = "";
 	title: string = "";
@@ -92,25 +124,27 @@ export class XmlEditorComponent {
 	fileTypeMode: string = "ALL";
 	fileTypeClientList = ['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
 		'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CSkillData'];
-	fileTypeShieldList = ['ActionLogicData', 'AIData', 'AutoLiveData', 'BazaarClerkNPCData', 'BlendData', 'BlendExtData',
+	fileTypeShieldList = ['ActionLogicData', 'AIData', 'AutoLiveData', 'BazaarClerkNPCData', 'BlendData', 'BlendExtData', 'CBattleTalk',
 		'CChanceItemData', 'CCultureData', 'CDevilBookBonusData', 'CDevilBookBonusMitamaData', 'CDevilBoostIconData', 'CDevilDungeonData',
-		'CDevilEquipmentExclusiveData', 'CEquipFaceData', 'CEventMessageData', 'CEventMessageData2',
-		'CGuideData', 'ChanceItemData',
-		'CHouraiData', 'CIconData_COMPShopCategory', 'CItemData', 'CKeyItemData',
-		'CLoadingCommercialData', 'CMessageData', 'CMessageData_klan-category', 'CMessageData_klan-playstyle', 'CMessageData_klan-series',
+		'CDevilEquipmentExclusiveData', 'CEquipFaceData', 'CEquipModelData', 'CEventMessageData', 'CEventMessageData2', 'CFortuneData',
+		'CGuardianAssistData', 'CGuideData', 'ChanceItemData', 'CHelpData',
+		'CHouraiData', 'CHouraiMessageData', 'CIconData_COMPShopCategory', 'CItemData', 'CKeyItemData',
+		'CLoadingCommercialData', 'CMessageData', 'CMessageData_klan-category', 'CMessageData_klan-character', 'CMessageData_klan-playstyle', 'CMessageData_klan-series',
 		"CMessageData_party-playstyle", "CMessageData_party-purpose", "CMessageData_reunion", "CMessageData_Shop", "CMessageData_SysHelp", 'CMessageData_System',
 		'CMessageData_yorosiku', "CMessageData_party-free", "CMessageData_omedeto", "CMessageData_NakamaQuest", "CMessageData_NakamaQuest",
 		"CMessageData_Expert", "CMessageData_DevilPresent", "CMessageData_DevilBook", "CMessageData_Charastic", "CMessageData_Bazaar",
-		'CModelData1', 'CModelData2', 'CModelData3', 'CNakamaQuestRewardData', 'CSpecialSkillEffectData', 'CSynthesisCatalystData', 'CTitleData', 'CTransformedModelData',
-		'CultureItemData', 'CUraFieldData', 'CValuable',
-		'DeunionItemCatalystData', 'DevilBookBonusData', 'DevilBookBonusMitamaData', 'DevilBoostItemData', 'DevilBoostLotData', 'DevilData',
-		'DevilEquipmentItemData', 'DevilFusionData',
-		'DisassemblyTriggerData', 'EnchantInitializeData', 'EnchantPiercingData',
-		'ExchangeData', 'GuardianUnlockData', 'GuardianAssistData', 'GuardianSpecialData', 'GvGData', 'GvGTrophyData',
-		'HNPCData', 'ItemData', 'MissionData', 'MitamaUnionBonusData',
-		'MitamaReunionBonusData', 'MitamaReunionSetBonusData', 'ModificationCatalystData', 'ModificationExtRecipeData', 'ModificationExtCatalystData', 'ModificationTriggerData', 'ModifiedEffectData', 'NPCBarterData',
-		'NPCBarterConditionData', 'NPCBarterGroupData', 'PCData', 'QuestBonusData', 'QuestBonusCodeData',
-		'SkillData', 'SlotInitializeData', 'SlotPiercingData', 'TankData', 'TimeLimitData',
+		'CModelData1', 'CModelData2', 'CModelData3', 'CModifiedEffectData', 'CNakamaQuestRewardData', 'CodeNameData',
+		'CQuestData', 'CSpecialSkillEffectData', 'CSynthesisCatalystData', 'CTimeAttackData', 'CTitleData', 'CTransformedModelData',
+		'CultureItemData', 'CUraFieldData', 'CStatusData', 'CValuable', 'CValuablesData', 'CZoneRelationData',
+		'DeunionItemCatalystData', 'DevilBookData', 'DevilBookBonusData', 'DevilBookBonusMitamaData', 'DevilBoostData', 'DevilBoostExtraData', 'DevilBoostItemData', 'DevilBoostLotData', 'DevilData',
+		'DevilEquipmentData', 'DevilEquipmentItemData', 'DevilFusionData', 'DevilLVUpRateData', 'DisassemblyData',
+		'DisassemblyTriggerData', 'EnchantData', 'EnchantInitializeData', 'EnchantPiercingData', 'EquipmentSetData',
+		'ExchangeData', 'ExpertClassData', 'ExpertTitleData', 'GuardianUnlockData', 'GuardianAssistData', 'GuardianLevelData', 'GuardianSpecialData',
+		'GvGData', 'GvGTrophyData',
+		'HNPCData', 'ItemData', 'ModificationData', 'MissionData', 'MitamaUnionBonusData',
+		'MitamaReunionBonusData', 'MitamaReunionSetBonusData', 'ModificationCatalystData', 'ModificationExtEffectData', 'ModificationExtRecipeData', 'ModificationExtCatalystData', 'ModificationTriggerData', 'ModifiedEffectData', 'NPCBarterData',
+		'NPCBarterConditionData', 'NPCBarterGroupData', 'NPCBarterTextData', 'NPCInvisibleData', 'ONPCData', 'PCData', 'QuestData', 'QuestBonusData', 'QuestBonusCodeData', 'ShopProductData',
+		'SItemData', 'SkillData', 'SlotInitializeData', 'SlotPiercingData', 'StatusData', 'SynthesisData', 'TankData', 'TimeLimitData',
 		'TriUnionSpecialData', 'TriUnionKreuzItemData', 'UltimateBattleBaseData', 'UnionItemsHelperData',
 		'UraFieldTowerData', 'WarpPointData', 'WorldData', 'ZoneData'];
 	selectedFileType = "None";
@@ -140,6 +174,8 @@ export class XmlEditorComponent {
 	cMessageDataComponent!: CMessageDataComponent;
 	@ViewChild('npcBarterGroupDataComponent', { static: false })
 	npcBarterGroupDataComponent!: NpcBarterGroupDataComponent;
+	@ViewChild('npcBarterTextDataComponent', { static: false })
+	npcBarterTextDataComponent!: NpcBarterTextDataComponent;
 	@ViewChild('triUnionKreuzItemDataComponent', { static: false })
 	triUnionKreuzItemDataComponent!: TriUnionKreuzItemDataComponent;
 	@ViewChild('cultureItemDataComponent', { static: false })
@@ -174,6 +210,8 @@ export class XmlEditorComponent {
 	cUraFieldDataComponent!: CUraFieldDataComponent;
 	@ViewChild('cHouraiDataComponent', { static: false })
 	cHouraiDataComponent!: CHouraiDataComponent;
+	@ViewChild('cHouraiMessageDataComponent', { static: false })
+	cHouraiMessageDataComponent!: CHouraiMessageDataComponent;
 	@ViewChild('slotPiercingDataComponent', { static: false })
 	slotPiercingDataComponent!: SlotPiercingDataComponent;
 	@ViewChild('worldDataComponent', { static: false })
@@ -256,6 +294,8 @@ export class XmlEditorComponent {
 	devilDataComponent!: DevilDataComponent;
 	@ViewChild('hNpcDataComponent', { static: false })
 	hNpcDataComponent!: HNpcDataComponent;
+	@ViewChild('oNpcDataComponent', { static: false })
+	oNpcDataComponent!: ONpcDataComponent;
 	@ViewChild('npcBarterConditionDataComponent', { static: false })
 	npcBarterConditionDataComponent!: NpcBarterConditionDataComponent;
 	@ViewChild('cTransformedModelDataComponent', { static: false })
@@ -266,6 +306,66 @@ export class XmlEditorComponent {
 	skillDataComponent!: SkillDataComponent;
 	@ViewChild('cKeyItemDataComponent', { static: false })
 	cKeyItemDataComponent!: CKeyItemDataComponent;
+	@ViewChild('devilEquipmentDataComponent', { static: false })
+	devilEquipmentDataComponent!: DevilEquipmentDataComponent;
+	@ViewChild('modificationDataComponent', { static: false })
+	modificationDataComponent!: ModificationDataComponent;
+	@ViewChild('cEquipModelDataComponent', { static: false })
+	cEquipModelDataComponent!: CEquipModelDataComponent;
+	@ViewChild('devilLVUpRateDataComponent', { static: false })
+	devilLVUpRateDataComponent!: DevilLvupRateDataComponent;
+	@ViewChild('guardianLevelDataComponent', { static: false })
+	guardianLevelDataComponent!: GuardianLevelDataComponent;
+	@ViewChild('enchantDataComponent', { static: false })
+	enchantDataComponent!: EnchantDataComponent;
+	@ViewChild('expertTitleDataComponent', { static: false })
+	expertTitleDataComponent!: ExpertTitleDataComponent;
+	@ViewChild('questDataComponent', { static: false })
+	questDataComponent!: QuestDataComponent;
+	@ViewChild('synthesisDataComponent', { static: false })
+	synthesisDataComponent!: SynthesisDataComponent;
+	@ViewChild('cStatusDataComponent', { static: false })
+	cStatusDataComponent!: CStatusDataComponent;
+	@ViewChild('cBattleTalkDataComponent', { static: false })
+	cBattleTalkDataComponent!: CBattleTalkDataComponent;
+	@ViewChild('cFortuneDataComponent', { static: false })
+	cFortuneDataComponent!: CFortuneDataComponent;
+	@ViewChild('cHelpDataComponent', { static: false })
+	cHelpDataComponent!: CHelpDataComponent;
+	@ViewChild('cModifiedEffectDataComponent', { static: false })
+	cModifiedEffectDataComponent!: CModifiedEffectDataComponent;
+	@ViewChild('cQuestDataComponent', { static: false })
+	cQuestDataComponent!: CQuestDataComponent;
+	@ViewChild('cTimeAttackDataComponent', { static: false })
+	cTimeAttackDataComponent!: CTimeAttackDataComponent;
+	@ViewChild('cValuablesDataComponent', { static: false })
+	cValuablesDataComponent!: CValuablesDataComponent;
+	@ViewChild('cZoneRelationDataComponent', { static: false })
+	cZoneRelationDataComponent!: CZoneRelationDataComponent;
+	@ViewChild('devilBookDataComponent', { static: false })
+	devilBookDataComponent!: DevilBookDataComponent;
+	@ViewChild('devilBoostDataComponent', { static: false })
+	devilBoostDataComponent!: DevilBoostDataComponent;
+	@ViewChild('devilBoostExtraDataComponent', { static: false })
+	devilBoostExtraDataComponent!: DevilBoostExtraDataComponent;
+	@ViewChild('disassemblyDataComponent', { static: false })
+	disassemblyDataComponent!: DisassemblyDataComponent;
+	@ViewChild('equipmentSetDataComponent', { static: false })
+	equipmentSetDataComponent!: EquipmentSetDataComponent;
+	@ViewChild('modificationExtEffectDataComponent', { static: false })
+	modificationExtEffectDataComponent!: ModificationExtEffectDataComponent;
+	@ViewChild('sItemDataComponent', { static: false })
+	sItemDataComponent!: SItemDataComponent;
+	@ViewChild('shopProductDataComponent', { static: false })
+	shopProductDataComponent!: ShopProductDataComponent;
+	@ViewChild('statusDataComponent', { static: false })
+	statusDataComponent!: StatusDataComponent;
+	@ViewChild('npcInvisibleDataComponent', { static: false })
+	npcInvisibleDataComponent!: NPCInvisibleDataComponent;
+	@ViewChild('expertClassDataComponent', { static: false })
+	expertClassDataComponent!: ExpertClassDataComponent;
+
+
 
 	constructor(private cd: ChangeDetectorRef, private readonly ipc: IpcService) {
 		this.fileTypeClientList.forEach(elt => {
@@ -283,7 +383,7 @@ export class XmlEditorComponent {
 			parseTrueNumberOnly: true,
 			arrayMode: true,
 		};
-		this.ipc.on('binarydata-path-selected', async (event: any, arg?: any) => {
+		/*this.ipc.on('binarydata-path-selected', async (event: any, arg?: any) => {
 			this.binaryDataPath = arg;
 			this.cd.detectChanges();
 		});
@@ -291,7 +391,7 @@ export class XmlEditorComponent {
 			this.binaryDataPath = "";
 			alert(arg);
 			this.cd.detectChanges();
-		});
+		});*/
 
 		this.ipc.on('comphack-path-selected', async (event: any, arg?: any) => {
 			this.comphackPath = arg;
@@ -431,6 +531,9 @@ export class XmlEditorComponent {
 						this.slotPiercingDataComponent.startParsing(this.contentJson);
 						break;
 					case 'CMessageData_klan-playstyle':
+						this.cMessageDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CMessageData_klan-character':
 						this.cMessageDataComponent.startParsing(this.contentJson);
 						break;
 					case 'CMessageData_klan-category':
@@ -661,6 +764,9 @@ export class XmlEditorComponent {
 					case 'HNPCData':
 						this.hNpcDataComponent.startParsing(this.contentJson);
 						break;
+					case 'ONPCData':
+						this.oNpcDataComponent.startParsing(this.contentJson);
+						break;
 					case 'NPCBarterConditionData':
 						this.npcBarterConditionDataComponent.startParsing(this.contentJson);
 						break;
@@ -675,6 +781,105 @@ export class XmlEditorComponent {
 						break;
 					case 'CKeyItemData':
 						this.cKeyItemDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilEquipmentData':
+						this.devilEquipmentDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ModificationData':
+						this.modificationDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CodeNameData':
+						this.cTitleDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CEquipModelData':
+						this.cEquipModelDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilLVUpRateData':
+						this.devilLVUpRateDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CHouraiMessageData':
+						this.cHouraiMessageDataComponent.startParsing(this.contentJson);
+						break;
+					case 'GuardianLevelData':
+						this.guardianLevelDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CGuardianAssistData':
+						this.cDevilEquipmentExclusiveDataComponent.startParsing(this.contentJson);
+						break;
+					case 'EnchantData':
+						this.enchantDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ExpertTitleData':
+						this.expertTitleDataComponent.startParsing(this.contentJson);
+						break;
+					case "QuestData":
+						this.questDataComponent.startParsing(this.contentJson);
+						break;
+					case "SynthesisData":
+						this.synthesisDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CStatusData':
+						this.cStatusDataComponent.startParsing(this.contentJson);
+						break;
+					case 'NPCBarterTextData':
+						this.npcBarterTextDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CBattleTalk':
+						this.cBattleTalkDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CFortuneData':
+						this.cFortuneDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CHelpData':
+						this.cHelpDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CModifiedEffectData':
+						this.cModifiedEffectDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CQuestData':
+						this.cQuestDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CTimeAttackData':
+						this.cTimeAttackDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CValuablesData':
+						this.cValuablesDataComponent.startParsing(this.contentJson);
+						break;
+					case 'CZoneRelationData':
+						this.cZoneRelationDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilBookData':
+						this.devilBookDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilBoostData':
+						this.devilBoostDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DevilBoostExtraData':
+						this.devilBoostExtraDataComponent.startParsing(this.contentJson);
+						break;
+					case 'DisassemblyData':
+						this.disassemblyDataComponent.startParsing(this.contentJson);
+						break;
+					case 'EquipmentSetData':
+						this.equipmentSetDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ModificationExtEffectData':
+						this.modificationExtEffectDataComponent.startParsing(this.contentJson);
+						break;
+					case 'SItemData':
+						this.sItemDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ShopProductData':
+						this.shopProductDataComponent.startParsing(this.contentJson);
+						break;
+					case 'StatusData':
+						this.statusDataComponent.startParsing(this.contentJson);
+						break;
+					case 'NPCInvisibleData':
+						this.npcInvisibleDataComponent.startParsing(this.contentJson);
+						break;
+					case 'ExpertClassData':
+						this.expertClassDataComponent.startParsing(this.contentJson);
 						break;
 
 
@@ -754,14 +959,14 @@ export class XmlEditorComponent {
 		this.cd.detectChanges();
 	}
 
-	openFileDialog() {
+	openFileDialog(type: string) {
 		this.ipc.send('open-file-dialog');
 		this.cd.detectChanges();
 	}
 
 	startDecrypt() {
 		if (this.decryptedFileName != "") {
-			this.ipc.send('start-decrypt', { comphack: this.comphackPath, binary: this.binaryDataPath, file: this.selectedFileType, fileName: this.decryptedFileName });
+			this.ipc.send('start-decrypt', { comphack: this.comphackPath, file: this.selectedFileType, fileName: this.decryptedFileName });
 			this.cd.detectChanges();
 		}
 		else {
@@ -790,6 +995,9 @@ export class XmlEditorComponent {
 
 	changeFileTypeMode(str: string) {
 		this.fileTypeMode = str;
+		this.isValidFile = false;
+		this.testedFile = false;
+		this.filePath = "";
 		this.searchFileType();
 		this.cd.detectChanges();
 	}
@@ -821,9 +1029,7 @@ export class XmlEditorComponent {
 
 	changeFileMode(str: string) {
 		this.fileMode = str;
-		this.selectedFileType = "";
-		this.filetypeIsSelected = false;
-		this.filePath = "";
+		this.cd.detectChanges();
 	}
 
 }

@@ -104,7 +104,7 @@ export class ExchangeDataComponent {
 	async parseExchangeData(json: string) {
 		try {
 			const parsed = JSON.parse(json);
-			console.log(parsed)
+			//console.log(parsed)
 			const items = await Promise.all(parsed.map(async (item: any) => {
 				let datas: data[] = [];
 				if (item.member.find((m: any) => m["@name"] === "options").element.length) {

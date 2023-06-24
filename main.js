@@ -12,6 +12,7 @@ function createWindow() {
   let triggeringProgrammaticBlur = false;
   // Create the browser window.
   win = new BrowserWindow({
+    autoHideMenuBar: true,
     width: 1284,
     height: 720,
     backgroundColor: '#000000',
@@ -163,6 +164,9 @@ function getMode(str) {
       mode = "slotpiercing";
       break;
     case "CMessageData_klan-playstyle":
+      mode = "cmessage";
+      break;
+    case "CMessageData_klan-character":
       mode = "cmessage";
       break;
     case "CMessageData_klan-category":
@@ -405,6 +409,108 @@ function getMode(str) {
     case "CKeyItemData":
       mode = "ckeyitem";
       break;
+    case "DevilEquipmentData":
+      mode = "devilequip";
+      break;
+    case "ModificationData":
+      mode = "mod";
+      break;
+    case "CodeNameData":
+      mode = "title";
+      break;
+    case "CEquipModelData":
+      mode = "cequipmodel";
+      break;
+    case "DevilLVUpRateData":
+      mode = "devillvluprate";
+      break;
+    case "CHouraiMessageData":
+      mode = "chouraimessage";
+      break;
+    case "GuardianLevelData":
+      mode = "guardianlevel";
+      break;
+    case "CGuardianAssistData":
+      mode = "cguardianassist";
+      break;
+    case "EnchantData":
+      mode = "enchant";
+      break;
+    case "ExpertTitleData":
+      mode = "experttitle";
+      break;
+    case "QuestData":
+      mode = "quest";
+      break;
+    case 'SynthesisData':
+      mode = "synthesis";
+      break;
+    case 'CStatusData':
+      mode = "cstatus";
+      break;
+    case 'NPCBarterTextData':
+      mode = "npcbartertext";
+      break;
+    case 'CBattleTalk':
+      mode = "ctalkmessage";
+      break;
+    case 'CFortuneData':
+      mode = "cfortune";
+      break;
+    case 'CHelpData':
+      mode = "chelp";
+      break;
+    case 'CModifiedEffectData':
+      mode = "cmodifiedeffect";
+      break;
+    case 'CQuestData':
+      mode = "cquest";
+      break;
+    case 'CTimeAttackData':
+      mode = "ctimeattack";
+      break;
+    case 'CValuablesData':
+      mode = "cvaluables";
+      break;
+    case 'CZoneRelationData':
+      mode = "czonerelation";
+      break;
+    case 'DevilBookData':
+      mode = "devilbook";
+      break;
+    case 'DevilBoostData':
+      mode = "devilboost";
+      break;
+    case 'DevilBoostExtraData':
+      mode = "devilboostextra";
+      break;
+    case 'DisassemblyData':
+      mode = "disassembly";
+      break;
+    case 'EquipmentSetData':
+      mode = "equipset";
+      break;
+    case 'ExpertClassData':
+      mode = "expert";
+      break;
+    case 'ModificationExtEffectData':
+      mode = "modexteffect";
+      break;
+    case 'ONPCData':
+      mode = "onpc";
+      break;
+    case 'SItemData':
+      mode = "sitem";
+      break;
+    case 'ShopProductData':
+      mode = "shopproduct";
+      break;
+    case 'StatusData':
+      mode = "status";
+      break;
+    case 'NPCInvisibleData':
+      mode = "npcinvisible";
+      break;
   }
   return mode;
 }
@@ -540,40 +646,6 @@ ipcMain.on('open-file-dialog', (event) => {
   });
 });
 
-
-
-ipcMain.on('delete-file', (event, arg) => {
-  exec(`cd ${arg["path"]} && del ${arg["title"]}`, (error, stdout, stderr) => {
-    if (error) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'Error',
-        message: error.message,
-        buttons: ['OK'],
-      });
-      return;
-    }
-    if (stderr) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'Error',
-        message: stdout,
-        buttons: ['OK'],
-      });
-      return;
-    }
-    if (stderr) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'Error',
-        message: stderr,
-        buttons: ['OK'],
-      });
-      return;
-    }
-  });
-})
-
 function readFileAsync(filePath, encoding) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, encoding, (err, data) => {
@@ -680,97 +752,85 @@ ipcMain.on('start-decrypt', (event, arg) => {
     let folder = "";
     let mode = "";
     let fileName = arg["fileName"];
+    mode = getMode(arg["file"]);
 
-    if (fs.existsSync(`${arg["comphack"]}\\${fileName}.xml`)) {
-      let filePath = `${arg["comphack"]}\\${fileName}.xml`;
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'Error',
-        message: "A file with the same name already exists. It will now edit the existing file!",
-        buttons: ['OK'],
-      });
-      fs.readFile(filePath, 'utf-8', (err, data) => {
-        if (err) {
-          event.reply('file-error-read', err.message);
-        } else {
-          event.reply('file-selected', { filePath, fileName: path.basename(filePath), fileContent: data });
-
-        }
-      });
+    if (['CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+      'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
+      folder = "Client"
     }
-    else {
-      mode = getMode(arg["file"]);
+    else folder = "Shield";
 
-      if (['CModelData1(Client)', 'CModelData2(Client)', 'CModelData3(Client)', 'CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
-        'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
-        folder = "Client"
-      }
-      else folder = "Shield";
-
-      const cdCmd = `cd ${arg["comphack"]}`;
-      const decryptCmd = `comp_decrypt ${arg["binary"]}\\${folder}\\${arg["file"]}.sbin  ${arg["file"]}.bin`;
-      const bdPatch = `comp_bdpatch load ${mode} ${arg["file"]}.bin ${fileName}.xml`;
-      let command = "";
-      if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
-        'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
-        let file = arg["file"];
-        switch (arg["file"]) {
-          case "CEquipFaceData(Client)":
-            file = "CEquipFaceData";
-            break;
-          case "CModelData1(Client)":
-            file = "CModelData1";
-            break;
-          case "CModelData2(Client)":
-            file = "CModelData2";
-            break;
-          case "CModelData3(Client)":
-            file = "CModelData3";
-            break;
-        }
-
-        command = `${cdCmd} && comp_bdpatch load ${mode}  ${arg["binary"]}\\${folder}\\${file}.bin ${fileName}.xml`
-      }
-      else command = `${cdCmd} && ${decryptCmd} && ${bdPatch}`;
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: error.message,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        if (stderr) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: stdout,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        if (stderr) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Error',
-            message: stderr,
-            buttons: ['OK'],
-          });
-          return;
-        }
-        let filePath = `${arg["comphack"]}\\${fileName}.xml`;
-        fs.readFile(filePath, 'utf-8', (err, data) => {
-          if (err) {
-            event.reply('file-error-read', err.message);
-          } else {
-            event.reply('file-selected', { filePath, fileName: path.basename(filePath), fileContent: data });
-
+    dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: folder === 'Client' ? 'bin' : 'sbin', extensions: [folder === 'Client' ? 'bin' : 'sbin'] }],
+    }).then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        const cdCmd = `cd ${arg["comphack"]}`;
+        const decryptCmd = `comp_decrypt ${filePath} ${arg["file"]}.bin`;
+        const bdPatch = `comp_bdpatch load ${mode} ${arg["file"]}.bin ${fileName}.xml`;
+        if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote',
+          'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)", 'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData'].includes(arg["file"])) {
+          let file = arg["file"];
+          switch (arg["file"]) {
+            case "CEquipFaceData(Client)":
+              file = "CEquipFaceData";
+              break;
+            case "CModelData1(Client)":
+              file = "CModelData1";
+              break;
+            case "CModelData2(Client)":
+              file = "CModelData2";
+              break;
+            case "CModelData3(Client)":
+              file = "CModelData3";
+              break;
           }
+
+          command = `${cdCmd} && comp_bdpatch load ${mode}  ${filePath} ${fileName}.xml`
+        }
+        else command = `${cdCmd} && ${decryptCmd} && ${bdPatch}`;
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: error.message,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          if (stderr) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: stdout,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          if (stderr) {
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Error',
+              message: stderr,
+              buttons: ['OK'],
+            });
+            return;
+          }
+          let filePath = `${arg["comphack"]}\\${fileName}.xml`;
+          fs.readFile(filePath, 'utf-8', (err, data) => {
+            if (err) {
+              event.reply('file-error-read', err.message);
+            } else {
+              event.reply('file-selected', { filePath, fileName: path.basename(filePath), fileContent: data });
+
+            }
+          });
         });
-      });
-    }
+      }
+
+    });
   }
 })
 
@@ -831,13 +891,12 @@ ipcMain.on('encrypt-file', (event, arg) => {
           const cdCmd = `cd ${folder}`;
           let bdPatch = `comp_bdpatch save ${mode} ${xmlFilePath} ${fileType}.bin`;
           const encryptCmd = `comp_encrypt ${arg["fileType"]}.bin ${selectedDirectory}\\${arg["fileType"]}.sbin`;
-          const deleteXML = `del ${arg["filePath"]} && del ${arg["fileType"]}.bin`;
           if (['CIconData_Skill', 'CIconData_Status', 'CIconData_Item', 'CIconData_Devil', 'CIconData_ItemClass', 'CIconData_Valuable', 'CIconData_UIImageList', 'CIconData_SkillSort', 'CIconData_Emote', ,
             'CEquipEyeData', 'CEquipFaceData(Client)', 'CEquipHairData', 'CSkillData', 'CModelData1(Client)', "CModelData2(Client)", "CModelData3(Client)"].includes(arg["fileType"])) {
             bdPatch = `comp_bdpatch save ${mode} ${xmlFilePath} ${selectedDirectory}\\${fileType}.bin`;
             command = `${cdCmd} && ${bdPatch}`
           }
-          else command = `${cdCmd} && ${bdPatch} && ${encryptCmd} && ${deleteXML}`;
+          else command = `${cdCmd} && ${bdPatch} && ${encryptCmd}`;
           exec(command, (error, stdout, stderr) => {
             if (error) {
               dialog.showMessageBox({
