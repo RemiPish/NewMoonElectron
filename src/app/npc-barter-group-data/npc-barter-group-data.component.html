@@ -85,7 +85,7 @@
 
                     <div class="line-flex">
                         <label class="form-label">Entry {{i+1}}:</label>
-                        <button *ngIf="i>0" (click)="removeEntry(i || 0)" class="btn btn-error button-3">-</button>
+                        <button (click)="removeEntry(i || 0)" class="btn btn-error button-3">-</button>
                     </div>
 
                     <div class="form-group form-input form-input-line">

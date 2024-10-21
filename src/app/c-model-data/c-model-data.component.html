@@ -200,7 +200,7 @@
                 <div *ngFor="let motion of editingItem[12].value; let i = index">
                     <div class="line-flex">
                         <label class="form-label">Motion {{i+1}}:</label>
-                        <button *ngIf="i>0" (click)="removeMotion(i || 0)" class="btn btn-error button-3">-</button>
+                        <button (click)="removeMotion(i || 0)" class="btn btn-error button-3">-</button>
                     </div>
 
                     <div class="form-group form-input form-input-line">

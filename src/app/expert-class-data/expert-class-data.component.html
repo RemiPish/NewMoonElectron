@@ -56,8 +56,6 @@
                                                     <div *ngIf="it != 0">. {{it}}</div>
                                                 </div>
                                             </td>
-
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -100,10 +98,6 @@
         </div>
     </div>
     <div *ngIf=" inEdition" class="page-container edit-page">
-        <div class="form-btn-flex">
-            <button (click)="cancelEdit()" class="btn btn-secondary button-3">CANCEL</button>
-            <button (click)="saveEdit()" class="btn btn-primary button-3">SAVE</button>
-        </div>
         <div class="form-container">
             <div class="form-btn-flex">
                 <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>

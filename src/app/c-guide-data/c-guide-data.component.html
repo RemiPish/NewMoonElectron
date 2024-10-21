@@ -85,7 +85,7 @@
                         <div *ngFor="let motion of editingItem[1].value; let i = index">
                             <div class="line-flex">
                                 <label class="form-label">Arrow {{i+1}}:</label>
-                                <button *ngIf="i>0" (click)="removeArrow(i || 0)"
+                                <button  (click)="removeArrow(i || 0)"
                                     class="btn btn-error button-3">-</button>
                             </div>
 

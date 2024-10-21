@@ -34,7 +34,7 @@
                     <tr
                         *ngFor="let item of filteredContent | paginate: { itemsPerPage: 20, currentPage: currentPage, totalItems: filteredContent.length }">
                         <td>{{ item[0].value }}</td>
-                        <td>{{ item[3].value }}</td>
+                        <td>{{ showAffinity(item[3].value) }}</td>
                         <td class="data-table">
                             <table *ngFor="let data of item[4].value">
                                 <thead>
@@ -91,7 +91,32 @@
                     </div>
                     <div class="form-group form-input form-input-line">
                         <label class="form-label">Affinity:</label>
-                        <input class="form-control" type="number" [(ngModel)]="editingItem[3].value">
+                        <select [(ngModel)]="editingItem[3].value">
+                            <option value="0">NONE</option>
+                            <option value="1">WEAPON</option>
+                            <option value="2">SLASH</option>
+                            <option value="3">CHARGE</option>
+                            <option value="4">BLUNT</option>
+                            <option value="5">PENETRATE</option>
+                            <option value="6">SPREAD</option>
+                            <option value="7">FIRE</option>
+                            <option value="8">ICE</option>
+                            <option value="9">ELEC</option>
+                            <option value="10">ALMIGHTY</option>
+                            <option value="11">FORCE</option>
+                            <option value="12">EXPEL</option>
+                            <option value="13">CURSE</option>
+                            <option value="14">CURATIVE</option>
+                            <option value="15">SUPPORT</option>
+                            <option value="16">MYSTIC</option>
+                            <option value="18">NERVE</option>
+                            <option value="19">MIND</option>
+                            <option value="20">KOTODAMA</option>
+                            <option value="21">SPECIAL</option>
+                            <option value="22">SUICIDE</option>
+                            <option value="23">ALL PHYS</option>
+                            <option value="24">ALL MAGIC</option>
+                        </select>
                     </div>
                     <div class="form-elt-container">
                         <div class="line-flex">
@@ -102,7 +127,7 @@
                         <div *ngFor="let motion of editingItem[4].value; let i = index">
                             <div class="line-flex">
                                 <label class="form-label">Correct {{i+1}}:</label>
-                                <button *ngIf="i>0" (click)="removeCorrect(i || 0)"
+                                <button  (click)="removeCorrect(i || 0)"
                                     class="btn btn-error button-3">-</button>
                             </div>
 

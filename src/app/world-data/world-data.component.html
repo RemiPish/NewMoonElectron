@@ -97,7 +97,7 @@
                         <div *ngFor="let elt of editingItem[2].value; let i = index">
                             <div class="line-flex">
                                 <label class="form-label">AreaID {{i+1}}:</label>
-                                <button *ngIf="i>0" (click)="removeCreateAreaID(i || 0)"
+                                <button  (click)="removeCreateAreaID(i || 0)"
                                     class="btn btn-error button-3">-</button>
                             </div>
                             <div class="form-group form-input form-input-line">
@@ -115,7 +115,7 @@
                         <div *ngFor="let elt of editingItem[3].value; let i = index">
                             <div class="line-flex">
                                 <label class="form-label">Channel {{i+1}}:</label>
-                                <button *ngIf="i>0" (click)="removeChannel(i || 0)"
+                                <button (click)="removeChannel(i || 0)"
                                     class="btn btn-error button-3">-</button>
                             </div>
                             <div class="form-group form-input form-input-line">

@@ -219,7 +219,7 @@
                                 <div class="box" *ngFor="let elt of editingItem[6].value; let i = index">
                                     <div class="line-flex">
                                         <label class="form-label">Variable {{i+1}}:</label>
-                                        <button *ngIf="i>0" (click)="removeVariable(i || 0, 6)"
+                                        <button (click)="removeVariable(i || 0, 6)"
                                             class="btn btn-error button-3">-</button>
                                     </div>
                                     <div class="form-group form-input form-input-line">
@@ -295,7 +295,7 @@
                                 <div class="box" *ngFor="let elt of editingItem[12].value; let i = index">
                                     <div class="line-flex">
                                         <label class="form-label">Variable {{i+1}}:</label>
-                                        <button *ngIf="i>0" (click)="removeVariable(i || 0, 12)"
+                                        <button (click)="removeVariable(i || 0, 12)"
                                             class="btn btn-error button-3">-</button>
                                     </div>
                                     <div class="form-group form-input form-input-line">
@@ -372,7 +372,7 @@
                                 <div class="box" *ngFor="let elt of editingItem[18].value; let i = index">
                                     <div class="line-flex">
                                         <label class="form-label">Variable {{i+1}}:</label>
-                                        <button *ngIf="i>0" (click)="removeVariable(i || 0, 18)"
+                                        <button  (click)="removeVariable(i || 0, 18)"
                                             class="btn btn-error button-3">-</button>
                                     </div>
                                     <div class="form-group form-input form-input-line">
@@ -450,7 +450,7 @@
                                     <div class="box" *ngFor="let elt of editingItem[24].value; let i = index">
                                         <div class="line-flex">
                                             <label class="form-label">Variable {{i+1}}:</label>
-                                            <button *ngIf="i>0" (click)="removeVariable(i || 0, 24)"
+                                            <button (click)="removeVariable(i || 0, 24)"
                                                 class="btn btn-error button-3">-</button>
                                         </div>
                                         <div class="form-group form-input form-input-line">

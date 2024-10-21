@@ -189,7 +189,7 @@ export class CSkillComponent {
                     { name: "ID", value: Number(item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "ID")["#text"]) },
                     { name: "name", value: item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "name")["#text"] },
                     { name: "desc", value: item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "desc")["#text"] },
-                    { name: "iconID", value: Number(item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "iconID")["#text"]) },
+                    { name: "iconID", value: Number(item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "iconID")["#text"] || 0) },
                     { name: "useWeaponAnimation", value: Boolean(item.member.find((m: any) => m["@name"] === "base").object.member.find((m: any) => m["@name"] === "useWeaponAnimation")["#text"]) },
                     { name: "characterStart", value: Number(item.member.find((m: any) => m["@name"] === "cast").object.member.find((m: any) => m["@name"] === "characterStart")["#text"]) },
                     { name: "characterComplete", value: Number(item.member.find((m: any) => m["@name"] === "cast").object.member.find((m: any) => m["@name"] === "characterComplete")["#text"]) },
@@ -466,8 +466,8 @@ export class CSkillComponent {
                 xml += `                <member name="ID">${item[0].value || ''}</member>\n`;
                 xml += `        		<member name="name"><![CDATA[${item[1].value || ''}]]></member>\n`;
                 xml += `        		<member name="desc"><![CDATA[${item[2].value || ''}]]></member>\n`;
-                xml += `			    <member name="iconID">${item[3].value || ''}</member>\n`;
-                xml += `			    <member name="useWeaponAnimation">${item[4].value || ''}</member>\n`;
+                xml += `			    <member name="iconID">${item[3].value || 0}</member>\n`;
+                xml += `			    <member name="useWeaponAnimation">${item[4].value || false}</member>\n`;
                 xml += `      		</object>\n`;
                 xml += '   		</member>\n';
                 xml += '        <member name="cast">\n';

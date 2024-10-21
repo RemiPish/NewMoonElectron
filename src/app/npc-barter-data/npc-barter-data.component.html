@@ -96,7 +96,7 @@
 
                     <div class="line-flex">
                         <label class="form-label">Item {{i+1}}:</label>
-                        <button *ngIf="i>0" (click)="removeItemData('result',i || 0)"
+                        <button (click)="removeItemData('result',i || 0)"
                             class="btn btn-error button-3">-</button>
                     </div>
                     <div class="form-group form-input form-input-line">
@@ -134,7 +134,7 @@
                 <div class="dt-content" *ngFor="let cnt of editingItem[2].value; let i = index">
                     <div class="line-flex">
                         <label class="form-label">Item {{i+1}}:</label>
-                        <button *ngIf="i>0" (click)="removeItemData('trade',i || 0)"
+                        <button (click)="removeItemData('trade',i || 0)"
                             class="btn btn-error button-3">-</button>
                     </div>
                     <div class="form-group form-input form-input-line">

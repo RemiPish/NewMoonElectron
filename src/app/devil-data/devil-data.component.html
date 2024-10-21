@@ -4,8 +4,7 @@
         </div>
         <div *ngIf="!inEdition" class="form-btn-flex">
             <button (click)="writeXmlFile('xml', content)" class="btn btn-primary button-3">SAVE XML</button>
-            <button  (click)="writeXmlFile('sbin', content)"
-                class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
+            <button (click)="writeXmlFile('sbin', content)" class="btn btn-primary button-3">ENCRYPT SBIN+XML</button>
             <button (click)="openEdition()" class="btn button-3 btn-blue">ADD ITEM +</button>
         </div>
 
@@ -385,32 +384,661 @@
                                     <button (click)="changeShow()" class="btn button-3 btn-blue">SHOW/HIDE</button>
                                 </div>
                                 <div *ngIf="showCorrect">
-                                    <div class="form-group form-input form-input-textarea"
-                                        *ngFor="let elt of editingItem[36].value; let i = index">
-                                        <label class="form-label">Element {{i+1}}:</label>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">STR:</label>
                                         <input class="form-control" type="number"
-                                            [(ngModel)]="editingItem[36].value[i]">
+                                            [(ngModel)]="editingItem[36].value[0]">
                                     </div>
-                                </div>
-                                <div class="form-group form-input form-input-line">
-                                    <label class="form-label">Enemy HP:</label>
-                                    <input class="form-control" type="number" [(ngModel)]="editingItem[37].value">
-                                </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">MAGIC:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[1]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">VIT:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[2]">
+                                    </div>
 
-                                <div class="form-group form-input form-input-line">
-                                    <label class="form-label">Familiarity Type:</label>
-                                    <input class="form-control" type="number" [(ngModel)]="editingItem[38].value">
-                                </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">INT:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[3]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">SPD:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[4]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Luck:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[5]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">hpmax:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[6]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">mpmax:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[7]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">hpregen:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[8]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">mpregen:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[9]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">move1:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[10]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">move2:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[11]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">clsr:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[12]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">lngr:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[13]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">spell:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[14]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">support:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[15]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">critical:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[16]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">summon_speed:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[17]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Knockback_resist:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[18]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Pdef:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[19]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Mdef:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[20]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">CRITdef:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[21]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk2:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[22]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk3:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[23]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk4:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[24]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk5:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[25]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk6:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[26]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_weapon:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[27]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_slash:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[28]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_thrust:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[29]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">res_strike:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[30]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Resist_long_range:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[31]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RES_pierce:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[32]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RES_spread:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[33]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_fire:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[34]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_ice:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[35]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">res_elec:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[36]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_almighty:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[37]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_Force:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[38]">
+                                    </div>
 
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_expel:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[39]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">res_curse:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[40]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">res_heal:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[41]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_support:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[42]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_Mystic:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[43]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">REs_nerve:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[44]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RES_mind:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[45]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">REs_WOrdPower:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[46]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RES_special:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[47]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Res_suicide:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[48]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk7:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[49]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_fire_2:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[50]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Nra_slash:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[51]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_thrust:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[52]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_strike:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[53]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_Penetrate:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[54]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_pierce:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[55]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Nra_spread:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[56]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra-fire:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[57]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra-ice:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[58]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_elec:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[59]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_almihgty:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[60]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_force:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[61]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_expel:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[62]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_curse:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[63]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_heal:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[64]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_support:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[65]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_mystic:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[66]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_nerve:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[67]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_mind:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[68]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_wordpower:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[69]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_special:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[70]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_suicide:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[71]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">nra_phys:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[72]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">NRA_magic:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[73]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk8:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[74]">
+                                    </div>
+
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk9:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[75]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk10:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[76]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk11:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[77]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">cooldown_time:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[78]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RES_status:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[79]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_xp:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[80]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_mag:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[81]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_macca:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[82]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_expertise:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[83]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_close_range_damage:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[84]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RAte_long_range_dmg:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[85]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Rate_spell_damage:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[86]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_support_damage:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[87]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_heal:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[88]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Rate_close_damage_taken:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[89]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_long_dmg_taken:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[90]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Rate_spell_dmg_taken:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[91]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Rate_support_dmg_taken:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[92]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk12:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[93]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">uk13:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[94]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">heal_boost_ammount:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[95]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">slash_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[96]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">thrust_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[97]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">strike_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[98]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">penetrate_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[99]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">pierce_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[100]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">spread_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[101]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">fire_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[102]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">ice_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[103]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">elec_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[104]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">almighty_boost:</label>
+                                        <div class="form-group form-input form-input-textarea">
+                                            <input class="form-control" type="number"
+                                                [(ngModel)]="editingItem[36].value[105]">
+                                        </div>
+                                        <label class="form-label">Force_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[106]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Expel_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[107]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">curse_Boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[108]">
+                                    </div>
+
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">heal_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[109]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">support_damage_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[110]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Mystic_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[111]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Nerve_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[112]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">mind_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[113]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">WordPower_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[114]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Special_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[115]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Suicide_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[116]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">LBCHANCE_Boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[117]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">LBPOWER_boost:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[118]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">FINAL_CRIT_BOOSt:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[119]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">Defense_expand_2:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[120]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_PC_damage:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[121]">
+                                    </div>
+                                    <div class="form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_demon_damage:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[122]">
+                                    </div>
+                                    <div class="
+                                            form-group form-input form-input-textarea">
+                                        <label class="form-label">RATE_PC_damage_TAKEN:</label>
+                                        <input class="form-control" type="number"
+                                            [(ngModel)]="editingItem[36].value[123]">
+                                    </div> <input class="form-control" type="number"
+                                        [(ngModel)]="editingItem[36].value[108]">
+                                </div>
+                                <div class="form-group form-input form-input-textarea">
+                                    <label class="form-label">RATE_demon_damage_taken:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[36].value[124]">
+                                </div>
+                                <div class="form-group form-input form-input-textarea">
+                                    <label class="form-label">incantation_TIME:</label>
+                                    <input class="form-control" type="number" [(ngModel)]="editingItem[36].value[125]">
+                                </div>
                             </div>
-                        </div>
-                        <div *ngIf="formMsg">
-                            <span class="error-txt">{{formMsg}}</span>
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Enemy HP:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[37].value">
+                            </div>
+
+                            <div class="form-group form-input form-input-line">
+                                <label class="form-label">Familiarity Type:</label>
+                                <input class="form-control" type="number" [(ngModel)]="editingItem[38].value">
+                            </div>
+
                         </div>
                     </div>
-                    <div class="form-btn-flex">
-                        <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
-                        <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+                    <div *ngIf="formMsg">
+                        <span class="error-txt">{{formMsg}}</span>
                     </div>
                 </div>
+                <div class="form-btn-flex">
+                    <button (click)="cancelEdit()" class="btn button-3 btn-secondary">CANCEL</button>
+                    <button (click)="saveEdit()" class="btn button-3 btn-primary">SAVE</button>
+                </div>
             </div>
+        </div>

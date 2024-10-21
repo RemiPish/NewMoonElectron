@@ -191,7 +191,7 @@
                         <div *ngFor="let motion of editingItem[20].value; let i = index">
                             <div class="line-flex">
                                 <label class="form-label">Skill {{i+1}}:</label>
-                                <button *ngIf="i>0" (click)="removeSkill(i || 0)"
+                                <button  (click)="removeSkill(i || 0)"
                                     class="btn btn-error button-3">-</button>
                             </div>
 

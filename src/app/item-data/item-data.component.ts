@@ -11,7 +11,7 @@ export type itemDataStructure = [
   { name: 'ID', value: number },
   { name: 'mainCategory', value: number },
   { name: 'subCategory', value: number },
-  { name: 'affinity', value: number },
+  { name: 'affinity', value: string },
   { name: 'correctTable', value: correctData[] },
   { name: 'baseID', value: number },
   { name: 'buyPrice', value: number },
@@ -144,7 +144,7 @@ export class ItemDataComponent {
           { name: "ID", value: item.member.find((m: any) => m["@name"] === "common").object.member.find((m: any) => m["@name"] === "id")["#text"] },
           { name: "mainCategory", value: item.member.find((m: any) => m["@name"] === "common").object.member.find((m: any) => m["@name"] === "category").object.member.find((m: any) => m["@name"] === "mainCategory")["#text"] },
           { name: "subCategory", value: item.member.find((m: any) => m["@name"] === "common").object.member.find((m: any) => m["@name"] === "category").object.member.find((m: any) => m["@name"] === "subCategory")["#text"] },
-          { name: "affinity", value: item.member.find((m: any) => m["@name"] === "common").object.member.find((m: any) => m["@name"] === "affinity")["#text"] },
+          { name: "affinity", value: String(item.member.find((m: any) => m["@name"] === "common").object.member.find((m: any) => m["@name"] === "affinity")["#text"]) },
           { name: 'correctTbl', value: correctTable },
           { name: "baseID", value: item.member.find((m: any) => m["@name"] === "basic").object.member.find((m: any) => m["@name"] === "baseID")["#text"] },
           { name: "buyPrice", value: item.member.find((m: any) => m["@name"] === "basic").object.member.find((m: any) => m["@name"] === "buyPrice")["#text"] },
@@ -171,8 +171,6 @@ export class ItemDataComponent {
 
         ];
       }));
-
-      //console.log(items);
       return items;
     }
     catch (error) {
@@ -241,7 +239,7 @@ export class ItemDataComponent {
         { name: "ID", value: null },
         { name: "mainCategory", value: 0 },
         { name: "subCategory", value: 0 },
-        { name: "affinity", value: 0 },
+        { name: "affinity", value: '0' },
         { name: 'correctTbl', value: [] },
         { name: "baseID", value: 0 },
         { name: "buyPrice", value: 0 },
@@ -319,6 +317,63 @@ export class ItemDataComponent {
       }
     }
     return -1;
+  }
+
+  showAffinity(affinity: any) {
+    switch (affinity) {
+      case '0':
+        return "NONE";
+      case '1':
+        return 'WEAPON';
+      case '2':
+        return 'SLASH';
+      case '3': 
+        return 'CHARGE';
+      case '4': 
+        return 'BLUNT';
+      case '5':
+        return 'HANDGUN';
+      case '6': 
+        return 'PENETRATE';
+      case '7':
+        return 'SPREAD';
+      case '8':
+        return 'FIRE';
+      case '9':
+        return 'ICE';
+      case '10': 
+        return 'ELEC';
+      case '11': 
+        return 'ALMIGHTY';
+      case '12':
+        return 'FORCE';
+      case '13':
+        return 'EXPEL';
+      case '14':
+        return 'CURSE';
+      case '15':
+        return 'CURATIVE';
+      case '16':
+        return 'SUPPORT';
+      case '17':
+        return 'MYSTIC';
+      case '18':
+        return 'NERVE';
+      case '19':
+        return 'MIND';
+      case '20':
+        return 'KOTODAMA';
+      case '21':
+        return 'SPECIAL';
+      case '22': 
+        return 'SUICIDE';
+      case '23': 
+        return 'ALL PHYS';
+      case '24':
+        return 'ALL MAGIC';
+      default:
+        return "";
+    }
   }
 
   changeTablePage(event: number) {
